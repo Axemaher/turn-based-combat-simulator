@@ -1,6 +1,8 @@
 const playerStats = {
-    name: "Knight",
-    hp: 100,
+    name: "Axemaher",
+    lvl: 12,
+    hp: 160,
+    maxHp: 160,
     ap: 10,
     attacks: [
         {
@@ -12,10 +14,11 @@ const playerStats = {
         {
             id: 5679,
             name: 'force slash',
-            damage: 10,
+            damage: 100,
             apCost: 3,
         }
     ]
 }
 
 export default playerStats
+

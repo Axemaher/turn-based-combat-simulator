@@ -9,7 +9,12 @@ function enemyReducer(state = initialState, action) {
         return initialState;
     }
     if (action.type === ENEMY_HP_SUBSTRACT) {
-        return { ...state, hp: state.hp - action.payload }
+        const hp = state.hp - action.payload;
+        if (hp <= 0) {
+            return { ...state, hp: 0 }
+        } else {
+            return { ...state, hp: state.hp - action.payload }
+        }
     }
     if (action.type === ENEMY_AP_SUBSTRACT) {
         return { ...state, ap: state.ap - action.payload }

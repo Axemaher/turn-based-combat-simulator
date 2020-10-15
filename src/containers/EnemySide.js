@@ -1,16 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import {
     setTurn,
     battleStart,
     battleEnd,
     setWinner,
+    showInfo,
+    hideInfo,
     playerHpSubstract,
     playerApReset,
     enemyApSubstract,
     enemyApReset,
 } from "../redux/actions";
 import styled from 'styled-components';
+import { sleep } from '../utils/sleep';
+import { animationsDelay } from '../js/animationsDelay';
 
 import Avatar from "../components/Avatar";
 import HpBar from "../components/HpBar";
@@ -34,54 +38,62 @@ const StyledRowRight = styled(StyledRow)`
 
 const ConnectedEnemySide = ({ state, dispatch }) => {
 
-    const { player, enemy, turn, battle } = state;
-    const { setTurn, playerApReset, enemyApReset, playerHpSubstract, enemyApSubstract, battleEnd, setWinner } = dispatch;
+    const { player, enemy, turn } = state;
+    const { setTurn, playerApReset, enemyApReset, playerHpSubstract, enemyApSubstract, battleEnd, setWinner, showInfo, hideInfo } = dispatch;
+    const [attackStarted, setAttackStarted] = useState(false)
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            if (!turn) {
-                const availableAttacks = () => enemy.attacks.filter(e => e.apCost <= enemy.ap);
-                if (availableAttacks().length === 0) {
-                    setTurn();
-                    playerApReset();
-                    enemyApReset();
-                } else {
-                    const enemyAttackIndex = Math.floor(Math.random() * availableAttacks().length);
-                    const enemyAttackData = {
-                        name: enemy.attacks[enemyAttackIndex].name,
-                        damage: enemy.attacks[enemyAttackIndex].damage,
-                        apCost: enemy.attacks[enemyAttackIndex].apCost,
-                    }
-                    playerHpSubstract(enemyAttackData.damage);
-                    enemyApSubstract(enemyAttackData.apCost);
 
-                    if (!availableAttacks().length) {
-                        setTurn();
-                        playerApReset();
-                        enemyApReset();
-                    }
-                }
+    const handleCheckTurn = () => {
+        setTurn();
+        playerApReset();
+        enemyApReset();
+    }
+
+    async function handleAttack() {
+        setAttackStarted(true);
+
+        const availableAttacks = () => enemy.attacks.filter(e => e.apCost <= enemy.ap);
+        const availableAttacksLength = availableAttacks().length;
+
+        if (!availableAttacksLength) {
+            setAttackStarted(false);
+            handleCheckTurn();
+        } else {
+            const enemyAttackIndex = Math.floor(Math.random() * availableAttacksLength);
+            const enemyAttackData = {
+                name: enemy.attacks[enemyAttackIndex].name,
+                damage: enemy.attacks[enemyAttackIndex].damage,
+                apCost: enemy.attacks[enemyAttackIndex].apCost,
             }
-        }, 500);
-        if (battle.winner === null) {
-            if (!player.hp) {
-                setTimeout(() => {
-                    battleEnd();
-                    setWinner(enemy.name);
-                    alert("enemy win")
-                }, 500);
-
-            } else if (!enemy.hp) {
-                setTimeout(() => {
-                    battleEnd();
-                    setWinner(player.name);
-                    alert("player win")
-                }, 500);
+            await sleep(animationsDelay.beforeShowInfo);
+            showInfo();
+            await sleep(animationsDelay.beforeChangeData);
+            playerHpSubstract(enemyAttackData.damage);
+            enemyApSubstract(enemyAttackData.apCost);
+            await sleep(animationsDelay.beforeHideInfo);
+            hideInfo();
+            setAttackStarted(false);
+            if (!availableAttacksLength) {
+                setAttackStarted(false);
+                handleCheckTurn();
+            }
+            if (player.hp - enemyAttackData.damage <= 0) {
+                battleEnd();
+                setWinner(enemy.name);
+                await sleep(animationsDelay.beforeBattleEndInfo);
+                alert("enemy win")
             }
         }
+    }
 
-        return () => clearTimeout(timer)
-    }, [turn, enemy.ap, player.hp, enemy.hp])
+
+
+    useEffect(() => {
+        if (!turn && !attackStarted) {
+            handleAttack();
+        }
+        return () => { }
+    }, [turn, attackStarted])
 
     return (
         <StyledSide>
@@ -105,6 +117,8 @@ function mapDispatchToProps(dispatch) {
             battleStart: state => dispatch(battleStart(state)),
             battleEnd: state => dispatch(battleEnd(state)),
             setWinner: state => dispatch(setWinner(state)),
+            showInfo: state => dispatch(showInfo(state)),
+            hideInfo: state => dispatch(hideInfo(state)),
             playerHpSubstract: state => dispatch(playerHpSubstract(state)),
             playerApReset: state => dispatch(playerApReset(state)),
             enemyApSubstract: state => dispatch(enemyApSubstract(state)),

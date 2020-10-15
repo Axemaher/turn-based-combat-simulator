@@ -11,12 +11,12 @@ const enemyStats = {
             damage: 50,
             apCost: 7,
         },
-        {
-            id: 234324,
-            name: 'force slash',
-            damage: 20,
-            apCost: 4,
-        }
+        // {
+        //     id: 234324,
+        //     name: 'force slash',
+        //     damage: 20,
+        //     apCost: 4,
+        // }
     ]
 }
 

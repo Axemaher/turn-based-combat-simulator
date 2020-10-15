@@ -5,6 +5,9 @@ export const SET_TURN = "SET_TURN";
 export const BATTLE_END = "BATTLE_END";
 export const BATTLE_START = "BATTLE_START";
 export const SET_WINNER = "SET_WINNER";
+export const SHOW_INFO = "SHOW_INFO";
+export const HIDE_INFO = "HIDE_INFO";
+
 
 //player
 export const PLAYER_RESET_STATS = "PLAYER_RESET_STATS";

@@ -6,8 +6,12 @@ import {
     enemyHpSubstract,
     battleEnd,
     setWinner,
+    showInfo,
+    hideInfo,
 } from "../redux/actions";
-import FrameLight from '../components/FrameLight'
+import FrameLight from '../components/FrameLight';
+import { sleep } from '../utils/sleep';
+import { animationsDelay } from '../js/animationsDelay';
 
 const StyledP = styled.p`
     text-align: left;
@@ -25,7 +29,7 @@ const StyledButtonAttack = styled.button`
     align-items: center;
     transition: all .2s;
     opacity: ${({ disabled }) => disabled ? '.3' : '1'};
-    color: ${({ theme }) => theme.colors.white};
+    color: ${({ theme }) => theme.colors.font};
 `;
 
 const StyledAttacksList = styled.ul`
@@ -38,18 +42,28 @@ const StyledAttack = styled.li`
 
 const ConnectedAttacksList = ({ state, dispatch, attacks }) => {
 
-    const { player, turn } = state;
+    const { player, enemy, turn } = state;
+    const { playerApSubstract, enemyHpSubstract, showInfo, hideInfo, battleEnd, setWinner } = dispatch;
 
     const [attackDisabled, setAttackDisabled] = useState(false)
 
-    const handleAttack = ({ damage, apCost }) => {
+    async function handleAttack({ damage, apCost }) {
         setAttackDisabled(true)
-        setTimeout(() => {
-            dispatch.enemyHpSubstract(damage);
-            dispatch.playerApSubstract(apCost);
+        await sleep(animationsDelay.beforeShowInfo);
+        showInfo();
+        await sleep(animationsDelay.beforeChangeData);
+        enemyHpSubstract(damage);
+        playerApSubstract(apCost);
+        await sleep(animationsDelay.beforeHideInfo);
+        hideInfo();
+        setAttackDisabled(false);
 
-            setAttackDisabled(false);
-        }, 500);
+        if (enemy.hp - damage <= 0) {
+            battleEnd();
+            setWinner(player.name);
+            await sleep(animationsDelay.beforeBattleEndInfo);
+            alert("player win")
+        }
     }
 
 
@@ -85,6 +99,8 @@ function mapDispatchToProps(dispatch) {
             enemyHpSubstract: state => dispatch(enemyHpSubstract(state)),
             battleEnd: state => dispatch(battleEnd(state)),
             setWinner: state => dispatch(setWinner(state)),
+            showInfo: state => dispatch(showInfo(state)),
+            hideInfo: state => dispatch(hideInfo(state)),
         }
     };
 }
@@ -93,7 +109,7 @@ function mapStateToProps(state) {
     return {
         state: {
             turn: state.turn,
-            battleStarted: state.battleStarted,
+            battle: state.battle,
             player: state.player,
             enemy: state.enemy,
         }

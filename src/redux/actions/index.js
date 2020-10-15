@@ -4,6 +4,8 @@ import {
     BATTLE_END,
     BATTLE_START,
     SET_WINNER,
+    SHOW_INFO,
+    HIDE_INFO,
 
     PLAYER_RESET_STATS,
     PLAYER_HP_SUBSTRACT,
@@ -32,6 +34,14 @@ export const battleStart = (payload) => {
 
 export const setWinner = (payload) => {
     return { type: SET_WINNER, payload }
+};
+
+export const showInfo = (payload) => {
+    return { type: SHOW_INFO, payload }
+};
+
+export const hideInfo = (payload) => {
+    return { type: HIDE_INFO, payload }
 };
 
 //player

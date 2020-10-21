@@ -8,13 +8,13 @@ const playerStats = {
         {
             id: 2390482,
             name: 'slash',
-            damage: 10,
+            damage: 16,
             apCost: 2,
         },
         {
             id: 5679,
             name: 'force slash',
-            damage: 100,
+            damage: 30,
             apCost: 3,
         }
     ]

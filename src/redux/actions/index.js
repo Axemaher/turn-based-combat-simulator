@@ -6,6 +6,7 @@ import {
     SET_WINNER,
     SHOW_INFO,
     HIDE_INFO,
+    SET_BATTLE_INFO_DATA,
 
     PLAYER_RESET_STATS,
     PLAYER_HP_SUBSTRACT,
@@ -42,6 +43,10 @@ export const showInfo = (payload) => {
 
 export const hideInfo = (payload) => {
     return { type: HIDE_INFO, payload }
+};
+
+export const setBattleInfoData = (payload) => {
+    return { type: SET_BATTLE_INFO_DATA, payload }
 };
 
 //player

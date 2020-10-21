@@ -14,6 +14,7 @@ const StyledSide = styled.div`
     display: flex;
     flex-direction: column;
     float: right;
+    grid-area: playerSide;
 `;
 
 const StyledRow = styled.div`

@@ -8,6 +8,7 @@ import {
     setWinner,
     showInfo,
     hideInfo,
+    setBattleInfoData,
 } from "../redux/actions";
 import FrameLight from '../components/FrameLight';
 import { sleep } from '../utils/sleep';
@@ -43,12 +44,18 @@ const StyledAttack = styled.li`
 const ConnectedAttacksList = ({ state, dispatch, attacks }) => {
 
     const { player, enemy, turn } = state;
-    const { playerApSubstract, enemyHpSubstract, showInfo, hideInfo, battleEnd, setWinner } = dispatch;
+    const { playerApSubstract, enemyHpSubstract, showInfo, hideInfo, battleEnd, setWinner, setBattleInfoData } = dispatch;
 
     const [attackDisabled, setAttackDisabled] = useState(false)
 
     async function handleAttack({ damage, apCost }) {
-        setAttackDisabled(true)
+        setAttackDisabled(true);
+
+        setBattleInfoData({
+            attackText: `You were hit for no damage`,
+            enemyMessage: "Ow!",
+        });
+
         await sleep(animationsDelay.beforeShowInfo);
         showInfo();
         await sleep(animationsDelay.beforeChangeData);
@@ -101,6 +108,7 @@ function mapDispatchToProps(dispatch) {
             setWinner: state => dispatch(setWinner(state)),
             showInfo: state => dispatch(showInfo(state)),
             hideInfo: state => dispatch(hideInfo(state)),
+            setBattleInfoData: state => dispatch(setBattleInfoData(state)),
         }
     };
 }

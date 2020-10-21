@@ -7,6 +7,7 @@ import {
     setWinner,
     showInfo,
     hideInfo,
+    setBattleInfoData,
     playerHpSubstract,
     playerApReset,
     enemyApSubstract,
@@ -24,6 +25,10 @@ const StyledSide = styled.div`
     display: flex;
     flex-direction: column;
     float: right;
+    grid-area: enemySide;
+    @media ${({ theme }) => theme.device.mobileL} {
+        flex-direction: column-reverse;
+    }
 `;
 
 const StyledRow = styled.div`
@@ -39,7 +44,7 @@ const StyledRowRight = styled(StyledRow)`
 const ConnectedEnemySide = ({ state, dispatch }) => {
 
     const { player, enemy, turn } = state;
-    const { setTurn, playerApReset, enemyApReset, playerHpSubstract, enemyApSubstract, battleEnd, setWinner, showInfo, hideInfo } = dispatch;
+    const { setTurn, playerApReset, enemyApReset, playerHpSubstract, enemyApSubstract, battleEnd, setWinner, showInfo, hideInfo, setBattleInfoData } = dispatch;
     const [attackStarted, setAttackStarted] = useState(false)
 
 
@@ -65,6 +70,12 @@ const ConnectedEnemySide = ({ state, dispatch }) => {
                 damage: enemy.attacks[enemyAttackIndex].damage,
                 apCost: enemy.attacks[enemyAttackIndex].apCost,
             }
+
+            setBattleInfoData({
+                attackText: `Enemy hit you. You loses ${enemyAttackData.damage} hp. Surprisingly, the damage feels no worse than normal`,
+                enemyMessage: "I don't want to kill again, please don't make me.",
+            });
+
             await sleep(animationsDelay.beforeShowInfo);
             showInfo();
             await sleep(animationsDelay.beforeChangeData);
@@ -119,6 +130,7 @@ function mapDispatchToProps(dispatch) {
             setWinner: state => dispatch(setWinner(state)),
             showInfo: state => dispatch(showInfo(state)),
             hideInfo: state => dispatch(hideInfo(state)),
+            setBattleInfoData: state => dispatch(setBattleInfoData(state)),
             playerHpSubstract: state => dispatch(playerHpSubstract(state)),
             playerApReset: state => dispatch(playerApReset(state)),
             enemyApSubstract: state => dispatch(enemyApSubstract(state)),

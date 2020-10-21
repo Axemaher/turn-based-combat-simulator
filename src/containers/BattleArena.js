@@ -1,65 +1,40 @@
 import React from "react";
 import styled from 'styled-components';
-import { connect } from "react-redux";
-import {
-    hideInfo
-} from "../redux/actions";
 import Layout from '../Layout'
 import EnemySide from './EnemySide';
 import PlayerSide from './PlayerSide';
-
+import BattleInfo from './BattleInfo';
 
 const StyledBattleAreaWrapper = styled.div`
     max-width: 900px;
     height: 100vh;
     display: grid;
     grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 0px 0px;
+    grid-template-areas:
+    "playerSide enemySide";
     margin: 0 auto;
+    @media ${({ theme }) => theme.device.mobileL} {
+        grid-template-areas:
+        "enemySide"
+        "playerSide" ;
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+        gap: 0px 0px;
+    }
 `;
 
-const StyledBattleInfo = styled.div`
-    position: absolute;
-    left: 50%;
-    top: ${({ info }) => info ? '0px' : '-100px'};
-    transform: translateX(-50%);
-    width:100px;
-    height: 100px;
-    background-color: red;
-    z-index: 2;
-    transition: all .4s;
-`;
-
-const ConnectedBattleArena = ({ state }) => {
+const BattleArena = () => {
     return (
         <Layout>
             <StyledBattleAreaWrapper>
-                <StyledBattleInfo info={state.info} />
+                <BattleInfo />
                 <PlayerSide />
                 <EnemySide />
             </StyledBattleAreaWrapper>
         </Layout>
     );
 }
-
-function mapDispatchToProps(dispatch) {
-    return {
-        dispatch: {
-            hideInfo: state => dispatch(hideInfo(state)),
-        }
-    };
-}
-
-function mapStateToProps(state) {
-    return {
-        state: {
-            info: state.battle.info
-        }
-    };
-};
-
-const BattleArena = connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(ConnectedBattleArena);
 
 export default BattleArena;

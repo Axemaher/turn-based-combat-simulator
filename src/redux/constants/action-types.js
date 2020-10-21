@@ -7,6 +7,7 @@ export const BATTLE_START = "BATTLE_START";
 export const SET_WINNER = "SET_WINNER";
 export const SHOW_INFO = "SHOW_INFO";
 export const HIDE_INFO = "HIDE_INFO";
+export const SET_BATTLE_INFO_DATA = "SET_BATTLE_INFO_DATA";
 
 
 //player

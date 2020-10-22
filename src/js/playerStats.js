@@ -3,7 +3,8 @@ const playerStats = {
     lvl: 12,
     hp: 160,
     maxHp: 160,
-    ap: 10,
+    ap: 14,
+    maxAp: 14,
     attacks: [
         {
             id: 2390482,

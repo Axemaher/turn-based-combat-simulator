@@ -7,6 +7,7 @@ import styled from 'styled-components';
 
 import Avatar from "../components/Avatar";
 import HpBar from "../components/HpBar";
+import ApBar from "../components/ApBar";
 import AttacksList from "../components/AttacksList";
 
 const StyledSide = styled.div`
@@ -37,6 +38,11 @@ const ConnectedPlayerSide = ({ state, dispatch }) => {
                     hp={player.hp}
                     maxHp={player.maxHp}
                     float='right' />
+            </StyledRow>
+            <StyledRow>
+                <ApBar
+                    ap={player.ap}
+                    maxAp={player.maxAp} />
             </StyledRow>
             <AttacksList
                 attacks={player.attacks}

@@ -4,6 +4,7 @@ const enemyStats = {
     hp: 160,
     maxHp: 160,
     ap: 14,
+    maxAp: 14,
     attacks: [
         {
             id: 84956,

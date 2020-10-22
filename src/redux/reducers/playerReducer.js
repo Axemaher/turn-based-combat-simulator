@@ -25,7 +25,7 @@ function playerReducer(state = initialState, action) {
         return { ...state, ap: state.ap - action.payload }
     }
     if (action.type === PLAYER_AP_RESET) {
-        return { ...state, ap: playerStats.ap }
+        return { ...state, ap: playerStats.maxAp }
     }
     return state;
 }

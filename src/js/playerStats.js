@@ -7,16 +7,16 @@ const playerStats = {
     maxAp: 14,
     attacks: [
         {
-            id: 2390482,
+            id: 84956,
             name: 'slash',
-            damage: 16,
-            apCost: 2,
+            damage: 20,
+            apCost: 4,
         },
         {
-            id: 5679,
+            id: 234324,
             name: 'force slash',
-            damage: 30,
-            apCost: 3,
+            damage: 40,
+            apCost: 7,
         }
     ]
 }

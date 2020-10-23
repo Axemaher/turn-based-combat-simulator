@@ -9,14 +9,14 @@ const enemyStats = {
         {
             id: 84956,
             name: 'slash',
-            damage: 30,
-            apCost: 7,
+            damage: 20,
+            apCost: 4,
         },
         {
             id: 234324,
             name: 'force slash',
-            damage: 10,
-            apCost: 4,
+            damage: 40,
+            apCost: 7,
         }
     ]
 }

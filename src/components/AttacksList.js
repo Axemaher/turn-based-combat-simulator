@@ -13,6 +13,7 @@ import {
 import FrameLight from '../components/FrameLight';
 import { sleep } from '../utils/sleep';
 import { animationsDelay } from '../js/animationsDelay';
+import { battleInfoHandler } from '../js/battleInfoHandler';
 
 const StyledP = styled.p`
     text-align: left;
@@ -51,10 +52,24 @@ const ConnectedAttacksList = ({ state, dispatch, attacks }) => {
     async function handleAttack({ damage, apCost }) {
         setAttackDisabled(true);
 
-        setBattleInfoData({
-            attackText: `You were hit for no damage`,
-            enemyMessage: "Ow!",
-        });
+        const messageData = {
+            playerTurn: turn,
+            playerName: player.name,
+            playerHp: player.hp,
+            playerMaxHp: player.maxHp,
+            playerAp: player.ap,
+            playerMaxAp: player.maxAp,
+            enemyName: enemy.name,
+            enemyHp: enemy.hp,
+            enemyMaxHp: enemy.maxHp,
+            critical: false,
+            missed: false,
+            damage: damage
+        }
+
+        setBattleInfoData(
+            battleInfoHandler(messageData)
+        );
 
         await sleep(animationsDelay.beforeShowInfo);
         showInfo();

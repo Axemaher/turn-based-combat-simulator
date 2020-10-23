@@ -16,6 +16,7 @@ import {
 import styled from 'styled-components';
 import { sleep } from '../utils/sleep';
 import { animationsDelay } from '../js/animationsDelay';
+import { battleInfoHandler } from '../js/battleInfoHandler';
 
 import Avatar from "../components/Avatar";
 import HpBar from "../components/HpBar";
@@ -71,10 +72,26 @@ const ConnectedEnemySide = ({ state, dispatch }) => {
                 apCost: enemy.attacks[enemyAttackIndex].apCost,
             }
 
-            setBattleInfoData({
-                attackText: `Enemy hit you. You loses ${enemyAttackData.damage} hp. Surprisingly, the damage feels no worse than normal`,
-                enemyMessage: "I don't want to kill again, please don't make me.",
-            });
+            const messageData = {
+                playerTurn: turn,
+                playerName: player.name,
+                playerHp: player.hp,
+                playerMaxHp: player.maxHp,
+                playerAp: player.ap,
+                playerMaxAp: player.maxAp,
+                enemyName: enemy.name,
+                enemyHp: enemy.hp,
+                enemyMaxHp: enemy.maxHp,
+                critical: false,
+                missed: false,
+                damage: enemyAttackData.damage
+            }
+
+            setBattleInfoData(
+                battleInfoHandler(messageData)
+            );
+
+
 
             await sleep(animationsDelay.beforeShowInfo);
             showInfo();

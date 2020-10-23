@@ -34,6 +34,7 @@ const StyledBattleInfo = styled.div`
 `;
 
 const ConnectedBattleInfo = ({ state }) => {
+    console.log(state)
 
     const [message, setMessage] = useState(null);
     const [attackText, setAttackText] = useState(null);

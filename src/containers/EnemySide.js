@@ -17,6 +17,7 @@ import styled from 'styled-components';
 import { sleep } from '../utils/sleep';
 import { animationsDelay } from '../js/animationsDelay';
 import { battleInfoHandler } from '../js/battleInfoHandler';
+import damageCalculation from '../js/damageCalculation';
 
 import Avatar from "../components/Avatar";
 import HpBar from "../components/HpBar";
@@ -68,9 +69,22 @@ const ConnectedEnemySide = ({ state, dispatch }) => {
             const enemyAttackIndex = Math.floor(Math.random() * availableAttacksLength);
             const enemyAttackData = {
                 name: enemy.attacks[enemyAttackIndex].name,
-                damage: enemy.attacks[enemyAttackIndex].damage,
+                // damage: enemy.attacks[enemyAttackIndex].damage,
+                damageMax: enemy.attacks[enemyAttackIndex].damageMax,
+                damageMin: enemy.attacks[enemyAttackIndex].damageMin,
                 apCost: enemy.attacks[enemyAttackIndex].apCost,
             }
+
+            //calculating damage
+            const damageData = damageCalculation(
+                {
+                    damageMax: enemyAttackData.damageMax,
+                    damageMin: enemyAttackData.damageMin,
+                    criticalChance: enemy.stats.criticalChance,
+                    criticalMod: enemy.stats.criticalMod,
+                    chanceToMiss: enemy.stats.chanceToMiss
+                }
+            )
 
             const messageData = {
                 playerTurn: turn,
@@ -82,30 +96,30 @@ const ConnectedEnemySide = ({ state, dispatch }) => {
                 enemyName: enemy.name,
                 enemyHp: enemy.hp,
                 enemyMaxHp: enemy.maxHp,
-                critical: false,
-                missed: false,
-                damage: enemyAttackData.damage
+                critical: damageData.critical,
+                missed: damageData.miss,
+                damage: damageData.damage
             }
 
             setBattleInfoData(
                 battleInfoHandler(messageData)
             );
 
-
-
+            //animation started
             await sleep(animationsDelay.beforeShowInfo);
             showInfo();
             await sleep(animationsDelay.beforeChangeData);
-            playerHpSubstract(enemyAttackData.damage);
+            playerHpSubstract(damageData.damage);
             enemyApSubstract(enemyAttackData.apCost);
             await sleep(animationsDelay.beforeHideInfo);
             hideInfo();
+            //animation ended
             setAttackStarted(false);
             if (!availableAttacksLength) {
                 setAttackStarted(false);
                 handleCheckTurn();
             }
-            if (player.hp - enemyAttackData.damage <= 0) {
+            if (player.hp - damageData.damage <= 0) {
                 battleEnd();
                 setWinner(enemy.name);
                 await sleep(animationsDelay.beforeBattleEndInfo);

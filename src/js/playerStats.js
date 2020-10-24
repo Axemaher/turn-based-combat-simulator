@@ -5,17 +5,24 @@ const playerStats = {
     maxHp: 160,
     ap: 14,
     maxAp: 14,
+    stats: {
+        criticalMod: 1.5,
+        criticalChance: 30,
+        chanceToMiss: 30,
+    },
     attacks: [
         {
             id: 84956,
             name: 'slash',
-            damage: 20,
+            damageMin: 10,
+            damageMax: 20,
             apCost: 4,
         },
         {
             id: 234324,
             name: 'force slash',
-            damage: 40,
+            damageMin: 30,
+            damageMax: 50,
             apCost: 7,
         }
     ]

@@ -14,6 +14,7 @@ import FrameLight from '../components/FrameLight';
 import { sleep } from '../utils/sleep';
 import { animationsDelay } from '../js/animationsDelay';
 import { battleInfoHandler } from '../js/battleInfoHandler';
+import damageCalculation from '../js/damageCalculation';
 
 const StyledP = styled.p`
     text-align: left;
@@ -49,8 +50,19 @@ const ConnectedAttacksList = ({ state, dispatch, attacks }) => {
 
     const [attackDisabled, setAttackDisabled] = useState(false)
 
-    async function handleAttack({ damage, apCost }) {
+    async function handleAttack({ damageMin, damageMax, apCost }) {
         setAttackDisabled(true);
+
+        //calculating damage
+        const damageData = damageCalculation(
+            {
+                damageMax,
+                damageMin,
+                criticalChance: player.stats.criticalChance,
+                criticalMod: player.stats.criticalMod,
+                chanceToMiss: player.stats.chanceToMiss
+            }
+        )
 
         const messageData = {
             playerTurn: turn,
@@ -62,25 +74,26 @@ const ConnectedAttacksList = ({ state, dispatch, attacks }) => {
             enemyName: enemy.name,
             enemyHp: enemy.hp,
             enemyMaxHp: enemy.maxHp,
-            critical: false,
-            missed: false,
-            damage: damage
+            critical: damageData.critical,
+            missed: damageData.miss,
+            damage: damageData.damage,
         }
 
         setBattleInfoData(
             battleInfoHandler(messageData)
         );
-
+        //animation started
         await sleep(animationsDelay.beforeShowInfo);
         showInfo();
         await sleep(animationsDelay.beforeChangeData);
-        enemyHpSubstract(damage);
+        enemyHpSubstract(damageData.damage);
         playerApSubstract(apCost);
         await sleep(animationsDelay.beforeHideInfo);
         hideInfo();
+        //animation ended
         setAttackDisabled(false);
 
-        if (enemy.hp - damage <= 0) {
+        if (enemy.hp - damageData.damage <= 0) {
             battleEnd();
             setWinner(player.name);
             await sleep(animationsDelay.beforeBattleEndInfo);
@@ -98,7 +111,8 @@ const ConnectedAttacksList = ({ state, dispatch, attacks }) => {
                             disabled={attackDisabled || attack.apCost > player.ap || !turn}
                             onClick={() => handleAttack(
                                 {
-                                    damage: attack.damage,
+                                    damageMin: attack.damageMin,
+                                    damageMax: attack.damageMax,
                                     apCost: attack.apCost
                                 }
                             )}>

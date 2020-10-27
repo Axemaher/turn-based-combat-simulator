@@ -12,10 +12,16 @@ import {
     PLAYER_HP_SUBSTRACT,
     PLAYER_AP_SUBSTRACT,
     PLAYER_AP_RESET,
+    PLAYER_EFFECT_ADD,
+    PLAYER_EFFECT_TURN_SUBSTRACT,
+    PLAYER_EFFECT_SUBSTRACT,
 
     ENEMY_HP_SUBSTRACT,
     ENEMY_AP_SUBSTRACT,
     ENEMY_AP_RESET,
+    ENEMY_EFFECT_ADD,
+    ENEMY_EFFECT_TURN_SUBSTRACT,
+    ENEMY_EFFECT_SUBSTRACT,
 }
     from "../constants/action-types";
 
@@ -65,15 +71,32 @@ export const playerApSubstract = (payload) => {
 export const playerApReset = (payload) => {
     return { type: PLAYER_AP_RESET, payload }
 };
+export const playerEffectAdd = (payload) => {
+    return { type: PLAYER_EFFECT_ADD, payload }
+};
+export const playerEffectTurnSubstract = (payload) => {
+    return { type: PLAYER_EFFECT_TURN_SUBSTRACT, payload }
+};
+export const playerEffectSubstract = (payload) => {
+    return { type: PLAYER_EFFECT_SUBSTRACT, payload }
+};
 
 //enemy
 export const enemyHpSubstract = (payload) => {
     return { type: ENEMY_HP_SUBSTRACT, payload }
 }
-
 export const enemyApSubstract = (payload) => {
     return { type: ENEMY_AP_SUBSTRACT, payload }
 };
 export const enemyApReset = (payload) => {
     return { type: ENEMY_AP_RESET, payload }
+};
+export const enemyEffectAdd = (payload) => {
+    return { type: ENEMY_EFFECT_ADD, payload }
+};
+export const enemyEffectTurnSubstract = (payload) => {
+    return { type: ENEMY_EFFECT_TURN_SUBSTRACT, payload }
+};
+export const enemyEffectSubstract = (payload) => {
+    return { type: ENEMY_EFFECT_SUBSTRACT, payload }
 };

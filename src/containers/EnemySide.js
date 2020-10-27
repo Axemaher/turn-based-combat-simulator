@@ -10,9 +10,16 @@ import {
     setBattleInfoData,
     playerHpSubstract,
     playerApReset,
+    playerEffectAdd,
     enemyApSubstract,
+    enemyHpSubstract,
     enemyApReset,
+    enemyEffectTurnSubstract,
+    enemyEffectSubstract,
 } from "../redux/actions";
+//effects
+import { LOOSE_NEXT_TURN, POISON, BLEEDING } from '../js/constans';
+
 import styled from 'styled-components';
 import { sleep } from '../utils/sleep';
 import { animationsDelay } from '../js/animationsDelay';
@@ -46,9 +53,8 @@ const StyledRowRight = styled(StyledRow)`
 const ConnectedEnemySide = ({ state, dispatch }) => {
 
     const { player, enemy, turn } = state;
-    const { setTurn, playerApReset, enemyApReset, playerHpSubstract, enemyApSubstract, battleEnd, setWinner, showInfo, hideInfo, setBattleInfoData } = dispatch;
+    const { setTurn, playerApReset, enemyApReset, playerHpSubstract, enemyApSubstract, enemyHpSubstract, battleEnd, setWinner, showInfo, hideInfo, setBattleInfoData, playerEffectAdd, enemyEffectTurnSubstract, enemyEffectSubstract } = dispatch;
     const [attackStarted, setAttackStarted] = useState(false)
-
 
     const handleCheckTurn = () => {
         setTurn();
@@ -56,12 +62,53 @@ const ConnectedEnemySide = ({ state, dispatch }) => {
         enemyApReset();
     }
 
+    const enemyAttack = () => {
+        // checking negative effects first (only one time on turn)
+        if (enemy.ap === enemy.maxAp) {
+            if (enemy.effects.length !== 0) {
+                enemy.effects.forEach(effect => {
+                    if (effect.turns === 0) {
+                        enemyEffectSubstract(effect.name)
+                    }
+                    switch (effect.name) {
+                        case LOOSE_NEXT_TURN:
+                            enemyEffectSubstract(LOOSE_NEXT_TURN)
+                            setTurn()
+                            break;
+                        case POISON:
+                            enemyEffectTurnSubstract(POISON)
+                            enemyHpSubstract(enemy.stats.poisonDamage)
+
+                            break;
+                        case BLEEDING:
+                            enemyEffectTurnSubstract(BLEEDING)
+                            enemyHpSubstract(enemy.stats.poisonDamage)
+                            break;
+                        default:
+                            break;
+                    }
+                });
+            }
+        }
+        // enemy loose this turn negative effect check
+        let looseThisTurn = null;
+        enemy.effects.forEach(effect => {
+            if (effect.name === LOOSE_NEXT_TURN) {
+                looseThisTurn = true;
+            }
+        })
+        // enemy NOT loose this turn 
+        if (!looseThisTurn) {
+            handleAttack()
+        }
+    }
+
+    // normal attack
     async function handleAttack() {
         setAttackStarted(true);
 
         const availableAttacks = () => enemy.attacks.filter(e => e.apCost <= enemy.ap);
         const availableAttacksLength = availableAttacks().length;
-
         if (!availableAttacksLength) {
             setAttackStarted(false);
             handleCheckTurn();
@@ -69,10 +116,10 @@ const ConnectedEnemySide = ({ state, dispatch }) => {
             const enemyAttackIndex = Math.floor(Math.random() * availableAttacksLength);
             const enemyAttackData = {
                 name: enemy.attacks[enemyAttackIndex].name,
-                // damage: enemy.attacks[enemyAttackIndex].damage,
                 damageMax: enemy.attacks[enemyAttackIndex].damageMax,
                 damageMin: enemy.attacks[enemyAttackIndex].damageMin,
                 apCost: enemy.attacks[enemyAttackIndex].apCost,
+                effects: enemy.attacks[enemyAttackIndex].effects
             }
 
             //calculating damage
@@ -99,6 +146,18 @@ const ConnectedEnemySide = ({ state, dispatch }) => {
                 critical: damageData.critical,
                 missed: damageData.miss,
                 damage: damageData.damage
+            }
+            //adding negative effects to player
+            if (enemyAttackData.effects) {
+                enemyAttackData.effects.forEach(effect => {
+                    if (Math.random() * 100 < effect.chance) {
+                        playerEffectAdd(
+                            {
+                                name: effect.name,
+                                turns: effect.turns
+                            })
+                    }
+                });
             }
 
             setBattleInfoData(
@@ -132,7 +191,8 @@ const ConnectedEnemySide = ({ state, dispatch }) => {
 
     useEffect(() => {
         if (!turn && !attackStarted) {
-            handleAttack();
+            enemyAttack();
+
         }
         return () => { }
     }, [turn, attackStarted])
@@ -163,9 +223,13 @@ function mapDispatchToProps(dispatch) {
             hideInfo: state => dispatch(hideInfo(state)),
             setBattleInfoData: state => dispatch(setBattleInfoData(state)),
             playerHpSubstract: state => dispatch(playerHpSubstract(state)),
+            playerEffectAdd: state => dispatch(playerEffectAdd(state)),
             playerApReset: state => dispatch(playerApReset(state)),
             enemyApSubstract: state => dispatch(enemyApSubstract(state)),
+            enemyHpSubstract: state => dispatch(enemyHpSubstract(state)),
             enemyApReset: state => dispatch(enemyApReset(state)),
+            enemyEffectTurnSubstract: state => dispatch(enemyEffectTurnSubstract(state)),
+            enemyEffectSubstract: state => dispatch(enemyEffectSubstract(state)),
         }
     };
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import point from '../images/apBar/point.png';
-import randomCircles from '../images/apBar';
+import point from '../../../assets/apBar/point.png';
+import randomCircles from '../../../assets/apBar';
 
 
 const StyledApBarWrapper = styled.div`

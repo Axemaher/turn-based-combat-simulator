@@ -1,4 +1,4 @@
-import { LOOSE_NEXT_TURN, POISON, BLEEDING } from '../js/constans';
+import { LOOSE_NEXT_TURN, POISON, BLEEDING } from '../../utils/constans';
 
 
 const enemyStats = {
@@ -22,7 +22,9 @@ const enemyStats = {
             damageMin: 10,
             damageMax: 20,
             apCost: 4,
-            effects: [{ name: BLEEDING, turns: 3, chance: 100 },],
+            effects: [
+                { name: BLEEDING, turns: 3, chance: 100 },
+            ],
         },
         {
             id: 234324,

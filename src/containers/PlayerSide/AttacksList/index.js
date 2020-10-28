@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import styled from 'styled-components';
+import FrameLight from '../../../components/FrameLight';
+
+//actions
 import {
-    setTurn,
     playerApSubstract,
-    playerHpSubstract,
-    playerEffectTurnSubstract,
-    playerEffectSubstract,
     enemyHpSubstract,
     battleEnd,
     setWinner,
@@ -14,15 +13,16 @@ import {
     hideInfo,
     setBattleInfoData,
     enemyEffectAdd
-} from "../redux/actions";
-//effects
-import { LOOSE_NEXT_TURN, POISON, BLEEDING } from '../js/constans';
+} from "../../../store/actions";
 
-import FrameLight from '../components/FrameLight';
-import { sleep } from '../utils/sleep';
-import { animationsDelay } from '../js/animationsDelay';
-import { battleInfoHandler } from '../js/battleInfoHandler';
-import damageCalculation from '../js/damageCalculation';
+//utils
+import { sleep } from '../../../utils/sleep';
+import { animationsDelay } from '../../../utils/data/animationsDelay';
+import { battleInfoHandler } from '../../../utils/functions/battleInfoHandler';
+import { damageCalculation } from '../../../utils/functions/damageCalculation';
+import { addEffects } from '../../../utils/functions/addEffects';
+import { checkEffects } from '../../../utils/functions/checkEffects';
+
 
 const StyledP = styled.p`
     text-align: left;
@@ -54,25 +54,17 @@ const StyledAttack = styled.li`
 const ConnectedAttacksList = ({ state, dispatch, attacks }) => {
 
     const { player, enemy, turn } = state;
-    const { setTurn, playerApSubstract, enemyHpSubstract, showInfo, hideInfo, battleEnd, setWinner, setBattleInfoData, enemyEffectAdd, playerEffectTurnSubstract, playerEffectSubstract,
-        playerHpSubstract, } = dispatch;
+    const { playerApSubstract, enemyHpSubstract, showInfo, hideInfo, battleEnd, setWinner, setBattleInfoData,
+    } = dispatch;
 
     const [attackDisabled, setAttackDisabled] = useState(false)
 
     async function handleAttack({ damageMin, damageMax, apCost, effects }) {
         setAttackDisabled(true);
+
         //adding negative effects to enemy
-        if (effects) {
-            effects.forEach(effect => {
-                if (Math.random() * 100 < effect.chance) {
-                    enemyEffectAdd(
-                        {
-                            name: effect.name,
-                            turns: effect.turns
-                        })
-                }
-            });
-        }
+        addEffects(effects, turn);
+
         //calculating damage
         const damageData = damageCalculation(
             {
@@ -99,9 +91,11 @@ const ConnectedAttacksList = ({ state, dispatch, attacks }) => {
             damage: damageData.damage,
         }
 
+        //send data to battle info
         setBattleInfoData(
             battleInfoHandler(messageData)
         );
+
         //animation started
         await sleep(animationsDelay.beforeShowInfo);
         showInfo();
@@ -111,6 +105,7 @@ const ConnectedAttacksList = ({ state, dispatch, attacks }) => {
         await sleep(animationsDelay.beforeHideInfo);
         hideInfo();
         //animation ended
+
         setAttackDisabled(false);
 
         if (enemy.hp - damageData.damage <= 0) {
@@ -123,33 +118,11 @@ const ConnectedAttacksList = ({ state, dispatch, attacks }) => {
 
     useEffect(() => {
         // checking negative effects first (only one time on turn)
-        if (player.ap === player.maxAp && turn) {
-            if (player.effects.length !== 0) {
-                player.effects.forEach(effect => {
-                    if (effect.turns === 0) {
-                        playerEffectSubstract(effect.name)
-                    }
-                    switch (effect.name) {
-                        case LOOSE_NEXT_TURN:
-                            playerEffectSubstract(LOOSE_NEXT_TURN)
-                            setTurn()
-                            break;
-                        case POISON:
-                            playerEffectTurnSubstract(POISON)
-                            playerHpSubstract(player.stats.poisonDamage)
-
-                            break;
-                        case BLEEDING:
-                            playerEffectTurnSubstract(BLEEDING)
-                            playerHpSubstract(player.stats.poisonDamage)
-                            break;
-                        default:
-                            break;
-                    }
-                });
-            }
+        if (turn) {
+            checkEffects(player, turn)
         }
         return () => { }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [turn])
 
     return (
@@ -182,11 +155,7 @@ const ConnectedAttacksList = ({ state, dispatch, attacks }) => {
 function mapDispatchToProps(dispatch) {
     return {
         dispatch: {
-            setTurn: state => dispatch(setTurn(state)),
             playerApSubstract: state => dispatch(playerApSubstract(state)),
-            playerHpSubstract: state => dispatch(playerHpSubstract(state)),
-            playerEffectTurnSubstract: state => dispatch(playerEffectTurnSubstract(state)),
-            playerEffectSubstract: state => dispatch(playerEffectSubstract(state)),
             enemyHpSubstract: state => dispatch(enemyHpSubstract(state)),
             battleEnd: state => dispatch(battleEnd(state)),
             setWinner: state => dispatch(setWinner(state)),

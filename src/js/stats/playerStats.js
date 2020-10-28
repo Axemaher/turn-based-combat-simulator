@@ -1,4 +1,4 @@
-import { BLEEDING, POISON, LOOSE_NEXT_TURN } from '../js/constans';
+import { BLEEDING, POISON, LOOSE_NEXT_TURN } from '../../utils/constans';
 
 const playerStats = {
     name: "Axemaher",
@@ -21,7 +21,7 @@ const playerStats = {
             damageMin: 10,
             damageMax: 20,
             apCost: 4,
-            effects: [{ name: POISON, turns: 3, chance: 100 }]
+            effects: [{ name: LOOSE_NEXT_TURN, turns: 1, chance: 100 }, { name: BLEEDING, turns: 3, chance: 100 }]
         },
         {
             id: 234324,
@@ -29,6 +29,7 @@ const playerStats = {
             damageMin: 30,
             damageMax: 50,
             apCost: 7,
+            effects: []
         }
     ]
 }

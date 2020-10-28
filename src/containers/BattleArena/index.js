@@ -1,9 +1,9 @@
 import React from "react";
 import styled from 'styled-components';
-import Layout from '../Layout'
-import EnemySide from './EnemySide';
-import PlayerSide from './PlayerSide';
-import BattleInfo from './BattleInfo';
+import Layout from '../../Layout'
+import EnemySide from '../EnemySide';
+import PlayerSide from '../PlayerSide';
+import BattleInfo from '../BattleInfo';
 
 const StyledBattleAreaWrapper = styled.div`
     max-width: 900px;

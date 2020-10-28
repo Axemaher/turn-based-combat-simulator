@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import messageFrame from '../images/messageFrame.png';
-import ropeBorder from '../images/ropeBorder.png';
+import messageFrame from '../assets/messageFrame.png';
+import ropeBorder from '../assets/ropeBorder.png';
 
 export const StyledMessageBox = styled.div` 
     position: relative;

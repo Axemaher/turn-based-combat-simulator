@@ -10,7 +10,7 @@ import {
     enemyAttackPlayer,
     playerAttackEnemyalmostDead,
     playerFirstAttackEnemy,
-} from './messages';
+} from '../data/messages';
 
 export const battleInfoHandler = (
     {

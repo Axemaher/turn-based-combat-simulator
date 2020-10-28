@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import FrameLight from './FrameLight';
-import avatarPng from '../images/avatar3x4.png'
+import avatarPng from '../assets/avatar3x4.png'
 
 const StyledAvatarContainer = styled.div`
     width: 160px;

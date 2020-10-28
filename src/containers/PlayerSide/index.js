@@ -2,13 +2,13 @@ import React from "react";
 import { connect } from "react-redux";
 import {
     setTurn,
-} from "../redux/actions";
+} from "../../store/actions";
 import styled from 'styled-components';
 
-import Avatar from "../components/Avatar";
-import HpBar from "../components/HpBar";
-import ApBar from "../components/ApBar";
-import AttacksList from "../components/AttacksList";
+import Avatar from "../../components/Avatar";
+import HpBar from "../../components/HpBar";
+import ApBar from "./ApBar";
+import AttacksList from "./AttacksList";
 
 const StyledSide = styled.div`
     font-size: 1rem;

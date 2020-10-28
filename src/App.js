@@ -1,5 +1,5 @@
 import React from 'react';
-import BattleArea from './BattleArena';
+import BattleArea from './containers/BattleArena';
 
 const App = () => {
   return (

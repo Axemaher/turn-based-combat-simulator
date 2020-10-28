@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import FrameLightBg from '..//images/FrameLightBg.png'
+import FrameLightBg from '../assets/FrameLightBg.png'
 
 const StyledFrame = styled.div`
     border-style: solid;

@@ -3,12 +3,12 @@ import styled from 'styled-components';
 import { connect } from "react-redux";
 import {
     hideInfo
-} from "../redux/actions";
-import { animationsDelay } from '../js/animationsDelay';
-import { sleep } from '../utils/sleep';
+} from "../../store/actions";
+import { animationsDelay } from '../../utils/data/animationsDelay';
+import { sleep } from '../../utils/sleep';
 
-import EnemyText from '../components/EnemyText';
-import AttackText from '../components/AttackText';
+import EnemyText from './components/EnemyText';
+import AttackText from './components/AttackText';
 
 
 const StyledBattleInfoWrapper = styled.div`
@@ -63,6 +63,7 @@ const ConnectedBattleInfo = ({ state }) => {
             runAttackInfo();
         }
         return () => { };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [state.infoStarted])
 
     const { infoStarted, infoData } = state;

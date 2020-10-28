@@ -1,14 +1,22 @@
-import enemyStats from '../../js/enemyStats';
-import { ENEMY_RESET_STATS, ENEMY_HP_SUBSTRACT, ENEMY_AP_SUBSTRACT, ENEMY_AP_RESET, ENEMY_EFFECT_ADD, ENEMY_EFFECT_TURN_SUBSTRACT, ENEMY_EFFECT_SUBSTRACT, } from "../constants/action-types";
+import playerStats from '../../js/stats/playerStats';
+import {
+    PLAYER_RESET_STATS,
+    PLAYER_HP_SUBSTRACT,
+    PLAYER_AP_SUBSTRACT,
+    PLAYER_AP_RESET,
+    PLAYER_EFFECT_ADD,
+    PLAYER_EFFECT_SUBSTRACT,
+    PLAYER_EFFECT_TURN_SUBSTRACT,
+} from "../constants/action-types";
 
 
-const initialState = enemyStats;
+const initialState = playerStats;
 
-function enemyReducer(state = initialState, action) {
-    if (action.type === ENEMY_RESET_STATS) {
+function playerReducer(state = initialState, action) {
+    if (action.type === PLAYER_RESET_STATS) {
         return initialState;
     }
-    if (action.type === ENEMY_HP_SUBSTRACT) {
+    if (action.type === PLAYER_HP_SUBSTRACT) {
         const hp = state.hp - action.payload;
         if (hp <= 0) {
             return { ...state, hp: 0 }
@@ -16,13 +24,13 @@ function enemyReducer(state = initialState, action) {
             return { ...state, hp: state.hp - action.payload }
         }
     }
-    if (action.type === ENEMY_AP_SUBSTRACT) {
+    if (action.type === PLAYER_AP_SUBSTRACT) {
         return { ...state, ap: state.ap - action.payload }
     }
-    if (action.type === ENEMY_AP_RESET) {
-        return { ...state, ap: enemyStats.ap }
+    if (action.type === PLAYER_AP_RESET) {
+        return { ...state, ap: playerStats.maxAp }
     }
-    if (action.type === ENEMY_EFFECT_ADD) {
+    if (action.type === PLAYER_EFFECT_ADD) {
         const itemIndex = (state, action) => state.effects.findIndex(effect => effect.name === action.payload.name)
         // effect is already in array?
         if (itemIndex(state, action) === -1) {
@@ -35,7 +43,7 @@ function enemyReducer(state = initialState, action) {
         }
 
     }
-    if (action.type === ENEMY_EFFECT_TURN_SUBSTRACT) {
+    if (action.type === PLAYER_EFFECT_TURN_SUBSTRACT) {
         const findedItemIndex = state.effects.findIndex(effect => effect.name === action.payload)
         return {
             ...state,
@@ -50,10 +58,10 @@ function enemyReducer(state = initialState, action) {
             })
         }
     }
-    if (action.type === ENEMY_EFFECT_SUBSTRACT) {
+    if (action.type === PLAYER_EFFECT_SUBSTRACT) {
         return { ...state, effects: state.effects.filter(effect => effect.name !== action.payload) }
     }
     return state;
 }
 
-export default enemyReducer;
+export default playerReducer;

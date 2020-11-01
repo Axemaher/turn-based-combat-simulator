@@ -5,11 +5,9 @@ import styled from 'styled-components';
 //actions
 import {
     setTurn,
-    battleStart,
-    battleEnd,
-    setWinner,
     showInfo,
     hideInfo,
+    setUiEnabled,
     setBattleInfoData,
     playerHpSubstract,
     playerApReset,
@@ -30,6 +28,7 @@ import { battleInfoHandler } from '../../utils/functions/battleInfoHandler';
 import { damageCalculation } from '../../utils/functions/damageCalculation';
 import { addEffects } from '../../utils/functions/addEffects';
 import { checkEffects } from '../../utils/functions/checkEffects';
+import { checkWinner } from '../../utils/functions/checkWinner';
 
 //components
 import Avatar from "../../components/Avatar";
@@ -58,29 +57,53 @@ const StyledRowRight = styled(StyledRow)`
 
 const ConnectedEnemySide = ({ state, dispatch }) => {
 
-    const { player, enemy, turn } = state;
-    const { setTurn, playerApReset, enemyApReset, playerHpSubstract, enemyApSubstract, battleEnd, setWinner, showInfo, hideInfo, setBattleInfoData } = dispatch;
+    const { player, enemy, turn, battleStarted } = state;
+    const { setTurn, playerApReset, enemyApReset, playerHpSubstract, enemyApSubstract, showInfo, hideInfo, setUiEnabled, setBattleInfoData } = dispatch;
     const [attackStarted, setAttackStarted] = useState(false)
+
     const handleCheckTurn = () => {
         setTurn();
         playerApReset();
         enemyApReset();
+        setUiEnabled(true);
     }
 
     const enemyAttack = () => {
-        // checking negative effects first (only one time on turn)
-        checkEffects(enemy, turn)
+        // if enemy win stop attacking
+        if (checkWinner().battleEnded) {
+            //display end info
+            return
+        } else {
+            if (battleStarted) {
+                setUiEnabled(false);
 
-        // enemy loose this turn negative effect check
-        let looseThisTurn = null;
-        enemy.effects.forEach(effect => {
-            if (effect.name === LOOSE_NEXT_TURN) {
-                looseThisTurn = true;
+                // checking negative effects first (only one time on turn)
+                checkEffects(enemy, turn)
+
+                // if negative effects kill enemy
+                if (checkWinner().battleEnded) {
+                    //display end info
+                    return
+                } else {
+                    // checking winner after substract hp from negative effects
+                    checkWinner()
+
+                    // enemy not attacking if have effect LOOSE_NEXT_TURN
+                    let looseThisTurn = null;
+                    enemy.effects.forEach(effect => {
+                        if (effect.name === LOOSE_NEXT_TURN) {
+                            looseThisTurn = true;
+                            setUiEnabled(true);
+                        }
+                    })
+
+                    // enemy NOT loose this turn 
+                    if (!looseThisTurn) {
+                        handleAttack()
+                    }
+                }
+
             }
-        })
-        // enemy NOT loose this turn 
-        if (!looseThisTurn) {
-            handleAttack()
         }
     }
 
@@ -146,30 +169,28 @@ const ConnectedEnemySide = ({ state, dispatch }) => {
             await sleep(animationsDelay.beforeHideInfo);
             hideInfo();
             //animation ended
+            await sleep(animationsDelay.beforeChangeData);
 
             setAttackStarted(false);
             if (!availableAttacksLength) {
                 setAttackStarted(false);
                 handleCheckTurn();
             }
-            if (player.hp - damageData.damage <= 0) {
-                battleEnd();
-                setWinner(enemy.name);
-                await sleep(animationsDelay.beforeBattleEndInfo);
-                alert("enemy win")
-            }
+
+            checkWinner()
+
         }
     }
 
 
 
     useEffect(() => {
-        if (!turn && !attackStarted) {
+        if (!turn && !attackStarted && battleStarted) {
             enemyAttack();
         }
         return () => { }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [turn, attackStarted])
+    }, [turn, attackStarted, battleStarted])
 
     return (
         <StyledSide>
@@ -190,11 +211,9 @@ function mapDispatchToProps(dispatch) {
     return {
         dispatch: {
             setTurn: state => dispatch(setTurn(state)),
-            battleStart: state => dispatch(battleStart(state)),
-            battleEnd: state => dispatch(battleEnd(state)),
-            setWinner: state => dispatch(setWinner(state)),
             showInfo: state => dispatch(showInfo(state)),
             hideInfo: state => dispatch(hideInfo(state)),
+            setUiEnabled: state => dispatch(setUiEnabled(state)),
             setBattleInfoData: state => dispatch(setBattleInfoData(state)),
             playerHpSubstract: state => dispatch(playerHpSubstract(state)),
             playerEffectAdd: state => dispatch(playerEffectAdd(state)),
@@ -209,7 +228,7 @@ function mapStateToProps(state) {
     return {
         state: {
             turn: state.turn,
-            battle: state.battle,
+            battleStarted: state.battle.battleStarted,
             player: state.player,
             enemy: state.enemy,
         }

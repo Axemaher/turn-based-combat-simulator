@@ -25,7 +25,7 @@ const StyledRow = styled.div`
 
 const ConnectedPlayerSide = ({ state, dispatch }) => {
 
-    const { player } = state;
+    const { player, uiEnabled } = state;
     const { setTurn } = dispatch;
 
     return (
@@ -44,10 +44,13 @@ const ConnectedPlayerSide = ({ state, dispatch }) => {
                     ap={player.ap}
                     maxAp={player.maxAp} />
             </StyledRow>
-            <AttacksList
-                attacks={player.attacks}
-            />
-            <button onClick={() => setTurn()}>turn</button>
+            <AttacksList />
+            <button
+                disabled={!uiEnabled}
+                onClick={() => setTurn()}
+            >
+                turn
+                </button>
         </StyledSide>
     );
 }
@@ -63,8 +66,8 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps(state) {
     return {
         state: {
-            turn: state.turn,
             player: state.player,
+            uiEnabled: state.battle.uiEnabled
         }
     };
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import styled from 'styled-components';
 import FrameLight from '../../../components/FrameLight';
@@ -7,10 +7,9 @@ import FrameLight from '../../../components/FrameLight';
 import {
     playerApSubstract,
     enemyHpSubstract,
-    battleEnd,
-    setWinner,
     showInfo,
     hideInfo,
+    setUiEnabled,
     setBattleInfoData,
     enemyEffectAdd
 } from "../../../store/actions";
@@ -22,6 +21,7 @@ import { battleInfoHandler } from '../../../utils/functions/battleInfoHandler';
 import { damageCalculation } from '../../../utils/functions/damageCalculation';
 import { addEffects } from '../../../utils/functions/addEffects';
 import { checkEffects } from '../../../utils/functions/checkEffects';
+import { checkWinner } from '../../../utils/functions/checkWinner';
 
 
 const StyledP = styled.p`
@@ -51,16 +51,14 @@ const StyledAttack = styled.li`
     display: inline-block;
 `;
 
-const ConnectedAttacksList = ({ state, dispatch, attacks }) => {
+const ConnectedAttacksList = ({ state, dispatch }) => {
 
-    const { player, enemy, turn } = state;
-    const { playerApSubstract, enemyHpSubstract, showInfo, hideInfo, battleEnd, setWinner, setBattleInfoData,
+    const { player, enemy, turn, battle } = state;
+    const { playerApSubstract, enemyHpSubstract, showInfo, hideInfo, setBattleInfoData, setUiEnabled,
     } = dispatch;
 
-    const [attackDisabled, setAttackDisabled] = useState(false)
-
     async function handleAttack({ damageMin, damageMax, apCost, effects }) {
-        setAttackDisabled(true);
+        setUiEnabled(false);
 
         //adding negative effects to enemy
         const effectData = addEffects(effects, turn);
@@ -107,20 +105,23 @@ const ConnectedAttacksList = ({ state, dispatch, attacks }) => {
         hideInfo();
         //animation ended
 
-        setAttackDisabled(false);
+        setUiEnabled(true)
 
-        if (enemy.hp - damageData.damage <= 0) {
-            battleEnd();
-            setWinner(player.name);
-            await sleep(animationsDelay.beforeBattleEndInfo);
-            alert("player win")
-        }
+        checkWinner()
+
     }
 
     useEffect(() => {
+
         // checking negative effects first (only one time on turn)
         if (turn) {
+            setUiEnabled(true);
+
             checkEffects(player, turn)
+
+            // checking winner after substract hp from negative effects
+            checkWinner()
+
         }
         return () => { }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -128,11 +129,14 @@ const ConnectedAttacksList = ({ state, dispatch, attacks }) => {
 
     return (
         <StyledAttacksList>
-            {attacks.map(attack => (
+            {player.attacks.map(attack => (
                 <StyledAttack key={attack.name}>
                     <FrameLight>
                         <StyledButtonAttack
-                            disabled={attackDisabled || attack.apCost > player.ap || !turn}
+                            disabled={
+                                !battle.uiEnabled ||
+                                attack.apCost > player.ap
+                            }
                             onClick={() => handleAttack(
                                 {
                                     damageMin: attack.damageMin,
@@ -158,10 +162,9 @@ function mapDispatchToProps(dispatch) {
         dispatch: {
             playerApSubstract: state => dispatch(playerApSubstract(state)),
             enemyHpSubstract: state => dispatch(enemyHpSubstract(state)),
-            battleEnd: state => dispatch(battleEnd(state)),
-            setWinner: state => dispatch(setWinner(state)),
             showInfo: state => dispatch(showInfo(state)),
             hideInfo: state => dispatch(hideInfo(state)),
+            setUiEnabled: state => dispatch(setUiEnabled(state)),
             setBattleInfoData: state => dispatch(setBattleInfoData(state)),
             enemyEffectAdd: state => dispatch(enemyEffectAdd(state)),
         }

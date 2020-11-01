@@ -7,6 +7,7 @@ import {
     SHOW_INFO,
     HIDE_INFO,
     SET_BATTLE_INFO_DATA,
+    SET_UI_ENABLED,
 
     PLAYER_RESET_STATS,
     PLAYER_HP_SUBSTRACT,
@@ -53,6 +54,10 @@ export const hideInfo = (payload) => {
 
 export const setBattleInfoData = (payload) => {
     return { type: SET_BATTLE_INFO_DATA, payload }
+};
+
+export const setUiEnabled = (payload) => {
+    return { type: SET_UI_ENABLED, payload }
 };
 
 //player

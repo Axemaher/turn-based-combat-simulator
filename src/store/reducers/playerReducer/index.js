@@ -1,4 +1,4 @@
-import playerStats from '../../js/stats/playerStats';
+import playerStats from '../../../js/stats/playerStats';
 import {
     PLAYER_RESET_STATS,
     PLAYER_HP_SUBSTRACT,
@@ -7,10 +7,10 @@ import {
     PLAYER_EFFECT_ADD,
     PLAYER_EFFECT_SUBSTRACT,
     PLAYER_EFFECT_TURN_SUBSTRACT,
-} from "../constants/action-types";
+} from "../../constants/action-types";
 
 
-const initialState = playerStats;
+export const initialState = playerStats;
 
 function playerReducer(state = initialState, action) {
     if (action.type === PLAYER_RESET_STATS) {

@@ -12,6 +12,34 @@ import {
     playerFirstAttackEnemy,
 } from '../data/messages';
 
+import {
+    LOOSE_NEXT_TURN,
+    POISON,
+    BLEEDING
+} from '../constans';
+
+export const checkEffects = effects => {
+    if (effects !== undefined && effects.length > 0) {
+        let effectMessage = ". Additionaly, he";
+        effects.forEach((effect, i) => {
+            switch (effect.name) {
+                case LOOSE_NEXT_TURN:
+                    effectMessage = effectMessage + `${i > 0 ? "," : ""} loses next turns`; break
+                case POISON:
+                    effectMessage = effectMessage + `${i > 0 ? "," : ""} was poisoned for ${effect.turns} turns`; break;
+                case BLEEDING:
+                    effectMessage = effectMessage + `${i > 0 ? "," : ""} bleeding for ${effect.turns} turns`; break;
+            }
+            if (i === effects.length - 1) {
+                effectMessage = effectMessage + ".";
+            }
+        });
+        return effectMessage
+    }
+    return ""
+}
+
+
 export const battleInfoHandler = (
     {
         playerTurn,
@@ -25,14 +53,14 @@ export const battleInfoHandler = (
         enemyMaxHp,
         critical,
         missed,
-        damage
+        damage,
+        effects,
     }
 ) => {
 
-
     let attackText = "";
     let enemyMessage = "";
-
+    console.log(effects)
     const randomMessage = (arr) => {
         let message = arr[Math.floor(Math.random() * arr.length)];
         if (playerTurn) {
@@ -81,6 +109,8 @@ export const battleInfoHandler = (
             enemyMessage = randomMessage(enemyAttackPlayer);
         }
     }
+
+    attackText = attackText + checkEffects(effects);
 
     return {
         attackText,

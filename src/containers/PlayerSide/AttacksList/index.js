@@ -63,7 +63,7 @@ const ConnectedAttacksList = ({ state, dispatch, attacks }) => {
         setAttackDisabled(true);
 
         //adding negative effects to enemy
-        addEffects(effects, turn);
+        const effectData = addEffects(effects, turn);
 
         //calculating damage
         const damageData = damageCalculation(
@@ -89,6 +89,7 @@ const ConnectedAttacksList = ({ state, dispatch, attacks }) => {
             critical: damageData.critical,
             missed: damageData.miss,
             damage: damageData.damage,
+            effects: effectData
         }
 
         //send data to battle info

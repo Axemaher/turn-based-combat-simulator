@@ -2,13 +2,15 @@ import store from '../../store/store'
 
 //actions
 import {
-    playerEffectSubstract,
-    enemyEffectSubstract,
     setTurn,
-    playerEffectTurnSubstract,
     playerHpSubstract,
-    enemyEffectTurnSubstract,
+    playerApReset,
+    playerEffectSubstract,
+    playerEffectTurnSubstract,
     enemyHpSubstract,
+    enemyApReset,
+    enemyEffectSubstract,
+    enemyEffectTurnSubstract,
 } from "../../store/actions";
 
 //effects
@@ -20,25 +22,31 @@ import {
 
 
 const actions = {
-    playerEffectSubstract: state => store.dispatch(playerEffectSubstract(state)),
-    enemyEffectSubstract: state => store.dispatch(enemyEffectSubstract(state)),
     setTurn: state => store.dispatch(setTurn(state)),
-    playerEffectTurnSubstract: state => store.dispatch(playerEffectTurnSubstract(state)),
     playerHpSubstract: state => store.dispatch(playerHpSubstract(state)),
-    enemyEffectTurnSubstract: state => store.dispatch(enemyEffectTurnSubstract(state)),
+    playerApReset: state => store.dispatch(playerApReset(state)),
+    playerEffectTurnSubstract: state => store.dispatch(playerEffectTurnSubstract(state)),
+    playerEffectSubstract: state => store.dispatch(playerEffectSubstract(state)),
     enemyHpSubstract: state => store.dispatch(enemyHpSubstract(state)),
+    enemyApReset: state => store.dispatch(enemyApReset(state)),
+    enemyEffectSubstract: state => store.dispatch(enemyEffectSubstract(state)),
+    enemyEffectTurnSubstract: state => store.dispatch(enemyEffectTurnSubstract(state)),
 }
 
 
 export const checkEffects = (personData, playerTurn) => {
 
-    const { playerEffectSubstract,
-        enemyEffectSubstract,
+    const {
         setTurn,
-        playerEffectTurnSubstract,
         playerHpSubstract,
-        enemyEffectTurnSubstract,
-        enemyHpSubstract, } = actions
+        playerApReset,
+        playerEffectSubstract,
+        playerEffectTurnSubstract,
+        enemyHpSubstract,
+        enemyApReset,
+        enemyEffectSubstract,
+        enemyEffectTurnSubstract
+    } = actions
 
     if (personData.ap === personData.maxAp) {
         if (personData.effects.length !== 0) {
@@ -59,6 +67,8 @@ export const checkEffects = (personData, playerTurn) => {
                             enemyEffectSubstract(LOOSE_NEXT_TURN)
                             setTurn()
                         }
+                        playerApReset()
+                        enemyApReset()
                         break;
                     case POISON:
                         if (playerTurn) {

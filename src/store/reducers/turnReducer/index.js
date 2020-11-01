@@ -1,4 +1,4 @@
-import { SET_TURN } from "../constants/action-types";
+import { SET_TURN } from "../../constants/action-types";
 
 
 function turnReducer(state = true, action) {

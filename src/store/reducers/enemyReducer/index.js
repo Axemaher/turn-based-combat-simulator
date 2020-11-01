@@ -1,5 +1,5 @@
-import enemyStats from '../../js/stats/enemyStats';
-import { ENEMY_RESET_STATS, ENEMY_HP_SUBSTRACT, ENEMY_AP_SUBSTRACT, ENEMY_AP_RESET, ENEMY_EFFECT_ADD, ENEMY_EFFECT_TURN_SUBSTRACT, ENEMY_EFFECT_SUBSTRACT, } from "../constants/action-types";
+import enemyStats from '../../../js/stats/enemyStats';
+import { ENEMY_RESET_STATS, ENEMY_HP_SUBSTRACT, ENEMY_AP_SUBSTRACT, ENEMY_AP_RESET, ENEMY_EFFECT_ADD, ENEMY_EFFECT_TURN_SUBSTRACT, ENEMY_EFFECT_SUBSTRACT, } from "../../constants/action-types";
 
 
 const initialState = enemyStats;

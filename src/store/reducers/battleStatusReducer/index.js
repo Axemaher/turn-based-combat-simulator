@@ -5,7 +5,7 @@ import {
     SHOW_INFO,
     HIDE_INFO,
     SET_BATTLE_INFO_DATA
-} from "../constants/action-types";
+} from "../../constants/action-types";
 
 const initialState = {
     battleStarted: false,

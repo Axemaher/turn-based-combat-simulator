@@ -61,7 +61,6 @@ const ConnectedEnemySide = ({ state, dispatch }) => {
     const { player, enemy, turn } = state;
     const { setTurn, playerApReset, enemyApReset, playerHpSubstract, enemyApSubstract, battleEnd, setWinner, showInfo, hideInfo, setBattleInfoData } = dispatch;
     const [attackStarted, setAttackStarted] = useState(false)
-
     const handleCheckTurn = () => {
         setTurn();
         playerApReset();
@@ -104,6 +103,9 @@ const ConnectedEnemySide = ({ state, dispatch }) => {
                 effects: enemy.attacks[enemyAttackIndex].effects
             }
 
+            //adding negative effects to player
+            const effectData = addEffects(enemyAttackData.effects, turn);
+
             //calculating damage
             const damageData = damageCalculation(
                 {
@@ -127,10 +129,9 @@ const ConnectedEnemySide = ({ state, dispatch }) => {
                 enemyMaxHp: enemy.maxHp,
                 critical: damageData.critical,
                 missed: damageData.miss,
-                damage: damageData.damage
+                damage: damageData.damage,
+                effects: effectData
             }
-            //adding negative effects to player
-            addEffects(enemyAttackData.effects, turn);
 
             setBattleInfoData(
                 battleInfoHandler(messageData)

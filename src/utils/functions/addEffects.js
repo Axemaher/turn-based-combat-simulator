@@ -12,23 +12,29 @@ const props = {
 
 
 export const addEffects = (effectsArr, playerTurn) => {
+    let effectData = [];
     if (effectsArr) {
         effectsArr.forEach(effect => {
             if (Math.random() * 100 < effect.chance) {
 
-                const effectData = {
+                const data = {
                     name: effect.name,
                     turns: effect.turns
                 }
 
                 if (playerTurn) {
-                    props.enemyEffectAdd(effectData)
+                    props.enemyEffectAdd(data)
                 } else if (!playerTurn) {
-                    props.playerEffectAdd(effectData)
+                    props.playerEffectAdd(data)
                 }
+                effectData = [...effectData, {
+                    name: effect.name,
+                    turns: effect.turns
+                }]
             }
         });
     }
+    return effectData
 }
 
 export default addEffects;

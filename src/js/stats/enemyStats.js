@@ -14,7 +14,7 @@ const enemyStats = {
         chanceToMiss: 30,
         poisonDamage: 7,
     },
-    effects: [],
+    effects: [{ name: BLEEDING, turns: 4 }, { name: POISON, turns: 1 }],
     attacks: [
         {
             id: 84956,
@@ -23,7 +23,7 @@ const enemyStats = {
             damageMax: 20,
             apCost: 4,
             effects: [
-                { name: BLEEDING, turns: 3, chance: 100 },
+                { name: BLEEDING, turns: 4, chance: 50 },
             ],
         },
         {
@@ -32,7 +32,7 @@ const enemyStats = {
             damageMin: 20,
             damageMax: 30,
             apCost: 10,
-            effects: [{ name: POISON, turns: 2, chance: 100 },],
+            effects: [{ name: POISON, turns: 2, chance: 50 },],
 
         }
     ]

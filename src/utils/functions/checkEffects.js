@@ -51,7 +51,7 @@ export const checkEffects = (personData, playerTurn) => {
     if (personData.ap === personData.maxAp) {
         if (personData.effects.length !== 0) {
             personData.effects.forEach(effect => {
-                if (effect.turns === 0) {
+                if (effect.turns === 1) {
                     if (playerTurn) {
                         playerEffectSubstract(effect.name)
                     } else if (!playerTurn) {

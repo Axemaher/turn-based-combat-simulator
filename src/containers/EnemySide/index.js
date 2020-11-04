@@ -33,6 +33,7 @@ import { checkWinner } from '../../utils/functions/checkWinner';
 //components
 import Avatar from "../../components/Avatar";
 import HpBar from "../../components/HpBar";
+import EffectsBar from "../../components/EffectsBar";
 
 const StyledSide = styled.div`
     font-size: 1rem;
@@ -195,6 +196,7 @@ const ConnectedEnemySide = ({ state, dispatch }) => {
     return (
         <StyledSide>
             <StyledRowRight>
+                <EffectsBar effects={enemy.effects} reverse={true} />
                 <Avatar name={enemy.name} />
             </StyledRowRight>
             <StyledRow>

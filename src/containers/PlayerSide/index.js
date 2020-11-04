@@ -9,6 +9,7 @@ import Avatar from "../../components/Avatar";
 import HpBar from "../../components/HpBar";
 import ApBar from "./ApBar";
 import AttacksList from "./AttacksList";
+import EffectsBar from "../../components/EffectsBar";
 
 const StyledSide = styled.div`
     font-size: 1rem;
@@ -22,6 +23,11 @@ const StyledRow = styled.div`
     display: block;
 `;
 
+const StyledRowOneLine = styled(StyledRow)`
+    display: flex;
+    align-items: flex-end;
+`;
+
 
 const ConnectedPlayerSide = ({ state, dispatch }) => {
 
@@ -30,9 +36,10 @@ const ConnectedPlayerSide = ({ state, dispatch }) => {
 
     return (
         <StyledSide>
-            <StyledRow>
+            <StyledRowOneLine>
                 <Avatar name={player.name} />
-            </StyledRow>
+                <EffectsBar effects={player.effects} reverse={false} />
+            </StyledRowOneLine>
             <StyledRow>
                 <HpBar
                     hp={player.hp}

@@ -3,8 +3,8 @@ import { BLEEDING, POISON, LOOSE_NEXT_TURN } from '../../utils/constans';
 const playerStats = {
     name: "Axemaher",
     lvl: 12,
-    hp: 300,
-    maxHp: 300,
+    hp: 160,
+    maxHp: 160,
     ap: 14,
     maxAp: 14,
     stats: {
@@ -13,7 +13,7 @@ const playerStats = {
         chanceToMiss: 30,
         poisonDamage: 4,
     },
-    effects: [],
+    effects: [{ name: BLEEDING, turns: 2 }, { name: POISON, turns: 2 }],
     attacks: [
         {
             id: 84956,
@@ -21,15 +21,18 @@ const playerStats = {
             damageMin: 10,
             damageMax: 20,
             apCost: 4,
-            effects: [{ name: LOOSE_NEXT_TURN, turns: 1, chance: 100 }, { name: BLEEDING, turns: 3, chance: 100 }]
+            effects: [
+                { name: BLEEDING, turns: 4, chance: 50 },
+            ],
         },
         {
             id: 234324,
             name: 'force slash',
-            damageMin: 30,
-            damageMax: 50,
-            apCost: 7,
-            effects: []
+            damageMin: 20,
+            damageMax: 30,
+            apCost: 10,
+            effects: [{ name: POISON, turns: 2, chance: 50 },],
+
         }
     ]
 }

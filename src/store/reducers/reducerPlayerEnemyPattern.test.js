@@ -1,6 +1,6 @@
-import reducer from './';
-import * as types from '../../constants/action-types';
-import *  as effects from '../../../utils/constans'
+import reducer from './playerReducer';
+import * as types from '../constants/action-types';
+import *  as effects from '../../utils/constans'
 
 describe('player reducer', () => {
     it('hp substract', () => {

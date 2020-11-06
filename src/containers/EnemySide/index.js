@@ -14,6 +14,7 @@ import {
     playerEffectAdd,
     enemyApSubstract,
     enemyApReset,
+    enemyUsesPerBattleSubstract,
 } from "../../store/actions";
 
 //effects
@@ -59,7 +60,7 @@ const StyledRowRight = styled(StyledRow)`
 const ConnectedEnemySide = ({ state, dispatch }) => {
 
     const { player, enemy, turn, battleStarted } = state;
-    const { setTurn, playerApReset, enemyApReset, playerHpSubstract, enemyApSubstract, showInfo, hideInfo, setUiEnabled, setBattleInfoData } = dispatch;
+    const { setTurn, playerApReset, enemyApReset, playerHpSubstract, enemyApSubstract, showInfo, hideInfo, setUiEnabled, setBattleInfoData, enemyUsesPerBattleSubstract } = dispatch;
     const [attackStarted, setAttackStarted] = useState(false)
 
     const handleCheckTurn = () => {
@@ -112,7 +113,8 @@ const ConnectedEnemySide = ({ state, dispatch }) => {
     async function handleAttack() {
         setAttackStarted(true);
 
-        const availableAttacks = () => enemy.attacks.filter(e => e.apCost <= enemy.ap);
+        const availableAttacks = () => enemy.attacks.filter(e => (e.apCost <= enemy.ap && e.usesPerBattle > 0));
+        console.log(availableAttacks())
         const availableAttacksLength = availableAttacks().length;
         if (!availableAttacksLength) {
             setAttackStarted(false);
@@ -124,7 +126,8 @@ const ConnectedEnemySide = ({ state, dispatch }) => {
                 damageMax: enemy.attacks[enemyAttackIndex].damageMax,
                 damageMin: enemy.attacks[enemyAttackIndex].damageMin,
                 apCost: enemy.attacks[enemyAttackIndex].apCost,
-                effects: enemy.attacks[enemyAttackIndex].effects
+                effects: enemy.attacks[enemyAttackIndex].effects,
+                id: enemy.attacks[enemyAttackIndex].id
             }
 
             //adding negative effects to player
@@ -167,6 +170,7 @@ const ConnectedEnemySide = ({ state, dispatch }) => {
             await sleep(animationsDelay.beforeChangeData);
             playerHpSubstract(damageData.damage);
             enemyApSubstract(enemyAttackData.apCost);
+            enemyUsesPerBattleSubstract(enemyAttackData.id)
             await sleep(animationsDelay.beforeHideInfo);
             hideInfo();
             //animation ended
@@ -222,6 +226,7 @@ function mapDispatchToProps(dispatch) {
             playerApReset: state => dispatch(playerApReset(state)),
             enemyApSubstract: state => dispatch(enemyApSubstract(state)),
             enemyApReset: state => dispatch(enemyApReset(state)),
+            enemyUsesPerBattleSubstract: state => dispatch(enemyUsesPerBattleSubstract(state)),
         }
     };
 }

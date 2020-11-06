@@ -61,7 +61,7 @@ export const battleInfoHandler = (
 
     let attackText = "";
     let enemyMessage = "";
-    console.log(effects)
+
     const randomMessage = (arr) => {
         let message = arr[Math.floor(Math.random() * arr.length)];
         if (playerTurn) {

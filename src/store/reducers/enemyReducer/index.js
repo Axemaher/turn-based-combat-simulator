@@ -7,6 +7,7 @@ import {
     ENEMY_EFFECT_ADD,
     ENEMY_EFFECT_TURN_SUBSTRACT,
     ENEMY_EFFECT_SUBSTRACT,
+    ENEMY_USESPERBATTLE_SUBSTRACT,
 } from "../../constants/action-types";
 
 
@@ -60,6 +61,21 @@ function enemyReducer(state = initialState, action) {
     }
     if (action.type === ENEMY_EFFECT_SUBSTRACT) {
         return { ...state, effects: state.effects.filter(effect => effect.name !== action.payload) }
+    }
+    if (action.type === ENEMY_USESPERBATTLE_SUBSTRACT) {
+        const findedItemIndex = state.attacks.findIndex(attack => attack.id === action.payload)
+        return {
+            ...state,
+            attacks: state.attacks.map((attack, index) => {
+                if (index === findedItemIndex) {
+                    return {
+                        ...attack,
+                        usesPerBattle: attack.usesPerBattle - 1
+                    }
+                }
+                return attack
+            })
+        }
     }
     return state;
 }

@@ -16,6 +16,7 @@ import {
     PLAYER_EFFECT_ADD,
     PLAYER_EFFECT_TURN_SUBSTRACT,
     PLAYER_EFFECT_SUBSTRACT,
+    PLAYER_USESPERBATTLE_SUBSTRACT,
 
     ENEMY_HP_SUBSTRACT,
     ENEMY_AP_SUBSTRACT,
@@ -23,6 +24,7 @@ import {
     ENEMY_EFFECT_ADD,
     ENEMY_EFFECT_TURN_SUBSTRACT,
     ENEMY_EFFECT_SUBSTRACT,
+    ENEMY_USESPERBATTLE_SUBSTRACT,
 }
     from "../constants/action-types";
 
@@ -85,6 +87,9 @@ export const playerEffectTurnSubstract = (payload) => {
 export const playerEffectSubstract = (payload) => {
     return { type: PLAYER_EFFECT_SUBSTRACT, payload }
 };
+export const playerUsesPerBattleSubstract = (payload) => {
+    return { type: PLAYER_USESPERBATTLE_SUBSTRACT, payload }
+};
 
 //enemy
 export const enemyHpSubstract = (payload) => {
@@ -104,4 +109,7 @@ export const enemyEffectTurnSubstract = (payload) => {
 };
 export const enemyEffectSubstract = (payload) => {
     return { type: ENEMY_EFFECT_SUBSTRACT, payload }
+};
+export const enemyUsesPerBattleSubstract = (payload) => {
+    return { type: ENEMY_USESPERBATTLE_SUBSTRACT, payload }
 };

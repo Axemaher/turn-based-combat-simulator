@@ -7,6 +7,7 @@ import {
     PLAYER_EFFECT_ADD,
     PLAYER_EFFECT_SUBSTRACT,
     PLAYER_EFFECT_TURN_SUBSTRACT,
+    PLAYER_USESPERBATTLE_SUBSTRACT,
 } from "../../constants/action-types";
 
 
@@ -60,6 +61,22 @@ function playerReducer(state = initialState, action) {
     }
     if (action.type === PLAYER_EFFECT_SUBSTRACT) {
         return { ...state, effects: state.effects.filter(effect => effect.name !== action.payload) }
+    }
+    if (action.type === PLAYER_USESPERBATTLE_SUBSTRACT) {
+        const findedItemIndex = state.attacks.findIndex(attack => attack.id === action.payload)
+        console.log(findedItemIndex)
+        return {
+            ...state,
+            attacks: state.attacks.map((attack, index) => {
+                if (index === findedItemIndex) {
+                    return {
+                        ...attack,
+                        usesPerBattle: attack.usesPerBattle - 1
+                    }
+                }
+                return attack
+            })
+        }
     }
     return state;
 }

@@ -80,5 +80,113 @@ describe('player reducer', () => {
 
         expect(reducer(initial, action)).toEqual(expected)
     })
+    it('player uses per battle substract', () => {
+        const initial = {
+            attacks: [
+                {
+                    id: 84956,
+                    usesPerBattle: Infinity,
+                    effects: [
+                        { name: effects.BLEEDING, turns: 4, chance: 0 },
+                    ],
+                },
+                {
+                    id: 234324,
+                    usesPerBattle: Infinity,
+                    effects: [{ name: effects.POISON, turns: 2, chance: 50 },],
+
+                },
+                {
+                    id: 234322,
+                    usesPerBattle: 1,
+                    effects: [{ name: effects.POISON, turns: 2, chance: 100 },],
+
+                }
+            ]
+        }
+        const action = {
+            type: types.PLAYER_USESPERBATTLE_SUBSTRACT,
+            payload: 234322
+        };
+        const expected = {
+            attacks: [
+                {
+                    id: 84956,
+                    usesPerBattle: Infinity,
+                    effects: [
+                        { name: effects.BLEEDING, turns: 4, chance: 0 },
+                    ],
+                },
+                {
+                    id: 234324,
+                    usesPerBattle: Infinity,
+                    effects: [{ name: effects.POISON, turns: 2, chance: 50 },],
+
+                },
+                {
+                    id: 234322,
+                    usesPerBattle: 0,
+                    effects: [{ name: effects.POISON, turns: 2, chance: 100 },],
+
+                }
+            ]
+        }
+
+        expect(reducer(initial, action)).toEqual(expected)
+    })
+    it('player uses per battle substract from Infinity', () => {
+        const initial = {
+            attacks: [
+                {
+                    id: 84956,
+                    usesPerBattle: Infinity,
+                    effects: [
+                        { name: effects.BLEEDING, turns: 4, chance: 0 },
+                    ],
+                },
+                {
+                    id: 234324,
+                    usesPerBattle: Infinity,
+                    effects: [{ name: effects.POISON, turns: 2, chance: 50 },],
+
+                },
+                {
+                    id: 234322,
+                    usesPerBattle: 1,
+                    effects: [{ name: effects.POISON, turns: 2, chance: 100 },],
+
+                }
+            ]
+        }
+        const action = {
+            type: types.PLAYER_USESPERBATTLE_SUBSTRACT,
+            payload: 234324
+        };
+        const expected = {
+            attacks: [
+                {
+                    id: 84956,
+                    usesPerBattle: Infinity,
+                    effects: [
+                        { name: effects.BLEEDING, turns: 4, chance: 0 },
+                    ],
+                },
+                {
+                    id: 234324,
+                    usesPerBattle: Infinity,
+                    effects: [{ name: effects.POISON, turns: 2, chance: 50 },],
+
+                },
+                {
+                    id: 234322,
+                    usesPerBattle: 1,
+                    effects: [{ name: effects.POISON, turns: 2, chance: 100 },],
+
+                }
+            ]
+        }
+
+        expect(reducer(initial, action)).toEqual(expected)
+    })
 })
 

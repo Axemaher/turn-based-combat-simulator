@@ -6,6 +6,7 @@ import FrameLight from '../../../components/FrameLight';
 //actions
 import {
     playerApSubstract,
+    playerUsesPerBattleSubstract,
     enemyHpSubstract,
     showInfo,
     hideInfo,
@@ -54,10 +55,10 @@ const StyledAttack = styled.li`
 const ConnectedAttacksList = ({ state, dispatch }) => {
 
     const { player, enemy, turn, battle } = state;
-    const { playerApSubstract, enemyHpSubstract, showInfo, hideInfo, setBattleInfoData, setUiEnabled,
+    const { playerApSubstract, enemyHpSubstract, showInfo, hideInfo, setBattleInfoData, setUiEnabled, playerUsesPerBattleSubstract
     } = dispatch;
 
-    async function handleAttack({ damageMin, damageMax, apCost, effects }) {
+    async function handleAttack({ damageMin, damageMax, apCost, effects, id }) {
         setUiEnabled(false);
 
         //adding negative effects to enemy
@@ -70,7 +71,7 @@ const ConnectedAttacksList = ({ state, dispatch }) => {
                 damageMin,
                 criticalChance: player.stats.criticalChance,
                 criticalMod: player.stats.criticalMod,
-                chanceToMiss: player.stats.chanceToMiss
+                chanceToMiss: player.stats.chanceToMiss,
             }
         )
 
@@ -101,6 +102,7 @@ const ConnectedAttacksList = ({ state, dispatch }) => {
         await sleep(animationsDelay.beforeChangeData);
         enemyHpSubstract(damageData.damage);
         playerApSubstract(apCost);
+        playerUsesPerBattleSubstract(id);
         await sleep(animationsDelay.beforeHideInfo);
         hideInfo();
         //animation ended
@@ -135,14 +137,16 @@ const ConnectedAttacksList = ({ state, dispatch }) => {
                         <StyledButtonAttack
                             disabled={
                                 !battle.uiEnabled ||
-                                attack.apCost > player.ap
+                                attack.apCost > player.ap ||
+                                attack.usesPerBattle <= 0
                             }
                             onClick={() => handleAttack(
                                 {
                                     damageMin: attack.damageMin,
                                     damageMax: attack.damageMax,
                                     apCost: attack.apCost,
-                                    effects: attack.effects
+                                    effects: attack.effects,
+                                    id: attack.id
                                 }
                             )}>
                             <div>
@@ -161,6 +165,7 @@ function mapDispatchToProps(dispatch) {
     return {
         dispatch: {
             playerApSubstract: state => dispatch(playerApSubstract(state)),
+            playerUsesPerBattleSubstract: state => dispatch(playerUsesPerBattleSubstract(state)),
             enemyHpSubstract: state => dispatch(enemyHpSubstract(state)),
             showInfo: state => dispatch(showInfo(state)),
             hideInfo: state => dispatch(hideInfo(state)),

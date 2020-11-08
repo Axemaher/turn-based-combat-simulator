@@ -1,4 +1,5 @@
 import { BLEEDING, POISON, LOOSE_NEXT_TURN } from '../../utils/constans';
+import * as attacks from './attacks/attacks';
 
 const playerStats = {
     name: "Axemaher",
@@ -15,37 +16,9 @@ const playerStats = {
     },
     effects: [],
     attacks: [
-        {
-            id: 84956,
-            name: 'slash',
-            damageMin: 10,
-            damageMax: 20,
-            apCost: 4,
-            usesPerBattle: Infinity,
-            effects: [
-                { name: BLEEDING, turns: 4, chance: 50 },
-            ],
-        },
-        {
-            id: 234324,
-            name: 'force slash',
-            damageMin: 20,
-            damageMax: 30,
-            apCost: 10,
-            usesPerBattle: Infinity,
-            effects: [{ name: POISON, turns: 2, chance: 50 },],
-
-        },
-        {
-            id: 234322,
-            name: 'blow',
-            damageMin: 20,
-            damageMax: 30,
-            apCost: 10,
-            usesPerBattle: 1,
-            effects: [{ name: POISON, turns: 2, chance: 10 },],
-
-        }
+        attacks.DOUBLE_STRIKE,
+        attacks.CYCLONE,
+        attacks.SPEC_POISON_FOG,
     ]
 }
 

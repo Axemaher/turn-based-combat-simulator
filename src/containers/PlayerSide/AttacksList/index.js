@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import styled from 'styled-components';
+import { size } from '../../../Layout/media';
 import FrameLight from '../../../components/FrameLight';
-
+import AttackInfo from '../../../components/AttackInfo';
 //actions
 import {
     playerApSubstract,
@@ -25,11 +26,6 @@ import { checkEffects } from '../../../utils/functions/checkEffects';
 import { checkWinner } from '../../../utils/functions/checkWinner';
 
 
-const StyledP = styled.p`
-    text-align: left;
-    font-size: .9em;
-`;
-
 const StyledButtonAttack = styled.button`
     background-color: transparent;
     border: none;
@@ -42,6 +38,7 @@ const StyledButtonAttack = styled.button`
     transition: all .2s;
     opacity: ${({ disabled }) => disabled ? '.3' : '1'};
     color: ${({ theme }) => theme.colors.font};
+    cursor: pointer;
 `;
 
 const StyledAttacksList = styled.ul`
@@ -50,6 +47,12 @@ const StyledAttacksList = styled.ul`
 
 const StyledAttack = styled.li`
     display: inline-block;
+    position: relative;
+    cursor: pointer;
+`;
+
+const StyledAttackImg = styled.img`
+    width: 100%;
 `;
 
 const ConnectedAttacksList = ({ state, dispatch }) => {
@@ -57,6 +60,11 @@ const ConnectedAttacksList = ({ state, dispatch }) => {
     const { player, enemy, turn, battle } = state;
     const { playerApSubstract, enemyHpSubstract, showInfo, hideInfo, setBattleInfoData, setUiEnabled, playerUsesPerBattleSubstract
     } = dispatch;
+
+    const [mobileVer, setMobileVer] = useState(false)
+    const [hoverIndex, setHoverIndex] = useState(null);
+
+
 
     async function handleAttack({ damageMin, damageMax, apCost, effects, id }) {
         setUiEnabled(false);
@@ -125,14 +133,20 @@ const ConnectedAttacksList = ({ state, dispatch }) => {
             checkWinner()
 
         }
+
+        setMobileVer(window.innerWidth < size.tablet.slice(0, -2) && true)
         return () => { }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [turn])
 
     return (
         <StyledAttacksList>
-            {player.attacks.map(attack => (
-                <StyledAttack key={attack.name}>
+            {player.attacks.map((attack, index) => (
+                <StyledAttack
+                    key={attack.id}
+                    onMouseEnter={() => setHoverIndex(index)}
+                    onMouseLeave={() => setHoverIndex(null)}
+                >
                     <FrameLight>
                         <StyledButtonAttack
                             disabled={
@@ -140,21 +154,29 @@ const ConnectedAttacksList = ({ state, dispatch }) => {
                                 attack.apCost > player.ap ||
                                 attack.usesPerBattle <= 0
                             }
-                            onClick={() => handleAttack(
-                                {
-                                    damageMin: attack.damageMin,
-                                    damageMax: attack.damageMax,
-                                    apCost: attack.apCost,
-                                    effects: attack.effects,
-                                    id: attack.id
-                                }
-                            )}>
-                            <div>
-                                <StyledP>{attack.name}</StyledP>
-                                <StyledP>AP: {attack.apCost}</StyledP>
-                            </div>
+                            onClick={mobileVer ?
+                                () => setHoverIndex(index) :
+                                () => handleAttack(
+                                    {
+                                        damageMin: attack.damageMin,
+                                        damageMax: attack.damageMax,
+                                        apCost: attack.apCost,
+                                        effects: attack.effects,
+                                        id: attack.id
+                                    }
+                                )
+                            }
+                        >
+                            <StyledAttackImg src={attack.ico} />
                         </StyledButtonAttack>
                     </FrameLight>
+                    <AttackInfo
+                        visible={hoverIndex === index}
+                        attackInfo={attack}
+                        handleAttack={handleAttack}
+                        setHoverIndex={setHoverIndex}
+                        mobileVer={mobileVer}
+                    />
                 </StyledAttack>
             ))}
         </StyledAttacksList>

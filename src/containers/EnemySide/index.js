@@ -114,7 +114,7 @@ const ConnectedEnemySide = ({ state, dispatch }) => {
         setAttackStarted(true);
 
         const availableAttacks = () => enemy.attacks.filter(e => (e.apCost <= enemy.ap && e.usesPerBattle > 0));
-        console.log(availableAttacks())
+
         const availableAttacksLength = availableAttacks().length;
         if (!availableAttacksLength) {
             setAttackStarted(false);

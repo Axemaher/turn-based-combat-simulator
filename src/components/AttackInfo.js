@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import FrameLight from './FrameLight';
-import Button from '../components/Button';
 
 const StyledAttackWrapper = styled.div`
     width: 300px;
@@ -11,9 +10,11 @@ const StyledAttackWrapper = styled.div`
     display:${({ visible }) => visible ? "block" : "none"};
     position: absolute;
     font-size: .6rem;
-    z-index: 5;
+    z-index: 500;
     @media ${({ theme }) => theme.device.tablet} {
         position: fixed;
+        width: 300px;
+        height: 100px;
         top: 325px;
         left: 0; 
     }
@@ -50,9 +51,24 @@ const StyledEffectIco = styled.img`
     height: auto;
 `;
 
-const AttackInfo = ({ attackInfo, visible, handleAttack, setHoverIndex, mobileVer }) => {
+
+
+const AttackInfo = ({ attackInfo, visible, setHoverIndex }) => {
+
+    useEffect(() => {
+        const handleClick = () => setHoverIndex(null)
+        visible &&
+            document.addEventListener("mousedown", handleClick);
+        return () => {
+            document.removeEventListener("mousedown", handleClick);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [visible]);
+
+
     return (
-        <StyledAttackWrapper visible={visible}>
+        <StyledAttackWrapper
+            visible={visible}>
             <FrameLight >
                 <StyledContainer>
                     <StyledName>{attackInfo.name}</StyledName>
@@ -68,7 +84,7 @@ const AttackInfo = ({ attackInfo, visible, handleAttack, setHoverIndex, mobileVe
                 <StyledContainer>
                     <StyledP>{attackInfo.effects && "additional effects:"}</StyledP>
                     {attackInfo.effects && attackInfo.effects.map(effect => (
-                        <StyledRow>
+                        <StyledRow key={effect.name}>
                             <StyledImgWrapper>
                                 <StyledEffectIco src={effect.url} />
                             </StyledImgWrapper>
@@ -76,35 +92,6 @@ const AttackInfo = ({ attackInfo, visible, handleAttack, setHoverIndex, mobileVe
                         </StyledRow>
                     ))}
                 </StyledContainer>
-                {mobileVer &&
-                    <StyledContainer>
-                        <StyledRow justify={"center"}>
-                            <Button
-                                disabled={attackInfo.usesPerBattle <= 0}
-                                setHoverIndex={() => setHoverIndex(null)}
-                                onClick={() => {
-                                    handleAttack(
-                                        {
-                                            damageMin: attackInfo.damageMin,
-                                            damageMax: attackInfo.damageMax,
-                                            apCost: attackInfo.apCost,
-                                            effects: attackInfo.effects,
-                                            id: attackInfo.id
-                                        }
-                                    );
-                                    setHoverIndex(null);
-                                }}
-                            >
-                                use
-                                    </Button>
-                            <Button
-                                onClick={() => setHoverIndex(null)}
-                            >
-                                close
-                                    </Button>
-                        </StyledRow>
-                    </StyledContainer>
-                }
             </FrameLight>
         </StyledAttackWrapper>
     );

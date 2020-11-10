@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import styled from 'styled-components';
-import { size } from '../../../Layout/media';
 import FrameLight from '../../../components/FrameLight';
 import AttackInfo from '../../../components/AttackInfo';
 //actions
@@ -25,6 +24,7 @@ import { addEffects } from '../../../utils/functions/addEffects';
 import { checkEffects } from '../../../utils/functions/checkEffects';
 import { checkWinner } from '../../../utils/functions/checkWinner';
 
+import longPressEvent from '../../../utils/useLongPress';
 
 const StyledButtonAttack = styled.button`
     background-color: transparent;
@@ -61,7 +61,6 @@ const ConnectedAttacksList = ({ state, dispatch }) => {
     const { playerApSubstract, enemyHpSubstract, showInfo, hideInfo, setBattleInfoData, setUiEnabled, playerUsesPerBattleSubstract
     } = dispatch;
 
-    const [mobileVer, setMobileVer] = useState(false)
     const [hoverIndex, setHoverIndex] = useState(null);
 
 
@@ -134,10 +133,34 @@ const ConnectedAttacksList = ({ state, dispatch }) => {
 
         }
 
-        setMobileVer(window.innerWidth < size.tablet.slice(0, -2) && true)
         return () => { }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [turn])
+
+    //handling press
+    const onLongPress = (index) => {
+        setHoverIndex(index)
+    };
+
+    const onClick = (attack) => {
+        if (!battle.uiEnabled ||
+            attack.apCost > player.ap ||
+            attack.usesPerBattle <= 0 ||
+            hoverIndex !== null) {
+            return
+        } else {
+            handleAttack(
+                {
+                    damageMin: attack.damageMin,
+                    damageMax: attack.damageMax,
+                    apCost: attack.apCost,
+                    effects: attack.effects,
+                    id: attack.id
+                }
+            )
+        }
+
+    }
 
     return (
         <StyledAttacksList>
@@ -152,20 +175,10 @@ const ConnectedAttacksList = ({ state, dispatch }) => {
                             disabled={
                                 !battle.uiEnabled ||
                                 attack.apCost > player.ap ||
-                                attack.usesPerBattle <= 0
+                                attack.usesPerBattle <= 0 ||
+                                hoverIndex !== null
                             }
-                            onClick={mobileVer ?
-                                () => setHoverIndex(index) :
-                                () => handleAttack(
-                                    {
-                                        damageMin: attack.damageMin,
-                                        damageMax: attack.damageMax,
-                                        apCost: attack.apCost,
-                                        effects: attack.effects,
-                                        id: attack.id
-                                    }
-                                )
-                            }
+                            {...longPressEvent(() => onLongPress(index), () => onClick(attack))}
                         >
                             <StyledAttackImg src={attack.ico} />
                         </StyledButtonAttack>
@@ -173,9 +186,7 @@ const ConnectedAttacksList = ({ state, dispatch }) => {
                     <AttackInfo
                         visible={hoverIndex === index}
                         attackInfo={attack}
-                        handleAttack={handleAttack}
                         setHoverIndex={setHoverIndex}
-                        mobileVer={mobileVer}
                     />
                 </StyledAttack>
             ))}

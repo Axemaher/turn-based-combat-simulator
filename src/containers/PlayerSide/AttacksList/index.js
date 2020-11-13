@@ -29,8 +29,8 @@ import longPressEvent from '../../../utils/useLongPress';
 const StyledButtonAttack = styled.button`
     background-color: transparent;
     border: none;
-    width: 40px;
-    height: 40px;
+    max-width: 40px;
+    max-height: 40px;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -43,6 +43,8 @@ const StyledButtonAttack = styled.button`
 
 const StyledAttacksList = styled.ul`
     padding: 0;
+    display: flex;
+    flex-basis: auto;
 `;
 
 const StyledAttack = styled.li`
@@ -145,9 +147,7 @@ const ConnectedAttacksList = ({ state, dispatch }) => {
     const onClick = (attack) => {
         if (!battle.uiEnabled ||
             attack.apCost > player.ap ||
-            attack.usesPerBattle <= 0 ||
-            hoverIndex !== null) {
-            return
+            attack.usesPerBattle <= 0) {
         } else {
             handleAttack(
                 {
@@ -159,6 +159,7 @@ const ConnectedAttacksList = ({ state, dispatch }) => {
                 }
             )
         }
+        setHoverIndex(null)
 
     }
 
@@ -175,8 +176,7 @@ const ConnectedAttacksList = ({ state, dispatch }) => {
                             disabled={
                                 !battle.uiEnabled ||
                                 attack.apCost > player.ap ||
-                                attack.usesPerBattle <= 0 ||
-                                hoverIndex !== null
+                                attack.usesPerBattle <= 0
                             }
                             {...longPressEvent(() => onLongPress(index), () => onClick(attack))}
                         >

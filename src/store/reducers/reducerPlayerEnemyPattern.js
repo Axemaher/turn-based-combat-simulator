@@ -4,6 +4,7 @@ const findBy = (arr, by, search) => {
             return arr.findIndex(e => e.id === search);
         case "name":
             return arr.findIndex(e => e.name === search);
+        default: return
     }
 }
 

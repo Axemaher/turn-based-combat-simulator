@@ -4,20 +4,35 @@ import FrameLight from './FrameLight';
 
 const StyledAttackWrapper = styled.div`
     width: 300px;
-    height: 100px;
     top: 100%;
     left: 0;
     display:${({ visible }) => visible ? "block" : "none"};
     position: absolute;
     font-size: .6rem;
-    z-index: 500;
+    z-index: 5;
     @media ${({ theme }) => theme.device.tablet} {
         position: fixed;
-        width: 300px;
-        height: 100px;
-        top: 325px;
+        top: 40px;
+    }
+    @media ${({ theme }) => theme.device.mobileL} {
+        position: fixed;
+        top: 130px;
         left: 0; 
     }
+`;
+
+const StyledAttack = styled.div`
+    height: 200px;
+    padding: 10px;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.5fr 2fr 0.5fr;
+    gap: 10px 0px;
+    grid-template-areas:
+        "."
+        "."
+        ".";
 `;
 
 const StyledP = styled.p`
@@ -31,14 +46,27 @@ const StyledName = styled(StyledP)`
 const StyledRow = styled.div`
     display: flex;
     justify-content: flex-start;
-    justify-content: ${({ justify }) => justify === "right" ? "flex-end" : justify === "center" ? "space-around" : "flex-start"};
+    justify-content: ${({ justify }) => justify === "right" ? "flex-end" : justify === "space-around" ? "space-around" : "flex-start"};
+    align-items: center;
+`;
+
+const StyledColumn = styled.div`
+    display: block;
+`;
+
+const StyledHeader = styled.div`
+    display: grid;
+    grid-template-columns: 1.5fr 0.5fr;
+    grid-template-rows: 1fr;
+    gap: 0px 0px;
+    grid-template-areas:
+        ". .";
     align-items: center;
 `;
 
 const StyledContainer = styled.div`
-    display: block;
-    margin: 10px 0;
-    padding-left: 10px;
+    display: flex;
+    flex-flow: wrap;
 `;
 
 const StyledImgWrapper = styled.div`
@@ -69,29 +97,42 @@ const AttackInfo = ({ attackInfo, visible, setHoverIndex }) => {
     return (
         <StyledAttackWrapper
             visible={visible}>
-            <FrameLight >
-                <StyledContainer>
-                    <StyledName>{attackInfo.name}</StyledName>
-                    <StyledP>AP cost: {attackInfo.apCost}</StyledP>
-                    <StyledP>{attackInfo.usesPerBattle === Infinity ? null : `uses left: ${attackInfo.usesPerBattle}`}</StyledP>
-                </StyledContainer>
-                <StyledContainer>
-                    <StyledP>{attackInfo.description}</StyledP>
-                </StyledContainer>
-                <StyledContainer>
-                    <StyledP> damage: {attackInfo.damageMin} - {attackInfo.damageMax}</StyledP>
-                </StyledContainer>
-                <StyledContainer>
-                    <StyledP>{attackInfo.effects && "additional effects:"}</StyledP>
-                    {attackInfo.effects && attackInfo.effects.map(effect => (
-                        <StyledRow key={effect.name}>
-                            <StyledImgWrapper>
-                                <StyledEffectIco src={effect.url} />
-                            </StyledImgWrapper>
-                            <StyledP>{`${effect.chance}% chance ${effect.name} for ${effect.turns} turns`}</StyledP>
-                        </StyledRow>
-                    ))}
-                </StyledContainer>
+            <FrameLight>
+                <StyledAttack>
+                    <StyledHeader>
+                        <StyledName>{attackInfo.name}</StyledName>
+                        <StyledColumn>
+                            <StyledRow justify={"space-around"}>
+                                <StyledP>AP cost:</StyledP>
+                                <StyledP>{attackInfo.apCost}</StyledP>
+                            </StyledRow>
+                            {attackInfo.usesPerBattle !== Infinity &&
+                                <StyledRow justify={"space-around"}>
+                                    <StyledP>uses left:</StyledP>
+                                    <StyledP>{attackInfo.usesPerBattle}</StyledP>
+                                </StyledRow>
+                            }
+                        </StyledColumn>
+                    </StyledHeader>
+
+
+                    <StyledContainer>
+                        <StyledP>{attackInfo.description}</StyledP>
+                        <StyledP> damage: {attackInfo.damageMin} - {attackInfo.damageMax}</StyledP>
+                    </StyledContainer>
+
+                    <StyledContainer>
+                        <StyledP>{attackInfo.effects && "additional effects:"}</StyledP>
+                        {attackInfo.effects && attackInfo.effects.map(effect => (
+                            <StyledRow key={effect.name}>
+                                <StyledImgWrapper>
+                                    <StyledEffectIco src={effect.url} />
+                                </StyledImgWrapper>
+                                <StyledP>{`${effect.chance}% chance ${effect.name} for ${effect.turns} turns`}</StyledP>
+                            </StyledRow>
+                        ))}
+                    </StyledContainer>
+                </StyledAttack>
             </FrameLight>
         </StyledAttackWrapper>
     );

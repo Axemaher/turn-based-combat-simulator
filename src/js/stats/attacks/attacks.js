@@ -29,6 +29,7 @@ export const CYCLONE = {
     ico: cycloneIco,
     effects: [
         { name: "BLEEDING", turns: 3, chance: 50, url: bleedingIco },
+        { name: "POISON", turns: 3, chance: 50, url: poisonIco }
     ],
 }
 

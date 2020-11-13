@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import styled from 'styled-components';
-import FrameLight from '../../../components/FrameLight';
-import AttackInfo from '../../../components/AttackInfo';
+import FrameLight from '../../components/FrameLight';
+import AttackInfo from '../../components/AttackInfo';
 //actions
 import {
     playerApSubstract,
@@ -13,18 +13,18 @@ import {
     setUiEnabled,
     setBattleInfoData,
     enemyEffectAdd
-} from "../../../store/actions";
+} from "../../store/actions";
 
 //utils
-import { sleep } from '../../../utils/sleep';
-import { animationsDelay } from '../../../utils/data/animationsDelay';
-import { battleInfoHandler } from '../../../utils/functions/battleInfoHandler';
-import { damageCalculation } from '../../../utils/functions/damageCalculation';
-import { addEffects } from '../../../utils/functions/addEffects';
-import { checkEffects } from '../../../utils/functions/checkEffects';
-import { checkWinner } from '../../../utils/functions/checkWinner';
+import { sleep } from '../../utils/sleep';
+import { animationsDelay } from '../../utils/data/animationsDelay';
+import { battleInfoHandler } from '../../utils/functions/battleInfoHandler';
+import { damageCalculation } from '../../utils/functions/damageCalculation';
+import { addEffects } from '../../utils/functions/addEffects';
+import { checkEffects } from '../../utils/functions/checkEffects';
+import { checkWinner } from '../../utils/functions/checkWinner';
 
-import longPressEvent from '../../../utils/useLongPress';
+import longPressEvent from '../../utils/useLongPress';
 
 const StyledButtonAttack = styled.button`
     background-color: transparent;

@@ -65,8 +65,7 @@ const StyledHeader = styled.div`
 `;
 
 const StyledContainer = styled.div`
-    display: flex;
-    flex-flow: wrap;
+    display: block;
 `;
 
 const StyledImgWrapper = styled.div`

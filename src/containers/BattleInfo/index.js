@@ -33,7 +33,7 @@ const StyledBattleInfo = styled.div`
     height: 100%;
 `;
 
-const ConnectedBattleInfo = ({ state }) => {
+const ConnectedBattleInfo = ({ infoStarted, infoData }) => {
 
     const [message, setMessage] = useState(null);
     const [attackText, setAttackText] = useState(null);
@@ -58,15 +58,14 @@ const ConnectedBattleInfo = ({ state }) => {
     }
 
     useEffect(() => {
-        if (state.infoStarted) {
+        if (infoStarted) {
             runMessageAnimation();
             runAttackInfo();
         }
         return () => { };
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [state.infoStarted])
+    }, [infoStarted])
 
-    const { infoStarted, infoData } = state;
     return (
         <>
             {infoData !== null &&
@@ -83,26 +82,16 @@ const ConnectedBattleInfo = ({ state }) => {
 }
 
 
-function mapDispatchToProps(dispatch) {
-    return {
-        dispatch: {
-            hideInfo: state => dispatch(hideInfo(state)),
-        }
-    };
-}
-
 function mapStateToProps(state) {
     return {
-        state: {
-            infoStarted: state.battle.infoStarted,
-            infoData: state.battle.battleInfoData,
-        }
+        infoStarted: state.battle.infoStarted,
+        infoData: state.battle.battleInfoData,
     };
 };
 
 const BattleInfo = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    null,
 )(ConnectedBattleInfo);
 
 export default BattleInfo;

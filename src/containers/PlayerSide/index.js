@@ -1,14 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
-import {
-    setTurn,
-} from "../../store/actions";
 import styled from 'styled-components';
 
 import Avatar from "../../components/Avatar";
 import HpBar from "../../components/HpBar";
-import ApBar from "./ApBar";
-import AttacksList from "./AttacksList";
 import EffectsBar from "../../components/EffectsBar";
 
 const StyledSide = styled.div`
@@ -28,60 +23,37 @@ const StyledRowOneLine = styled(StyledRow)`
     align-items: flex-end;
 `;
 
-
-const ConnectedPlayerSide = ({ state, dispatch }) => {
-
-    const { player, uiEnabled } = state;
-    const { setTurn } = dispatch;
+const ConnectedPlayerSide = ({ name, effects, hp, maxHp }) => {
 
     return (
         <StyledSide>
             <StyledRowOneLine>
-                <Avatar name={player.name} />
-                <EffectsBar effects={player.effects} reverse={false} />
+                <Avatar name={name} />
+                <EffectsBar effects={effects} reverse={false} />
             </StyledRowOneLine>
             <StyledRow>
                 <HpBar
-                    hp={player.hp}
-                    maxHp={player.maxHp}
+                    hp={hp}
+                    maxHp={maxHp}
                     float='right' />
             </StyledRow>
-            <StyledRow>
-                <ApBar
-                    ap={player.ap}
-                    maxAp={player.maxAp} />
-            </StyledRow>
-            <AttacksList />
-            <button
-                disabled={!uiEnabled}
-                onClick={() => setTurn()}
-            >
-                turn
-                </button>
         </StyledSide>
     );
 }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        dispatch: {
-            setTurn: state => dispatch(setTurn(state)),
-        }
-    };
-}
-
 function mapStateToProps(state) {
     return {
-        state: {
-            player: state.player,
-            uiEnabled: state.battle.uiEnabled
-        }
+        name: state.player.name,
+        effects: state.player.effects,
+        hp: state.player.hp,
+        maxHp: state.player.maxHp,
+        uiEnabled: state.battle.uiEnabled
     };
 };
 
 const PlayerSide = connect(
     mapStateToProps,
-    mapDispatchToProps,
+    null,
 )(ConnectedPlayerSide);
 
 export default PlayerSide;

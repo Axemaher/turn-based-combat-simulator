@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import point from '../../../assets/apBar/point.png';
-import randomCircles from '../../../assets/apBar';
+import point from '../../assets/apBar/point.png';
+import randomCircles from '../../assets/apBar';
+import { connect } from "react-redux";
 
 
 const StyledApBarWrapper = styled.div`
@@ -46,7 +47,7 @@ const StyledApPoint = styled.div`
 `;
 
 
-const ApBar = ({ ap, maxAp }) => {
+const ConnectedApBar = ({ ap, maxAp }) => {
 
     return (
         <StyledApBarWrapper>
@@ -59,5 +60,17 @@ const ApBar = ({ ap, maxAp }) => {
         </StyledApBarWrapper>
     );
 }
+
+function mapStateToProps(state) {
+    return {
+        ap: state.player.ap,
+        maxAp: state.player.maxAp
+    };
+};
+
+const ApBar = connect(
+    mapStateToProps,
+    null,
+)(ConnectedApBar);
 
 export default ApBar;

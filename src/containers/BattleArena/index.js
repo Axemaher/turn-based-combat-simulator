@@ -4,17 +4,23 @@ import Layout from '../../Layout'
 import EnemySide from '../EnemySide';
 import PlayerSide from '../PlayerSide';
 import BattleInfo from '../BattleInfo';
+import ApBar from "../ApBar";
+import AttacksList from "../AttacksList";
+import TurnButton from "../TurnButton/TurnButton";
 
 const StyledBattleAreaWrapper = styled.div`
     max-width: 900px;
-    height: 100vh;
+    display: block;
+    margin: 0 auto;
+`;
+
+const StyledContainerHeader = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr;
     gap: 0px 0px;
     grid-template-areas:
     "playerSide enemySide";
-    margin: 0 auto;
     @media ${({ theme }) => theme.device.mobileL} {
         grid-template-areas:
         "enemySide"
@@ -29,9 +35,14 @@ const BattleArena = () => {
     return (
         <Layout>
             <StyledBattleAreaWrapper>
-                <BattleInfo />
-                <PlayerSide />
-                <EnemySide />
+                <StyledContainerHeader>
+                    <BattleInfo />
+                    <PlayerSide />
+                    <EnemySide />
+                </StyledContainerHeader>
+                <ApBar />
+                <AttacksList />
+                <TurnButton />
             </StyledBattleAreaWrapper>
         </Layout>
     );

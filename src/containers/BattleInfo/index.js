@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { connect } from "react-redux";
 import {
-    hideInfo
+    addLog
 } from "../../store/actions";
 import { animationsDelay } from '../../utils/data/animationsDelay';
 import { sleep } from '../../utils/sleep';
@@ -33,7 +33,7 @@ const StyledBattleInfo = styled.div`
     height: 100%;
 `;
 
-const ConnectedBattleInfo = ({ infoStarted, infoData }) => {
+const ConnectedBattleInfo = ({ infoStarted, infoData, addLog }) => {
 
     const [message, setMessage] = useState(null);
     const [attackText, setAttackText] = useState(null);
@@ -46,12 +46,14 @@ const ConnectedBattleInfo = ({ infoStarted, infoData }) => {
             console.log("wrong animation time")
         }
         await sleep(times.fromStart);
+        addLog(`Enemy: ${infoData.enemyMessage}`);
         setMessage(<EnemyText>{infoData.enemyMessage}</EnemyText>);
         await sleep(times.beforeHide);
         setMessage(null)
     }
 
     async function runAttackInfo() {
+        addLog(infoData.attackText);
         setAttackText(<AttackText>{infoData.attackText}</AttackText>)
         await sleep(animationsDelay.beforeHideInfo);
         setAttackText(null)
@@ -81,6 +83,11 @@ const ConnectedBattleInfo = ({ infoStarted, infoData }) => {
     );
 }
 
+function mapDispatchToProps(dispatch) {
+    return {
+        addLog: state => dispatch(addLog(state)),
+    };
+}
 
 function mapStateToProps(state) {
     return {
@@ -91,7 +98,7 @@ function mapStateToProps(state) {
 
 const BattleInfo = connect(
     mapStateToProps,
-    null,
+    mapDispatchToProps,
 )(ConnectedBattleInfo);
 
 export default BattleInfo;

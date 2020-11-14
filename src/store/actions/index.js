@@ -8,6 +8,7 @@ import {
     HIDE_INFO,
     SET_BATTLE_INFO_DATA,
     SET_UI_ENABLED,
+    ADD_LOG,
 
     PLAYER_RESET_STATS,
     PLAYER_HP_SUBSTRACT,
@@ -60,6 +61,10 @@ export const setBattleInfoData = (payload) => {
 
 export const setUiEnabled = (payload) => {
     return { type: SET_UI_ENABLED, payload }
+};
+
+export const addLog = (payload) => {
+    return { type: ADD_LOG, payload }
 };
 
 //player

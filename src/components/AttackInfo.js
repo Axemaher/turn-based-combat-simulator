@@ -94,47 +94,54 @@ const AttackInfo = ({ attackInfo, visible, setHoverIndex }) => {
 
 
     return (
-        <StyledAttackWrapper
-            visible={visible}>
+        <StyledAttackWrapper visible={visible}>
             <FrameLight>
                 <StyledAttack>
                     <StyledHeader>
                         <StyledName>{attackInfo.name}</StyledName>
-                        <StyledColumn>
-                            <StyledRow justify={"space-around"}>
-                                <StyledP>AP cost:</StyledP>
-                                <StyledP>{attackInfo.apCost}</StyledP>
-                            </StyledRow>
-                            {attackInfo.usesPerBattle !== Infinity &&
+                        {attackInfo.id !== "EMPTY" && (
+                            <StyledColumn>
                                 <StyledRow justify={"space-around"}>
-                                    <StyledP>uses left:</StyledP>
-                                    <StyledP>{attackInfo.usesPerBattle}</StyledP>
+                                    <StyledP>AP cost:</StyledP>
+                                    <StyledP>{attackInfo.apCost}</StyledP>
                                 </StyledRow>
-                            }
-                        </StyledColumn>
+                                {attackInfo.usesPerBattle !== Infinity && (
+                                    <StyledRow justify={"space-around"}>
+                                        <StyledP>uses left:</StyledP>
+                                        <StyledP>{attackInfo.usesPerBattle}</StyledP>
+                                    </StyledRow>
+                                )}
+                            </StyledColumn>
+                        )}
                     </StyledHeader>
+                    {attackInfo.id !== "EMPTY" && (
+                        <>
+                            <StyledContainer>
+                                <StyledP>{attackInfo.description}</StyledP>
+                                <StyledP>
+                                    {" "}
+                  damage: {attackInfo.damageMin} - {attackInfo.damageMax}
+                                </StyledP>
+                            </StyledContainer>
 
-
-                    <StyledContainer>
-                        <StyledP>{attackInfo.description}</StyledP>
-                        <StyledP> damage: {attackInfo.damageMin} - {attackInfo.damageMax}</StyledP>
-                    </StyledContainer>
-
-                    <StyledContainer>
-                        <StyledP>{attackInfo.effects && "additional effects:"}</StyledP>
-                        {attackInfo.effects && attackInfo.effects.map(effect => (
-                            <StyledRow key={effect.name}>
-                                <StyledImgWrapper>
-                                    <StyledEffectIco src={effect.url} />
-                                </StyledImgWrapper>
-                                <StyledP>{`${effect.chance}% chance ${effect.name} for ${effect.turns} turns`}</StyledP>
-                            </StyledRow>
-                        ))}
-                    </StyledContainer>
+                            <StyledContainer>
+                                <StyledP>{attackInfo.effects && "additional effects:"}</StyledP>
+                                {attackInfo.effects &&
+                                    attackInfo.effects.map((effect) => (
+                                        <StyledRow key={effect.name}>
+                                            <StyledImgWrapper>
+                                                <StyledEffectIco src={effect.url} />
+                                            </StyledImgWrapper>
+                                            <StyledP>{`${effect.chance}% chance ${effect.name} for ${effect.turns} turns`}</StyledP>
+                                        </StyledRow>
+                                    ))}
+                            </StyledContainer>
+                        </>
+                    )}
                 </StyledAttack>
             </FrameLight>
         </StyledAttackWrapper>
     );
-}
+};
 
 export default AttackInfo;

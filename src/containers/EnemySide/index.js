@@ -130,8 +130,7 @@ const ConnectedEnemySide = ({ state, dispatch }) => {
                 id: enemy.attacks[enemyAttackIndex].id
             }
 
-            //adding negative effects to player
-            const effectData = addEffects(enemyAttackData.effects, turn);
+            let effectData = [];
 
             //calculating damage
             const damageData = damageCalculation(
@@ -143,6 +142,11 @@ const ConnectedEnemySide = ({ state, dispatch }) => {
                     chanceToMiss: enemy.stats.chanceToMiss
                 }
             )
+
+            //adding negative effects to enemy
+            if (!damageData.miss) {
+                effectData = addEffects(enemyAttackData.effects, turn);
+            }
 
             const messageData = {
                 playerTurn: turn,

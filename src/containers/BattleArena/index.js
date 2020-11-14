@@ -7,6 +7,7 @@ import BattleInfo from '../BattleInfo';
 import ApBar from "../ApBar";
 import AttacksList from "../AttacksList";
 import TurnButton from "../TurnButton/TurnButton";
+import GameLog from "../GameLog/GameLog";
 
 const StyledBattleAreaWrapper = styled.div`
     max-width: 900px;
@@ -43,6 +44,7 @@ const BattleArena = () => {
                 <ApBar />
                 <AttacksList />
                 <TurnButton />
+                <GameLog />
             </StyledBattleAreaWrapper>
         </Layout>
     );

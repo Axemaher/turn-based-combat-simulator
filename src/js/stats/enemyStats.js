@@ -1,4 +1,4 @@
-import { LOOSE_NEXT_TURN, POISON, BLEEDING } from '../../utils/constans';
+import { POISON, BLEEDING } from '../../utils/constans';
 
 
 const enemyStats = {
@@ -17,36 +17,33 @@ const enemyStats = {
     effects: [],
     attacks: [
         {
-            id: 84956,
-            name: 'slash',
+            id: 'DOUBLE_STRIKE',
             damageMin: 10,
             damageMax: 20,
             apCost: 4,
             usesPerBattle: Infinity,
+        },
+        {
+            id: 'CYCLONE',
+            damageMin: 20,
+            damageMax: 30,
+            apCost: 5,
+            usesPerBattle: Infinity,
             effects: [
-                { name: BLEEDING, turns: 4, chance: 50 },
+                { name: BLEEDING, turns: 3, chance: 50 },
+                { name: POISON, turns: 3, chance: 50 }
             ],
         },
         {
-            id: 234324,
-            name: 'force slash',
+            id: 'SPEC_POISON_FOG',
             damageMin: 20,
             damageMax: 30,
-            apCost: 10,
-            usesPerBattle: Infinity,
-            effects: [{ name: POISON, turns: 2, chance: 50 },],
-
-        },
-        {
-            id: 234322,
-            name: 'blow',
-            damageMin: 20,
-            damageMax: 30,
-            apCost: 10,
+            apCost: 5,
             usesPerBattle: 1,
-            effects: [{ name: POISON, turns: 1, chance: 100 },],
-
-        }
+            effects: [
+                { name: POISON, turns: 3, chance: 50 },
+            ],
+        },
     ]
 }
 

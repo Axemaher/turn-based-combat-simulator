@@ -62,6 +62,8 @@ export const battleInfoHandler = (
     let attackText = "";
     let enemyMessage = "";
 
+    const randomMessageMissed = (arr, personName) => arr[Math.floor(Math.random() * arr.length)].replaceAll("%u", personName);
+
     const randomMessage = (arr) => {
         let message = arr[Math.floor(Math.random() * arr.length)];
         if (playerTurn) {
@@ -76,7 +78,7 @@ export const battleInfoHandler = (
 
     if (playerTurn) {
         if (missed) {
-            attackText = randomMessage(missedLog);
+            attackText = randomMessageMissed(missedLog, playerName);
             enemyMessage = randomMessage(playerMissed);
         } else if (critical) {
             attackText =
@@ -100,7 +102,7 @@ export const battleInfoHandler = (
 
     if (!playerTurn) {
         if (missed) {
-            attackText = randomMessage(missedLog);
+            attackText = randomMessageMissed(missedLog, enemyName);
             enemyMessage = randomMessage(enemyMissed);
         } else if (critical) {
             attackText = randomMessage(criticalLog) + randomMessage(criticalEnemyAttackPlayer);

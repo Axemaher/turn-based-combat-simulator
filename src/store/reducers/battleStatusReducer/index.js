@@ -5,7 +5,8 @@ import {
     SHOW_INFO,
     HIDE_INFO,
     SET_BATTLE_INFO_DATA,
-    SET_UI_ENABLED
+    SET_UI_ENABLED,
+    ADD_LOG,
 } from "../../constants/action-types";
 
 const initialState = {
@@ -13,7 +14,15 @@ const initialState = {
     winner: null,
     infoStarted: false,
     battleInfoData: null,
-    uiEnabled: true
+    uiEnabled: true,
+    log: [
+        "df",
+        "df",
+        "df",
+        "df",
+        "df",
+        "df",
+    ]
 }
 
 function battleStatusReducer(state = initialState, action) {
@@ -32,6 +41,8 @@ function battleStatusReducer(state = initialState, action) {
             return { ...state, battleInfoData: action.payload }
         case SET_UI_ENABLED:
             return { ...state, uiEnabled: action.payload }
+        case ADD_LOG:
+            return { ...state, log: [...state.log, action.payload] }
         default:
             return state
     }

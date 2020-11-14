@@ -9,6 +9,7 @@ export const SHOW_INFO = "SHOW_INFO";
 export const HIDE_INFO = "HIDE_INFO";
 export const SET_BATTLE_INFO_DATA = "SET_BATTLE_INFO_DATA";
 export const SET_UI_ENABLED = "SET_UI_ENABLED";
+export const ADD_LOG = "ADD_LOG";
 
 //player
 export const PLAYER_RESET_STATS = "PLAYER_RESET_STATS";

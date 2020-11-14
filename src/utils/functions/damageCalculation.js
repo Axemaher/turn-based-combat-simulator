@@ -6,7 +6,7 @@ export const damageCalculation = (
         damageMin,
         criticalChance,
         criticalMod,
-        chanceToHit }
+        chanceToMiss }
 ) => {
 
     const percentCheck = percent => {
@@ -15,7 +15,7 @@ export const damageCalculation = (
 
     let calculatedDamage = 0;
     let criticalCheck = percentCheck(criticalChance);
-    let missCheck = percentCheck(chanceToHit);
+    let missCheck = percentCheck(chanceToMiss);
 
 
     if (!missCheck) {

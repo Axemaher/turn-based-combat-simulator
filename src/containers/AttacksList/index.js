@@ -69,10 +69,7 @@ const ConnectedAttacksList = ({ state, dispatch }) => {
 
     async function handleAttack({ damageMin, damageMax, apCost, effects, id }) {
         setUiEnabled(false);
-
-        //adding negative effects to enemy
-        const effectData = addEffects(effects, turn);
-
+        let effectData = [];
         //calculating damage
         const damageData = damageCalculation(
             {
@@ -83,6 +80,11 @@ const ConnectedAttacksList = ({ state, dispatch }) => {
                 chanceToMiss: player.stats.chanceToMiss,
             }
         )
+
+        //adding negative effects to enemy
+        if (!damageData.miss) {
+            effectData = addEffects(effects, turn);
+        }
 
         const messageData = {
             playerTurn: turn,
@@ -147,7 +149,8 @@ const ConnectedAttacksList = ({ state, dispatch }) => {
     const onClick = (attack) => {
         if (!battle.uiEnabled ||
             attack.apCost > player.ap ||
-            attack.usesPerBattle <= 0) {
+            attack.usesPerBattle <= 0 ||
+            attack.id === "EMPTY") {
         } else {
             handleAttack(
                 {
@@ -167,7 +170,7 @@ const ConnectedAttacksList = ({ state, dispatch }) => {
         <StyledAttacksList>
             {player.attacks.map((attack, index) => (
                 <StyledAttack
-                    key={attack.id}
+                    key={attack.id + index}
                     onMouseEnter={() => setHoverIndex(index)}
                     onMouseLeave={() => setHoverIndex(null)}
                 >

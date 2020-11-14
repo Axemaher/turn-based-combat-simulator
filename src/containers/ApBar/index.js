@@ -9,9 +9,7 @@ const StyledApBarWrapper = styled.div`
     padding: 5px 0;
     width: 100%;
     display: flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-
+    flex-basis: auto;
 `;
 
 const StyledApContainer = styled.div`

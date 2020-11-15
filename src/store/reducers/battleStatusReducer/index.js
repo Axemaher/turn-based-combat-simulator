@@ -15,14 +15,7 @@ const initialState = {
     infoStarted: false,
     battleInfoData: null,
     uiEnabled: true,
-    log: [
-        "df",
-        "df",
-        "df",
-        "df",
-        "df",
-        "df",
-    ]
+    log: []
 }
 
 function battleStatusReducer(state = initialState, action) {

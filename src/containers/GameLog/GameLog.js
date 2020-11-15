@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from "react-redux";
 import styled from 'styled-components';
 import ScrollToBottom from 'react-scroll-to-bottom';
@@ -13,24 +13,36 @@ const StyledGameLogWrapper = styled.div`
 `;
 
 const StyledUl = styled(ScrollToBottom)`
-    height: 120px;
-    overflow-y: scroll;
-    padding-left: 12px;
-    list-style: none;
-    /* &::-webkit-scrollbar {
-    width: 8px;
+    .scrollView {
+        height: 120px;
+        overflow-y: scroll;
+        padding-left: 12px;
+        list-style: none;
+        &::-webkit-scrollbar {
+        width: 8px;
+        }
+        &::-webkit-scrollbar-track {
+        background: ${({ theme }) => theme.colors.scrollbarTrack};
+        border-radius: 3px;
+        }
+        &::-webkit-scrollbar-thumb {
+        background: ${({ theme }) => theme.colors.scrollbarThumb};
+        border-radius: 3px;
+        }
+        &::-webkit-scrollbar-thumb:hover {
+        background: ${({ theme }) => theme.colors.scrollbarHover};
+        }
     }
-    &::-webkit-scrollbar-track {
-    background: ${({ theme }) => theme.colors.scrollbarTrack};
-    border-radius: 3px;
+    .followButton{
+        background-color: ${({ theme }) => theme.colors.scrollbarThumb};
+        width: auto;
+        padding: 0 7px;
+        color: ${({ theme }) => theme.colors.font};
+        font-size: .9em;
+        &:before{
+            content: "go bottom"
+        }
     }
-    &::-webkit-scrollbar-thumb {
-    background: ${({ theme }) => theme.colors.scrollbarThumb};
-    border-radius: 3px;
-    }
-    &::-webkit-scrollbar-thumb:hover {
-    background: ${({ theme }) => theme.colors.scrollbarHover};
-    } */
 `;
 
 const StyledLi = styled.li`
@@ -49,27 +61,23 @@ const StyledLi = styled.li`
     }
 `;
 
-const StyledRefLi = styled.li``;
-
 const ConnectedGameLog = ({ log }) => {
 
     useEffect(() => {
-        // I was not using an li but may work to keep your div scrolled to the bottom as li's are getting pushed to the div
-        const lastLi = document.getElementById('lastId');
-        lastLi.scrollTop = lastLi.scrollHeight;
         return () => { }
     }, [log])
 
     return (
         <StyledGameLogWrapper>
             <FrameLight>
-                <StyledUl>
+                <StyledUl
+                    scrollViewClassName="scrollView"
+                    followButtonClassName="followButton">
                     {log.map((e, i) =>
                         <StyledLi key={i}>
                             {e}
                         </StyledLi>
                     )}
-                    <StyledRefLi id="lastId" ></StyledRefLi>
                 </StyledUl>
             </FrameLight>
         </StyledGameLogWrapper>

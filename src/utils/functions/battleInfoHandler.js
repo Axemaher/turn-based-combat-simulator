@@ -24,7 +24,7 @@ export const checkEffects = effects => {
         effects.forEach((effect, i) => {
             switch (effect.name) {
                 case LOOSE_NEXT_TURN:
-                    effectMessage = effectMessage + `${i > 0 ? "," : ""} loses next turns`; break
+                    effectMessage = effectMessage + `${i > 0 ? "," : ""} loses next turn`; break
                 case POISON:
                     effectMessage = effectMessage + `${i > 0 ? "," : ""} was poisoned for ${effect.turns} turns`; break;
                 case BLEEDING:

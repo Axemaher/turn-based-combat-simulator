@@ -55,6 +55,7 @@ const StyledAttack = styled.li`
 
 const StyledAttackImg = styled.img`
     width: 100%;
+    pointer-events: none;
 `;
 
 const ConnectedAttacksList = ({ state, dispatch }) => {
@@ -135,6 +136,13 @@ const ConnectedAttacksList = ({ state, dispatch }) => {
             // checking winner after substract hp from negative effects
             checkWinner()
 
+        }
+
+        // disable long press context menu 
+        window.oncontextmenu = function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            return false
         }
 
         return () => { }

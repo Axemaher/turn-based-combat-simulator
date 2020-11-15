@@ -5,12 +5,14 @@ import {
     battleEnd,
     setWinner,
     setUiEnabled,
+    addLog,
 } from "../../store/actions";
 
 const actions = {
     battleEnd: state => store.dispatch(battleEnd(state)),
     setWinner: state => store.dispatch(setWinner(state)),
     setUiEnabled: state => store.dispatch(setUiEnabled(state)),
+    addLog: state => store.dispatch(addLog(state)),
 }
 
 export function checkWinner() {
@@ -27,11 +29,10 @@ export function checkWinner() {
         } else if (enemy.hp <= 0) {
             winnerName = player.name;
         }
-
         battleEnded = true;
+        actions.addLog(`${winnerName} win!`);
         actions.setWinner(winnerName);
         actions.setUiEnabled(false);
-        alert(`${winnerName} win!`)
     }
     return { battleEnded }
 }

@@ -25,14 +25,25 @@ const reducerPlayerEnemyPattern = (name, stateInitial) => {
             case `${name}_AP_RESET`:
                 return { ...state, ap: state.maxAp }
             case `${name}_EFFECT_ADD`:
-                const effectIsNotInArr = findBy(state.effects, "name", action.payload.name)
-                if (effectIsNotInArr === -1) {
+                const checkIndex = findBy(state.effects, "name", action.payload.name)
+                if (checkIndex === -1) {
                     return {
                         ...state,
                         effects: [...state.effects, action.payload]
                     }
                 } else {
-                    return state
+                    return {
+                        ...state,
+                        effects: state.effects.map((effect, index) => {
+                            if (index === checkIndex) {
+                                return {
+                                    ...effect,
+                                    turns: action.payload.turns
+                                }
+                            }
+                            return effect
+                        })
+                    }
                 }
             case `${name}_EFFECT_TURN_SUBSTRACT`:
                 const effectIndex = findBy(state.effects, "name", action.payload)

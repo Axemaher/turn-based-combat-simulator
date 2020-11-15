@@ -1,7 +1,7 @@
-import { BLEEDING, POISON } from '../../utils/constans';
-import slashIco from '../../assets/attacks/DOUBLE_STRIKE.png'
-import cycloneIco from '../../assets/attacks/CYCLONE.png'
-import specPoisonFogIco from '../../assets/attacks/SPEC_POISON_FOG.png'
+import doubleStrikeIco from '../../assets/attacks/DOUBLE_STRIKE.png';
+import cycloneIco from '../../assets/attacks/CYCLONE.png';
+import looseNextTurnIco from '../../assets/effectsBar/LOOSE_NEXT_TURN.png';
+import specPoisonFogIco from '../../assets/attacks/SPEC_POISON_FOG.png';
 import poisonIco from '../../assets/effectsBar/POISON.png';
 import bleedingIco from '../../assets/effectsBar/BLEEDING.png';
 import emptyIco from '../../assets/attacks/EMPTY.png';
@@ -16,7 +16,7 @@ const playerStats = {
     stats: {
         criticalMod: 1.5,
         criticalChance: 30,
-        chanceToMiss: 70,
+        chanceToMiss: 30,
         poisonDamage: 4,
     },
     effects: [],
@@ -29,7 +29,7 @@ const playerStats = {
             damageMax: 20,
             apCost: 4,
             usesPerBattle: Infinity,
-            ico: slashIco,
+            ico: doubleStrikeIco,
         },
         {
             id: 'CYCLONE',
@@ -41,8 +41,8 @@ const playerStats = {
             usesPerBattle: Infinity,
             ico: cycloneIco,
             effects: [
-                { name: BLEEDING, turns: 3, chance: 100, url: bleedingIco },
-                { name: POISON, turns: 3, chance: 100, url: poisonIco }
+                { name: "BLEEDING", label: "bleeding", turns: 3, chance: 50, url: bleedingIco },
+                { name: "POISON", label: "poison", turns: 3, chance: 50, url: poisonIco }
             ],
         },
         {
@@ -55,7 +55,8 @@ const playerStats = {
             usesPerBattle: 1,
             ico: specPoisonFogIco,
             effects: [
-                { name: POISON, turns: 3, chance: 100, url: poisonIco },
+                { name: "POISON", label: "poison", turns: 3, chance: 100, url: poisonIco },
+                { name: "LOOSE_NEXT_TURN", label: "lose next turn", turns: 1, chance: 30, url: looseNextTurnIco },
             ],
         },
         {

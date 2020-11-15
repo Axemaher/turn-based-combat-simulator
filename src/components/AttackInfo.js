@@ -132,7 +132,10 @@ const AttackInfo = ({ attackInfo, visible, setHoverIndex }) => {
                                             <StyledImgWrapper>
                                                 <StyledEffectIco src={effect.url} />
                                             </StyledImgWrapper>
-                                            <StyledP>{`${effect.chance}% chance ${effect.name} for ${effect.turns} turns`}</StyledP>
+                                            {effect.name === "LOOSE_NEXT_TURN" ?
+                                                <StyledP>{`${effect.chance}% chance for ${effect.label}`}</StyledP> :
+                                                <StyledP>{`${effect.chance}% chance for ${effect.label} - ${effect.turns} turns`}</StyledP>
+                                            }
                                         </StyledRow>
                                     ))}
                             </StyledContainer>

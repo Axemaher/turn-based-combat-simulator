@@ -3,6 +3,7 @@ import store from '../../store/store'
 //actions
 import {
     setTurn,
+    addLog,
     playerHpSubstract,
     playerApReset,
     playerEffectSubstract,
@@ -23,6 +24,7 @@ import {
 
 const actions = {
     setTurn: state => store.dispatch(setTurn(state)),
+    addLog: state => store.dispatch(addLog(state)),
     playerHpSubstract: state => store.dispatch(playerHpSubstract(state)),
     playerApReset: state => store.dispatch(playerApReset(state)),
     playerEffectTurnSubstract: state => store.dispatch(playerEffectTurnSubstract(state)),
@@ -38,6 +40,7 @@ export const checkEffects = (personData, playerTurn) => {
 
     const {
         setTurn,
+        addLog,
         playerHpSubstract,
         playerApReset,
         playerEffectSubstract,
@@ -53,39 +56,42 @@ export const checkEffects = (personData, playerTurn) => {
             personData.effects.forEach(effect => {
                 if (effect.turns === 1) {
                     if (playerTurn) {
-                        playerEffectSubstract(effect.name)
+                        playerEffectSubstract(effect.name);
                     } else if (!playerTurn) {
-                        enemyEffectSubstract(effect.name)
+                        enemyEffectSubstract(effect.name);
                     }
                 }
                 switch (effect.name) {
                     case LOOSE_NEXT_TURN:
+                        addLog(`${personData.name} loses this turn.`);
                         if (playerTurn) {
-                            playerEffectSubstract(LOOSE_NEXT_TURN)
-                            setTurn()
+                            playerEffectSubstract(LOOSE_NEXT_TURN);
+                            setTurn();
                         } else if (!playerTurn) {
-                            enemyEffectSubstract(LOOSE_NEXT_TURN)
-                            setTurn()
+                            enemyEffectSubstract(LOOSE_NEXT_TURN);
+                            setTurn();
                         }
-                        playerApReset()
-                        enemyApReset()
+                        playerApReset();
+                        enemyApReset();
                         break;
                     case POISON:
+                        addLog(`${personData.name} loses ${personData.stats.poisonDamage} helth points by poison.`);
                         if (playerTurn) {
-                            playerEffectTurnSubstract(POISON)
-                            playerHpSubstract(personData.stats.poisonDamage)
+                            playerEffectTurnSubstract(POISON);
+                            playerHpSubstract(personData.stats.poisonDamage);
                         } else if (!playerTurn) {
-                            enemyEffectTurnSubstract(POISON)
-                            enemyHpSubstract(personData.stats.poisonDamage)
+                            enemyEffectTurnSubstract(POISON);
+                            enemyHpSubstract(personData.stats.poisonDamage);
                         }
                         break;
                     case BLEEDING:
+                        addLog(`${personData.name} loses ${personData.stats.poisonDamage} helth points by bleeding.`);
                         if (playerTurn) {
-                            playerEffectTurnSubstract(BLEEDING)
-                            playerHpSubstract(personData.stats.poisonDamage)
+                            playerEffectTurnSubstract(BLEEDING);
+                            playerHpSubstract(personData.stats.poisonDamage);
                         } else if (!playerTurn) {
-                            enemyEffectTurnSubstract(BLEEDING)
-                            enemyHpSubstract(personData.stats.poisonDamage)
+                            enemyEffectTurnSubstract(BLEEDING);
+                            enemyHpSubstract(personData.stats.poisonDamage);
                         }
                         break;
                     default:

@@ -6,12 +6,12 @@ import LOOSE_NEXT_TURN from "./LOOSE_NEXT_TURN.png";
 import POISON from "./POISON.png";
 
 const effectsImages = [
-    { name: "BLEEDING", url: BLEEDING },
-    { name: "BURN", url: BURN },
-    { name: "FREEZE", url: FREEZE },
-    { name: "HEALING", url: HEALING },
-    { name: "LOOSE_NEXT_TURN", url: LOOSE_NEXT_TURN },
-    { name: "POISON", url: POISON },
+    { id: "BLEEDING", url: BLEEDING },
+    { id: "BURN", url: BURN },
+    { id: "FREEZE", url: FREEZE },
+    { id: "HEALING", url: HEALING },
+    { id: "LOOSE_NEXT_TURN", url: LOOSE_NEXT_TURN },
+    { id: "POISON", url: POISON },
 ]
 
 

@@ -56,12 +56,12 @@ export const checkEffects = (personData, playerTurn) => {
             personData.effects.forEach(effect => {
                 if (effect.turns === 1) {
                     if (playerTurn) {
-                        playerEffectSubstract(effect.name);
+                        playerEffectSubstract(effect.id);
                     } else if (!playerTurn) {
-                        enemyEffectSubstract(effect.name);
+                        enemyEffectSubstract(effect.id);
                     }
                 }
-                switch (effect.name) {
+                switch (effect.id) {
                     case LOOSE_NEXT_TURN:
                         addLog(`${personData.name} loses this turn.`);
                         if (playerTurn) {

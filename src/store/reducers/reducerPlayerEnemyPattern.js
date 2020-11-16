@@ -46,7 +46,7 @@ const reducerPlayerEnemyPattern = (name, stateInitial) => {
                     }
                 }
             case `${name}_EFFECT_TURN_SUBSTRACT`:
-                const effectIndex = findBy(state.effects, "name", action.payload)
+                const effectIndex = findBy(state.effects, "id", action.payload)
                 return {
                     ...state,
                     effects: state.effects.map((effect, index) => {
@@ -60,7 +60,7 @@ const reducerPlayerEnemyPattern = (name, stateInitial) => {
                     })
                 }
             case `${name}_EFFECT_SUBSTRACT`:
-                return { ...state, effects: state.effects.filter(effect => effect.name !== action.payload) }
+                return { ...state, effects: state.effects.filter(effect => effect.id !== action.payload) }
             case `${name}_USESPERBATTLE_SUBSTRACT`:
                 const attackIndex = findBy(state.attacks, "id", action.payload)
                 return {

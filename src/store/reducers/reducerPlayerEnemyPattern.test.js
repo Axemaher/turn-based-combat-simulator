@@ -29,10 +29,10 @@ describe('player reducer', () => {
         const initialState = { effects: [] }
         const action = {
             type: types.PLAYER_EFFECT_ADD,
-            payload: { name: effects.LOOSE_NEXT_TURN, turns: 1 }
+            payload: { id: effects.LOOSE_NEXT_TURN, turns: 1 }
         };
-        const expectedState1 = { effects: [{ name: effects.LOOSE_NEXT_TURN, turns: 1 }] }
-        const expectedState2 = { effects: [{ name: effects.LOOSE_NEXT_TURN, turns: 1 }] }
+        const expectedState1 = { effects: [{ id: effects.LOOSE_NEXT_TURN, turns: 1 }] }
+        const expectedState2 = { effects: [{ id: effects.LOOSE_NEXT_TURN, turns: 1 }] }
 
         const state1 = reducer(initialState, action);
         expect(state1).toEqual(expectedState1);
@@ -43,8 +43,8 @@ describe('player reducer', () => {
     it('player effect turn substract', () => {
         const initial = {
             effects: [
-                { name: effects.LOOSE_NEXT_TURN, turns: 1 },
-                { name: effects.POISON, turns: 4 }
+                { id: effects.LOOSE_NEXT_TURN, turns: 1 },
+                { id: effects.POISON, turns: 4 }
             ]
         }
         const action = {
@@ -53,8 +53,8 @@ describe('player reducer', () => {
         };
         const expected = {
             effects: [
-                { name: effects.LOOSE_NEXT_TURN, turns: 1 },
-                { name: effects.POISON, turns: 3 }
+                { id: effects.LOOSE_NEXT_TURN, turns: 1 },
+                { id: effects.POISON, turns: 3 }
             ]
         }
 
@@ -64,8 +64,8 @@ describe('player reducer', () => {
     it('player effect substract', () => {
         const initial = {
             effects: [
-                { name: effects.LOOSE_NEXT_TURN, turns: 1 },
-                { name: effects.POISON, turns: 4 }
+                { id: effects.LOOSE_NEXT_TURN, turns: 1 },
+                { id: effects.POISON, turns: 4 }
             ]
         }
         const action = {
@@ -74,7 +74,7 @@ describe('player reducer', () => {
         };
         const expected = {
             effects: [
-                { name: effects.POISON, turns: 4 }
+                { id: effects.POISON, turns: 4 }
             ]
         }
 
@@ -87,19 +87,19 @@ describe('player reducer', () => {
                     id: 84956,
                     usesPerBattle: Infinity,
                     effects: [
-                        { name: effects.BLEEDING, turns: 4, chance: 0 },
+                        { id: effects.BLEEDING, turns: 4, chance: 0 },
                     ],
                 },
                 {
                     id: 234324,
                     usesPerBattle: Infinity,
-                    effects: [{ name: effects.POISON, turns: 2, chance: 50 },],
+                    effects: [{ id: effects.POISON, turns: 2, chance: 50 },],
 
                 },
                 {
                     id: 234322,
                     usesPerBattle: 1,
-                    effects: [{ name: effects.POISON, turns: 2, chance: 100 },],
+                    effects: [{ id: effects.POISON, turns: 2, chance: 100 },],
 
                 }
             ]
@@ -114,19 +114,19 @@ describe('player reducer', () => {
                     id: 84956,
                     usesPerBattle: Infinity,
                     effects: [
-                        { name: effects.BLEEDING, turns: 4, chance: 0 },
+                        { id: effects.BLEEDING, turns: 4, chance: 0 },
                     ],
                 },
                 {
                     id: 234324,
                     usesPerBattle: Infinity,
-                    effects: [{ name: effects.POISON, turns: 2, chance: 50 },],
+                    effects: [{ id: effects.POISON, turns: 2, chance: 50 },],
 
                 },
                 {
                     id: 234322,
                     usesPerBattle: 0,
-                    effects: [{ name: effects.POISON, turns: 2, chance: 100 },],
+                    effects: [{ id: effects.POISON, turns: 2, chance: 100 },],
 
                 }
             ]
@@ -141,19 +141,19 @@ describe('player reducer', () => {
                     id: 84956,
                     usesPerBattle: Infinity,
                     effects: [
-                        { name: effects.BLEEDING, turns: 4, chance: 0 },
+                        { id: effects.BLEEDING, turns: 4, chance: 0 },
                     ],
                 },
                 {
                     id: 234324,
                     usesPerBattle: Infinity,
-                    effects: [{ name: effects.POISON, turns: 2, chance: 50 },],
+                    effects: [{ id: effects.POISON, turns: 2, chance: 50 },],
 
                 },
                 {
                     id: 234322,
                     usesPerBattle: 1,
-                    effects: [{ name: effects.POISON, turns: 2, chance: 100 },],
+                    effects: [{ id: effects.POISON, turns: 2, chance: 100 },],
 
                 }
             ]
@@ -168,19 +168,19 @@ describe('player reducer', () => {
                     id: 84956,
                     usesPerBattle: Infinity,
                     effects: [
-                        { name: effects.BLEEDING, turns: 4, chance: 0 },
+                        { id: effects.BLEEDING, turns: 4, chance: 0 },
                     ],
                 },
                 {
                     id: 234324,
                     usesPerBattle: Infinity,
-                    effects: [{ name: effects.POISON, turns: 2, chance: 50 },],
+                    effects: [{ id: effects.POISON, turns: 2, chance: 50 },],
 
                 },
                 {
                     id: 234322,
                     usesPerBattle: 1,
-                    effects: [{ name: effects.POISON, turns: 2, chance: 100 },],
+                    effects: [{ id: effects.POISON, turns: 2, chance: 100 },],
 
                 }
             ]

@@ -22,13 +22,13 @@ export const checkEffects = effects => {
     if (effects !== undefined && effects.length > 0) {
         let effectMessage = ". \n Additionaly, he";
         effects.forEach((effect, i) => {
-            switch (effect.name) {
+            switch (effect.id) {
                 case LOOSE_NEXT_TURN:
                     effectMessage = effectMessage + `${i > 0 ? "," : ""} loses next turn`; break
                 case POISON:
-                    effectMessage = effectMessage + `${i > 0 ? "," : ""} was poisoned for ${effect.turns} turns`; break;
+                    effectMessage = effectMessage + `${i > 0 ? "," : ""} was poisoned for ${effect.turns} ${effect.turns === 1 ? "turn" : "turns"}`; break;
                 case BLEEDING:
-                    effectMessage = effectMessage + `${i > 0 ? "," : ""} bleeding for ${effect.turns} turns`; break;
+                    effectMessage = effectMessage + `${i > 0 ? "," : ""} bleeding for ${effect.turns} ${effect.turns === 1 ? "turn" : "turns"}`; break;
                 default: return
             }
             if (i === effects.length - 1) {

@@ -13,8 +13,8 @@ const CYCLONE = {
     apCost: 5,
     usesPerBattle: Infinity,
     effects: [
-        { name: "BLEEDING", label: "bleeding", turns: 3, chance: 50 },
-        { name: "POISON", label: "poison", turns: 3, chance: 50 }
+        { id: "BLEEDING", label: "bleeding", turns: 3, chance: 50 },
+        { id: "POISON", label: "poison", turns: 3, chance: 50 }
     ],
 };
 
@@ -25,7 +25,7 @@ const SPEC_POISON_FOG = {
     apCost: 5,
     usesPerBattle: 1,
     effects: [
-        { name: "POISON", label: "poison", turns: 3, chance: 50 },
+        { id: "POISON", label: "poison", turns: 3, chance: 50 },
     ],
 };
 

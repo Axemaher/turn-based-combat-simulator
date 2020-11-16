@@ -93,7 +93,7 @@ const ConnectedEnemySide = ({ state, dispatch }) => {
                     // enemy not attacking if have effect LOOSE_NEXT_TURN
                     let looseThisTurn = null;
                     enemy.effects.forEach(effect => {
-                        if (effect.name === LOOSE_NEXT_TURN) {
+                        if (effect.id === LOOSE_NEXT_TURN) {
                             looseThisTurn = true;
                             setUiEnabled(true);
                         }

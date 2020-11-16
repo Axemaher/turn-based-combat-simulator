@@ -18,7 +18,7 @@ export const addEffects = (effectsArr, playerTurn) => {
             if (Math.random() * 100 < effect.chance) {
 
                 const data = {
-                    name: effect.name,
+                    id: effect.id,
                     turns: effect.turns
                 }
 
@@ -28,7 +28,7 @@ export const addEffects = (effectsArr, playerTurn) => {
                     props.playerEffectAdd(data)
                 }
                 effectData = [...effectData, {
-                    name: effect.name,
+                    id: effect.id,
                     turns: effect.turns
                 }]
             }

@@ -191,7 +191,7 @@ const ConnectedAttacksList = ({ state, dispatch }) => {
                             }
                             {...longPressEvent(() => onLongPress(index), () => onClick(attack))}
                         >
-                            <StyledAttackImg src={attack.ico} />
+                            <StyledAttackImg src={require(`../../assets/attacks/${attack.id}.png`)} />
                         </StyledButtonAttack>
                     </FrameLight>
                     <AttackInfo

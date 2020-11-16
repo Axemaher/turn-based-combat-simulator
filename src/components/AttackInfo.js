@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import FrameLight from './FrameLight';
-
 const StyledAttackWrapper = styled.div`
     width: 300px;
     top: 100%;
@@ -128,13 +127,13 @@ const AttackInfo = ({ attackInfo, visible, setHoverIndex }) => {
                                 <StyledP>{attackInfo.effects && "additional effects:"}</StyledP>
                                 {attackInfo.effects &&
                                     attackInfo.effects.map((effect) => (
-                                        <StyledRow key={effect.name}>
+                                        <StyledRow key={effect.id}>
                                             <StyledImgWrapper>
-                                                <StyledEffectIco src={effect.url} />
+                                                <StyledEffectIco src={require(`../assets/effectsBar/${effect.id}.png`)} />
                                             </StyledImgWrapper>
-                                            {effect.name === "LOOSE_NEXT_TURN" ?
+                                            {effect.id === "LOOSE_NEXT_TURN" ?
                                                 <StyledP>{`${effect.chance}% chance for ${effect.label}`}</StyledP> :
-                                                <StyledP>{`${effect.chance}% chance for ${effect.label} - ${effect.turns} turns`}</StyledP>
+                                                <StyledP>{`${effect.chance}% chance for ${effect.label} - ${effect.turns} ${effect.turns === 1 ? "turn" : "turns"}`}</StyledP>
                                             }
                                         </StyledRow>
                                     ))}

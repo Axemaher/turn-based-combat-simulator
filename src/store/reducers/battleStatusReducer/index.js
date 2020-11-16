@@ -35,7 +35,13 @@ function battleStatusReducer(state = initialState, action) {
         case SET_UI_ENABLED:
             return { ...state, uiEnabled: action.payload }
         case ADD_LOG:
-            return { ...state, log: [...state.log, action.payload] }
+            let lastIndex = state.log.length - 1;
+            if (action.payload === state.log[lastIndex] &&
+                state.log[lastIndex].search("win!") !== -1) {
+                return state
+            } else {
+                return { ...state, log: [...state.log, action.payload] }
+            }
         default:
             return state
     }

@@ -19,4 +19,32 @@ describe('battle status reducer', () => {
         };
         expect(reducer({}, action)).toEqual(expectedState)
     })
+
+    it('add log', () => {
+        const initial = {
+            log: []
+        }
+        const action = {
+            type: types.ADD_LOG,
+            payload: "log"
+        };
+        const expected = {
+            log: ["log"]
+        }
+        expect(reducer(initial, action)).toEqual(expected)
+    })
+
+    it('add log for duplicated winner info', () => {
+        const initial = {
+            log: ["log", "Dendralius win!"]
+        }
+        const action = {
+            type: types.ADD_LOG,
+            payload: "Dendralius win!"
+        };
+        const expected = {
+            log: ["log", "Dendralius win!"]
+        }
+        expect(reducer(initial, action)).toEqual(expected)
+    })
 })

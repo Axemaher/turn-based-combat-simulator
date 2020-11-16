@@ -30,8 +30,8 @@ const EffectsBar = ({ effects, reverse, active }) => {
     return (
         <StyledEffectsBar reverse={reverse}>
             {effectsImages.map(image => (
-                <StyledEffect key={image.name}>
-                    <StyledEffectImage src={image.url} active={effects.find(effect => effect.name === image.name)} />
+                <StyledEffect key={image.id}>
+                    <StyledEffectImage src={image.url} active={effects.find(effect => effect.id === image.id)} />
                 </StyledEffect>
             ))}
         </StyledEffectsBar>

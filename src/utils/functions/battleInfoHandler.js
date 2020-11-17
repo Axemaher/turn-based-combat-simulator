@@ -15,7 +15,8 @@ import {
 import {
     LOOSE_NEXT_TURN,
     POISON,
-    BLEEDING
+    BLEEDING,
+    HEALING,
 } from '../constans';
 
 export const checkEffects = effects => {
@@ -29,6 +30,8 @@ export const checkEffects = effects => {
                     effectMessage = effectMessage + `${i > 0 ? "," : ""} was poisoned for ${effect.turns} ${effect.turns === 1 ? "turn" : "turns"}`; break;
                 case BLEEDING:
                     effectMessage = effectMessage + `${i > 0 ? "," : ""} bleeding for ${effect.turns} ${effect.turns === 1 ? "turn" : "turns"}`; break;
+                case HEALING:
+                    effectMessage = effectMessage + `${i > 0 ? "," : ""} notices that his enemy uses healing`; break;
                 default: return
             }
             if (i === effects.length - 1) {

@@ -19,17 +19,29 @@ export const addEffects = (effectsArr, playerTurn) => {
 
                 const data = {
                     id: effect.id,
-                    turns: effect.turns
+                    turns: effect.turns,
+                    value: effect.value,
+                    use: effect.use,
                 }
 
                 if (playerTurn) {
-                    props.enemyEffectAdd(data)
+                    if (effect.use === "self") {
+                        props.playerEffectAdd(data);
+                    } else {
+                        props.enemyEffectAdd(data);
+                    }
                 } else if (!playerTurn) {
-                    props.playerEffectAdd(data)
+                    if (effect.use === "self") {
+                        props.enemyEffectAdd(data);
+                    } else {
+                        props.playerEffectAdd(data);
+                    }
                 }
                 effectData = [...effectData, {
                     id: effect.id,
-                    turns: effect.turns
+                    turns: effect.turns,
+                    value: effect.value,
+                    use: effect.use,
                 }]
             }
         });

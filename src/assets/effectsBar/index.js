@@ -9,9 +9,10 @@ const effectsImages = [
     { id: "BLEEDING", url: BLEEDING },
     { id: "BURN", url: BURN },
     { id: "FREEZE", url: FREEZE },
-    { id: "HEALING", url: HEALING },
     { id: "LOOSE_NEXT_TURN", url: LOOSE_NEXT_TURN },
     { id: "POISON", url: POISON },
+    { id: "HEALING", url: HEALING },
+
 ]
 
 

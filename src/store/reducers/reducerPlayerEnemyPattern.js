@@ -2,8 +2,6 @@ const findBy = (arr, by, search) => {
     switch (by) {
         case "id":
             return arr.findIndex(e => e.id === search);
-        case "name":
-            return arr.findIndex(e => e.name === search);
         default: return
     }
 }
@@ -14,18 +12,20 @@ const reducerPlayerEnemyPattern = (name, stateInitial) => {
             case `${name}_RESET_STATS`:
                 return state;
             case `${name}_HP_SUBSTRACT`:
-                const hp = state.hp - action.payload;
-                if (hp <= 0) {
+                const hpMin = state.hp - action.payload;
+                if (hpMin <= 0) {
                     return { ...state, hp: 0 }
                 } else {
                     return { ...state, hp: state.hp - action.payload }
                 }
+            case `${name}_HP_ADD`:
+                return { ...state, hp: state.hp + action.payload > state.maxHp ? state.maxHp : state.hp + action.payload }
             case `${name}_AP_SUBSTRACT`:
                 return { ...state, ap: state.ap - action.payload }
             case `${name}_AP_RESET`:
                 return { ...state, ap: state.maxAp }
             case `${name}_EFFECT_ADD`:
-                const checkIndex = findBy(state.effects, "name", action.payload.name)
+                const checkIndex = findBy(state.effects, "id", action.payload.id)
                 if (checkIndex === -1) {
                     return {
                         ...state,

@@ -12,6 +12,7 @@ import {
 
     PLAYER_RESET_STATS,
     PLAYER_HP_SUBSTRACT,
+    PLAYER_HP_ADD,
     PLAYER_AP_SUBSTRACT,
     PLAYER_AP_RESET,
     PLAYER_EFFECT_ADD,
@@ -20,6 +21,7 @@ import {
     PLAYER_USESPERBATTLE_SUBSTRACT,
 
     ENEMY_HP_SUBSTRACT,
+    ENEMY_HP_ADD,
     ENEMY_AP_SUBSTRACT,
     ENEMY_AP_RESET,
     ENEMY_EFFECT_ADD,
@@ -76,6 +78,10 @@ export const playerHpSubstract = (payload) => {
     return { type: PLAYER_HP_SUBSTRACT, payload }
 };
 
+export const playerHpAdd = (payload) => {
+    return { type: PLAYER_HP_ADD, payload }
+};
+
 export const playerApSubstract = (payload) => {
     return { type: PLAYER_AP_SUBSTRACT, payload }
 };
@@ -100,6 +106,11 @@ export const playerUsesPerBattleSubstract = (payload) => {
 export const enemyHpSubstract = (payload) => {
     return { type: ENEMY_HP_SUBSTRACT, payload }
 }
+
+export const enemyHpAdd = (payload) => {
+    return { type: ENEMY_HP_ADD, payload }
+};
+
 export const enemyApSubstract = (payload) => {
     return { type: ENEMY_AP_SUBSTRACT, payload }
 };

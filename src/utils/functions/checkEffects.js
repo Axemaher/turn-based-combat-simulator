@@ -5,10 +5,12 @@ import {
     setTurn,
     addLog,
     playerHpSubstract,
+    playerHpAdd,
     playerApReset,
     playerEffectSubstract,
     playerEffectTurnSubstract,
     enemyHpSubstract,
+    enemyHpAdd,
     enemyApReset,
     enemyEffectSubstract,
     enemyEffectTurnSubstract,
@@ -18,7 +20,8 @@ import {
 import {
     LOOSE_NEXT_TURN,
     POISON,
-    BLEEDING
+    BLEEDING,
+    HEALING,
 } from '../constans';
 
 
@@ -26,10 +29,12 @@ const actions = {
     setTurn: state => store.dispatch(setTurn(state)),
     addLog: state => store.dispatch(addLog(state)),
     playerHpSubstract: state => store.dispatch(playerHpSubstract(state)),
+    playerHpAdd: state => store.dispatch(playerHpAdd(state)),
     playerApReset: state => store.dispatch(playerApReset(state)),
     playerEffectTurnSubstract: state => store.dispatch(playerEffectTurnSubstract(state)),
     playerEffectSubstract: state => store.dispatch(playerEffectSubstract(state)),
     enemyHpSubstract: state => store.dispatch(enemyHpSubstract(state)),
+    enemyHpAdd: state => store.dispatch(enemyHpAdd(state)),
     enemyApReset: state => store.dispatch(enemyApReset(state)),
     enemyEffectSubstract: state => store.dispatch(enemyEffectSubstract(state)),
     enemyEffectTurnSubstract: state => store.dispatch(enemyEffectTurnSubstract(state)),
@@ -42,10 +47,12 @@ export const checkEffects = (personData, playerTurn) => {
         setTurn,
         addLog,
         playerHpSubstract,
+        playerHpAdd,
         playerApReset,
         playerEffectSubstract,
         playerEffectTurnSubstract,
         enemyHpSubstract,
+        enemyHpAdd,
         enemyApReset,
         enemyEffectSubstract,
         enemyEffectTurnSubstract
@@ -75,23 +82,33 @@ export const checkEffects = (personData, playerTurn) => {
                         enemyApReset();
                         break;
                     case POISON:
-                        addLog(`${personData.name} loses ${personData.stats.poisonDamage} helth points by poison.`);
+                        addLog(`${personData.name} loses ${effect.value} health points by poison.`);
                         if (playerTurn) {
                             playerEffectTurnSubstract(POISON);
-                            playerHpSubstract(personData.stats.poisonDamage);
+                            playerHpSubstract(effect.value);
                         } else if (!playerTurn) {
                             enemyEffectTurnSubstract(POISON);
-                            enemyHpSubstract(personData.stats.poisonDamage);
+                            enemyHpSubstract(effect.value);
                         }
                         break;
                     case BLEEDING:
-                        addLog(`${personData.name} loses ${personData.stats.poisonDamage} helth points by bleeding.`);
+                        addLog(`${personData.name} loses ${effect.value} health points by bleeding.`);
                         if (playerTurn) {
                             playerEffectTurnSubstract(BLEEDING);
-                            playerHpSubstract(personData.stats.poisonDamage);
+                            playerHpSubstract(effect.value);
                         } else if (!playerTurn) {
                             enemyEffectTurnSubstract(BLEEDING);
-                            enemyHpSubstract(personData.stats.poisonDamage);
+                            enemyHpSubstract(effect.value);
+                        }
+                        break;
+                    case HEALING:
+                        addLog(`${personData.name} recovers ${effect.value} helth points by healing.`);
+                        if (playerTurn) {
+                            playerEffectTurnSubstract(HEALING);
+                            playerHpAdd(effect.value);
+                        } else if (!playerTurn) {
+                            enemyEffectTurnSubstract(HEALING);
+                            enemyHpAdd(effect.value);
                         }
                         break;
                     default:

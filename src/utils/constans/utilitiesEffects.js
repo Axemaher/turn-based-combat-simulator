@@ -1,0 +1,1 @@
+export const CRITICAL_MOD_ADD = "CRITICAL_MOD_ADD";

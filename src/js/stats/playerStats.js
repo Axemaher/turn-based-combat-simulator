@@ -8,16 +8,27 @@ const playerStats = {
     attributes: {
 
     },
-    stats: {
-        criticalMod: 1.5,
+    baseStats: {
+        criticalMod: 2.5,
         criticalChance: 30,
         chanceToMiss: 30,
-        poisonDamage: 4,
+    },
+    stats: {
+        criticalMod: 2.5,
+        criticalChance: 30,
+        chanceToMiss: 30,
     },
     defense: {
 
     },
     effects: [],
+    utilityEffects: [
+        // {
+        //     id: "CRITICAL_MOD_ADD",
+        //     bonusValue: 1.7,
+        //     turns: 2,
+        // }
+    ],
     attacks: [
         {
             id: 'DOUBLE_STRIKE',
@@ -68,13 +79,34 @@ const playerStats = {
         {
             id: "EMPTY",
             name: "Empty slot",
-            ico: 'emptyIco'
         },
         {
             id: "EMPTY",
             name: "Empty slot",
-            ico: 'emptyIco'
         }
+    ],
+    utilities: [
+        {
+            id: 'HEAL_POTION',
+            name: 'Healing potion',
+            description: "Lorem ipsumlore magna aliqua. Ut enim ad minim veniam",
+            value: 40,
+            apCost: 2,
+            usesPerBattle: 3,
+            turns: 1,
+            effects: [
+                { id: "HEALING", label: "healing", turns: 1, chance: 100, value: 20, use: "self" }
+            ],
+        },
+        {
+            id: 'CRITICAL_MOD_ADD',
+            name: 'Critical increased potion',
+            description: "Lorem ipsumlore magna aliqua. Ut enim ad minim veniam",
+            value: 1.1,
+            apCost: 2,
+            usesPerBattle: 2,
+            turns: 2,
+        },
     ]
 }
 

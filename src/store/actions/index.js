@@ -18,7 +18,12 @@ import {
     PLAYER_EFFECT_ADD,
     PLAYER_EFFECT_TURN_SUBSTRACT,
     PLAYER_EFFECT_SUBSTRACT,
-    PLAYER_USESPERBATTLE_SUBSTRACT,
+    PLAYER_ATTACK_USES_PER_BATTLE_SUBSTRACT,
+    PLAYER_UTILITY_USES_PER_BATTLE_SUBSTRACT,
+    PLAYER_UTILITY_EFFECT_ADD,
+    PLAYER_UTILITY_EFFECT_TURN_SUBSTRACT,
+    PLAYER_UTILITY_EFFECT_SUBSTRACT,
+    PLAYER_CHANGE_STATS,
 
     ENEMY_HP_SUBSTRACT,
     ENEMY_HP_ADD,
@@ -27,65 +32,54 @@ import {
     ENEMY_EFFECT_ADD,
     ENEMY_EFFECT_TURN_SUBSTRACT,
     ENEMY_EFFECT_SUBSTRACT,
-    ENEMY_USESPERBATTLE_SUBSTRACT,
+    ENEMY_ATTACK_USES_PER_BATTLE_SUBSTRACT,
 }
     from "../constants/action-types";
 
-// turn
+////////// TURN //////////
 export const setTurn = (payload) => {
     return { type: SET_TURN, payload }
 };
 
-//battle status
+////////// BATTLE STATUS //////////
 export const battleEnd = (payload) => {
     return { type: BATTLE_END, payload }
 };
-
 export const battleStart = (payload) => {
     return { type: BATTLE_START, payload }
 };
-
 export const setWinner = (payload) => {
     return { type: SET_WINNER, payload }
 };
-
 export const showInfo = (payload) => {
     return { type: SHOW_INFO, payload }
 };
-
 export const hideInfo = (payload) => {
     return { type: HIDE_INFO, payload }
 };
-
 export const setBattleInfoData = (payload) => {
     return { type: SET_BATTLE_INFO_DATA, payload }
 };
-
 export const setUiEnabled = (payload) => {
     return { type: SET_UI_ENABLED, payload }
 };
-
 export const addLog = (payload) => {
     return { type: ADD_LOG, payload }
 };
 
-//player
+////////// PLAYER //////////
 export const playerResetStats = (payload) => {
     return { type: PLAYER_RESET_STATS, payload }
 };
-
 export const playerHpSubstract = (payload) => {
     return { type: PLAYER_HP_SUBSTRACT, payload }
 };
-
 export const playerHpAdd = (payload) => {
     return { type: PLAYER_HP_ADD, payload }
 };
-
 export const playerApSubstract = (payload) => {
     return { type: PLAYER_AP_SUBSTRACT, payload }
 };
-
 export const playerApReset = (payload) => {
     return { type: PLAYER_AP_RESET, payload }
 };
@@ -98,19 +92,32 @@ export const playerEffectTurnSubstract = (payload) => {
 export const playerEffectSubstract = (payload) => {
     return { type: PLAYER_EFFECT_SUBSTRACT, payload }
 };
-export const playerUsesPerBattleSubstract = (payload) => {
-    return { type: PLAYER_USESPERBATTLE_SUBSTRACT, payload }
+export const playerAttackUsesPerBattleSubstract = (payload) => {
+    return { type: PLAYER_ATTACK_USES_PER_BATTLE_SUBSTRACT, payload }
+};
+export const playerUtilityUsesPerBattleSubstract = (payload) => {
+    return { type: PLAYER_UTILITY_USES_PER_BATTLE_SUBSTRACT, payload }
+};
+export const playerUtilityEffectAdd = (payload) => {
+    return { type: PLAYER_UTILITY_EFFECT_ADD, payload }
+};
+export const playerUtilityEffectTurnSubstract = (payload) => {
+    return { type: PLAYER_UTILITY_EFFECT_TURN_SUBSTRACT, payload }
+};
+export const playerUtilityEffectSubstract = (payload) => {
+    return { type: PLAYER_UTILITY_EFFECT_SUBSTRACT, payload }
+};
+export const playerChangeStats = (payload) => {
+    return { type: PLAYER_CHANGE_STATS, payload }
 };
 
-//enemy
+////////// ENEMY //////////
 export const enemyHpSubstract = (payload) => {
     return { type: ENEMY_HP_SUBSTRACT, payload }
 }
-
 export const enemyHpAdd = (payload) => {
     return { type: ENEMY_HP_ADD, payload }
 };
-
 export const enemyApSubstract = (payload) => {
     return { type: ENEMY_AP_SUBSTRACT, payload }
 };
@@ -126,6 +133,6 @@ export const enemyEffectTurnSubstract = (payload) => {
 export const enemyEffectSubstract = (payload) => {
     return { type: ENEMY_EFFECT_SUBSTRACT, payload }
 };
-export const enemyUsesPerBattleSubstract = (payload) => {
-    return { type: ENEMY_USESPERBATTLE_SUBSTRACT, payload }
+export const enemyAttackUsesPerBattleSubstract = (payload) => {
+    return { type: ENEMY_ATTACK_USES_PER_BATTLE_SUBSTRACT, payload }
 };

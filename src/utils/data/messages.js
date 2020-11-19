@@ -132,3 +132,9 @@ export const playerFirstAttackEnemy = [
     "I don't want to kill again, please don't make me.",
     "Why does it always come to this?"
 ];
+
+export const playerUseUtility = [
+    "It won't help you.",
+    "I'll kill you anyway.",
+    "Do you really think this will help you beat me?"
+];

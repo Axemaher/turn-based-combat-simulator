@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import FrameLight from './FrameLight';
-const StyledAttackWrapper = styled.div`
+const StyledAbilityWrapper = styled.div`
     width: 300px;
     top: 100%;
     left: 0;
@@ -20,10 +20,9 @@ const StyledAttackWrapper = styled.div`
     }
 `;
 
-const StyledAttack = styled.div`
+const StyledAbility = styled.div`
     height: 200px;
     padding: 10px;
-
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 0.5fr 2fr 0.5fr;
@@ -79,7 +78,7 @@ const StyledEffectIco = styled.img`
 
 
 
-const AttackInfo = ({ attackInfo, visible, setHoverIndex }) => {
+const AbilityInfo = ({ abilityInfo, visible, setHoverIndex }) => {
 
     useEffect(() => {
         const handleClick = () => setHoverIndex(null)
@@ -93,40 +92,40 @@ const AttackInfo = ({ attackInfo, visible, setHoverIndex }) => {
 
 
     return (
-        <StyledAttackWrapper visible={visible}>
+        <StyledAbilityWrapper visible={visible}>
             <FrameLight>
-                <StyledAttack>
+                <StyledAbility>
                     <StyledHeader>
-                        <StyledName>{attackInfo.name}</StyledName>
-                        {attackInfo.id !== "EMPTY" && (
+                        <StyledName>{abilityInfo.name}</StyledName>
+                        {abilityInfo.id !== "EMPTY" && (
                             <StyledColumn>
                                 <StyledRow justify={"space-around"}>
                                     <StyledP>AP cost:</StyledP>
-                                    <StyledP>{attackInfo.apCost}</StyledP>
+                                    <StyledP>{abilityInfo.apCost}</StyledP>
                                 </StyledRow>
-                                {attackInfo.usesPerBattle !== Infinity && (
+                                {abilityInfo.usesPerBattle !== Infinity && (
                                     <StyledRow justify={"space-around"}>
                                         <StyledP>uses left:</StyledP>
-                                        <StyledP>{attackInfo.usesPerBattle}</StyledP>
+                                        <StyledP>{abilityInfo.usesPerBattle}</StyledP>
                                     </StyledRow>
                                 )}
                             </StyledColumn>
                         )}
                     </StyledHeader>
-                    {attackInfo.id !== "EMPTY" && (
+                    {abilityInfo.id !== "EMPTY" && (
                         <>
                             <StyledContainer>
-                                <StyledP>{attackInfo.description}</StyledP>
+                                <StyledP>{abilityInfo.description}</StyledP>
                                 <StyledP>
                                     {" "}
-                  damage: {attackInfo.damageMin} - {attackInfo.damageMax}
+                  damage: {abilityInfo.damageMin} - {abilityInfo.damageMax}
                                 </StyledP>
                             </StyledContainer>
 
                             <StyledContainer>
-                                <StyledP>{attackInfo.effects && "additional effects:"}</StyledP>
-                                {attackInfo.effects &&
-                                    attackInfo.effects.map((effect) => (
+                                <StyledP>{abilityInfo.effects && "additional effects:"}</StyledP>
+                                {abilityInfo.effects &&
+                                    abilityInfo.effects.map((effect) => (
                                         <StyledRow key={effect.id}>
                                             <StyledImgWrapper>
                                                 <StyledEffectIco src={require(`../assets/effectsBar/${effect.id}.png`)} />
@@ -140,10 +139,10 @@ const AttackInfo = ({ attackInfo, visible, setHoverIndex }) => {
                             </StyledContainer>
                         </>
                     )}
-                </StyledAttack>
+                </StyledAbility>
             </FrameLight>
-        </StyledAttackWrapper>
+        </StyledAbilityWrapper>
     );
 };
 
-export default AttackInfo;
+export default AbilityInfo;

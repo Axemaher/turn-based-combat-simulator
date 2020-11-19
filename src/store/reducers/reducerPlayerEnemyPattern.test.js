@@ -80,7 +80,7 @@ describe('player reducer', () => {
 
         expect(reducer(initial, action)).toEqual(expected)
     })
-    it('player uses per battle substract', () => {
+    it('player attack uses per battle substract', () => {
         const initial = {
             attacks: [
                 {
@@ -105,7 +105,7 @@ describe('player reducer', () => {
             ]
         }
         const action = {
-            type: types.PLAYER_USESPERBATTLE_SUBSTRACT,
+            type: types.PLAYER_ATTACK_USES_PER_BATTLE_SUBSTRACT,
             payload: 234322
         };
         const expected = {
@@ -134,7 +134,7 @@ describe('player reducer', () => {
 
         expect(reducer(initial, action)).toEqual(expected)
     })
-    it('player uses per battle substract from Infinity', () => {
+    it('player attack uses per battle substract from Infinity', () => {
         const initial = {
             attacks: [
                 {
@@ -159,7 +159,7 @@ describe('player reducer', () => {
             ]
         }
         const action = {
-            type: types.PLAYER_USESPERBATTLE_SUBSTRACT,
+            type: types.PLAYER_ATTACK_USES_PER_BATTLE_SUBSTRACT,
             payload: 234324
         };
         const expected = {
@@ -182,6 +182,39 @@ describe('player reducer', () => {
                     usesPerBattle: 1,
                     effects: [{ id: effects.POISON, turns: 2, chance: 100 },],
 
+                }
+            ]
+        }
+
+        expect(reducer(initial, action)).toEqual(expected)
+    })
+
+    it('player utility uses per battle substract with deleting', () => {
+        const initial = {
+            utilities: [
+                {
+                    id: 'HEAL_POTION',
+                    usesPerBattle: 3,
+                },
+                {
+                    id: 'CRITICAL_INCREASE_POTION',
+                    usesPerBattle: 1,
+                },
+            ]
+        }
+        const action = {
+            type: types.PLAYER_UTILITY_USES_PER_BATTLE_SUBSTRACT,
+            payload: "CRITICAL_INCREASE_POTION"
+        };
+        const expected = {
+            utilities: [
+                {
+                    id: 'HEAL_POTION',
+                    usesPerBattle: 3,
+                },
+                {
+                    id: "EMPTY",
+                    name: "Empty slot",
                 }
             ]
         }

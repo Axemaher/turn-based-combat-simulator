@@ -10,6 +10,7 @@ import {
     enemyAttackPlayer,
     playerAttackEnemyalmostDead,
     playerFirstAttackEnemy,
+    playerUseUtility,
 } from '../data/messages';
 
 import {
@@ -17,7 +18,11 @@ import {
     POISON,
     BLEEDING,
     HEALING,
-} from '../constans';
+} from '../constans/effects';
+
+import {
+    UTILITY
+} from '../constans/';
 
 export const checkEffects = effects => {
     if (effects !== undefined && effects.length > 0) {
@@ -46,6 +51,9 @@ export const checkEffects = effects => {
 
 export const battleInfoHandler = (
     {
+        type,
+        value,
+        utilityName,
         playerTurn,
         playerName,
         playerHp,
@@ -61,7 +69,6 @@ export const battleInfoHandler = (
         effects,
     }
 ) => {
-
     let attackText = "";
     let enemyMessage = "";
 
@@ -70,7 +77,7 @@ export const battleInfoHandler = (
     const randomMessage = (arr) => {
         let message = arr[Math.floor(Math.random() * arr.length)];
         if (playerTurn) {
-            message = message.replaceAll("%u", enemyName);
+            message = message.replaceAll("%u", type === UTILITY ? playerName : enemyName);
         } else if (!playerTurn) {
             message = message.replaceAll("%u", playerName);
         }
@@ -79,44 +86,52 @@ export const battleInfoHandler = (
         return message;
     };
 
-    if (playerTurn) {
-        if (missed) {
-            attackText = randomMessageMissed(missedLog, playerName);
-            enemyMessage = randomMessage(playerMissed);
-        } else if (critical) {
-            attackText =
-                randomMessage(criticalLog) + randomMessage(criticalPlayerAttackEnemy);
-            if (enemyHp / enemyMaxHp / 100 < 30) {
+    if (type === UTILITY) {
+        if (playerTurn) {
+            attackText = randomMessage([`%u use ${utilityName}`]);
+            enemyMessage = randomMessage(playerUseUtility);
+        }
+    } else {
+        if (playerTurn) {
+            if (missed) {
+                attackText = randomMessageMissed(missedLog, playerName);
+                enemyMessage = randomMessage(playerMissed);
+            } else if (critical) {
+                attackText =
+                    randomMessage(criticalLog) + randomMessage(criticalPlayerAttackEnemy);
+                if (enemyHp / enemyMaxHp / 100 < 30) {
+                    enemyMessage = randomMessage(playerAttackEnemyalmostDead);
+                } else {
+                    enemyMessage = randomMessage(playerAttackEnemy);
+                }
+            } else if (!missed && !critical && playerHp === playerMaxHp && playerAp === playerMaxAp) {
+                attackText = randomMessage(normalLog);
+                enemyMessage = randomMessage(playerFirstAttackEnemy);
+            } else if (enemyHp / enemyMaxHp * 100 < 30) {
+                attackText = randomMessage(normalLog);
                 enemyMessage = randomMessage(playerAttackEnemyalmostDead);
             } else {
+                attackText = randomMessage(normalLog);
                 enemyMessage = randomMessage(playerAttackEnemy);
             }
-        } else if (!missed && !critical && playerHp === playerMaxHp && playerAp === playerMaxAp) {
-            attackText = randomMessage(normalLog);
-            enemyMessage = randomMessage(playerFirstAttackEnemy);
-        } else if (enemyHp / enemyMaxHp * 100 < 30) {
-            attackText = randomMessage(normalLog);
-            enemyMessage = randomMessage(playerAttackEnemyalmostDead);
-        } else {
-            attackText = randomMessage(normalLog);
-            enemyMessage = randomMessage(playerAttackEnemy);
         }
-    }
 
-    if (!playerTurn) {
-        if (missed) {
-            attackText = randomMessageMissed(missedLog, enemyName);
-            enemyMessage = randomMessage(enemyMissed);
-        } else if (critical) {
-            attackText = randomMessage(criticalLog) + randomMessage(criticalEnemyAttackPlayer);
-            enemyMessage = randomMessage(enemyAttackPlayer);
-        } else {
-            attackText = randomMessage(normalLog);
-            enemyMessage = randomMessage(enemyAttackPlayer);
+        if (!playerTurn) {
+            if (missed) {
+                attackText = randomMessageMissed(missedLog, enemyName);
+                enemyMessage = randomMessage(enemyMissed);
+            } else if (critical) {
+                attackText = randomMessage(criticalLog) + randomMessage(criticalEnemyAttackPlayer);
+                enemyMessage = randomMessage(enemyAttackPlayer);
+            } else {
+                attackText = randomMessage(normalLog);
+                enemyMessage = randomMessage(enemyAttackPlayer);
+            }
         }
-    }
 
-    attackText = attackText + checkEffects(effects);
+        attackText = attackText + checkEffects(effects);
+
+    }
 
     return {
         attackText,

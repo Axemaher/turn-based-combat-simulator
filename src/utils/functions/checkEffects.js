@@ -22,7 +22,7 @@ import {
     POISON,
     BLEEDING,
     HEALING,
-} from '../constans';
+} from '../constans/effects';
 
 
 const actions = {

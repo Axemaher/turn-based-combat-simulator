@@ -14,13 +14,13 @@ import {
     playerEffectAdd,
     enemyApSubstract,
     enemyApReset,
-    enemyUsesPerBattleSubstract,
+    enemyAttackUsesPerBattleSubstract,
 } from "../../store/actions";
 
 //effects
 import {
     LOOSE_NEXT_TURN,
-} from '../../utils/constans';
+} from '../../utils/constans/effects';
 
 //utils
 import { sleep } from '../../utils/sleep';
@@ -60,7 +60,7 @@ const StyledRowRight = styled(StyledRow)`
 const ConnectedEnemySide = ({ state, dispatch }) => {
 
     const { player, enemy, turn, battleStarted } = state;
-    const { setTurn, playerApReset, enemyApReset, playerHpSubstract, enemyApSubstract, showInfo, hideInfo, setUiEnabled, setBattleInfoData, enemyUsesPerBattleSubstract } = dispatch;
+    const { setTurn, playerApReset, enemyApReset, playerHpSubstract, enemyApSubstract, showInfo, hideInfo, setUiEnabled, setBattleInfoData, enemyAttackUsesPerBattleSubstract } = dispatch;
     const [attackStarted, setAttackStarted] = useState(false)
 
     const handleCheckTurn = () => {
@@ -143,7 +143,7 @@ const ConnectedEnemySide = ({ state, dispatch }) => {
                 }
             )
 
-            //adding negative effects to enemy
+            //adding effects to self/enemy
             if (!damageData.miss) {
                 effectData = addEffects(enemyAttackData.effects, turn);
             }
@@ -174,7 +174,7 @@ const ConnectedEnemySide = ({ state, dispatch }) => {
             await sleep(animationsDelay.beforeChangeData);
             playerHpSubstract(damageData.damage);
             enemyApSubstract(enemyAttackData.apCost);
-            enemyUsesPerBattleSubstract(enemyAttackData.id)
+            enemyAttackUsesPerBattleSubstract(enemyAttackData.id)
             await sleep(animationsDelay.beforeHideInfo);
             hideInfo();
             //animation ended
@@ -230,7 +230,7 @@ function mapDispatchToProps(dispatch) {
             playerApReset: state => dispatch(playerApReset(state)),
             enemyApSubstract: state => dispatch(enemyApSubstract(state)),
             enemyApReset: state => dispatch(enemyApReset(state)),
-            enemyUsesPerBattleSubstract: state => dispatch(enemyUsesPerBattleSubstract(state)),
+            enemyAttackUsesPerBattleSubstract: state => dispatch(enemyAttackUsesPerBattleSubstract(state)),
         }
     };
 }

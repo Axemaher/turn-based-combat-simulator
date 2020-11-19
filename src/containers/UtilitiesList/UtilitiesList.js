@@ -6,27 +6,29 @@ import AbilityInfo from '../../components/AbilityInfo';
 //actions
 import {
     playerApSubstract,
-    playerAttackUsesPerBattleSubstract,
-    enemyHpSubstract,
+    playerHpAdd,
+    playerUtilityUsesPerBattleSubstract,
     showInfo,
     hideInfo,
     setUiEnabled,
     setBattleInfoData,
-    enemyEffectAdd
 } from "../../store/actions";
+
+import {
+    UTILITY
+} from '../../utils/constans/';
 
 //utils
 import { sleep } from '../../utils/sleep';
 import { animationsDelay } from '../../utils/data/animationsDelay';
 import { battleInfoHandler } from '../../utils/functions/battleInfoHandler';
-import { damageCalculation } from '../../utils/functions/damageCalculation';
+import { checkUtilitiesEffects } from '../../utils/functions/checkUtilitiesEffects';
+import { addUtilityEffect } from '../../utils/functions/addUtilityEffect';
 import { addEffects } from '../../utils/functions/addEffects';
-import { checkEffects } from '../../utils/functions/checkEffects';
-import { checkWinner } from '../../utils/functions/checkWinner';
 
 import longPressEvent from '../../utils/useLongPress';
 
-const StyledButtonAttack = styled.button`
+const StyledButtonUse = styled.button`
     background-color: transparent;
     border: none;
     max-width: 40px;
@@ -41,65 +43,50 @@ const StyledButtonAttack = styled.button`
     cursor: pointer;
 `;
 
-const StyledAttacksList = styled.ul`
+const StyledUtilitiesList = styled.ul`
     padding: 0;
     display: flex;
     flex-basis: auto;
 `;
 
-const StyledAttack = styled.li`
+const StyledUtility = styled.li`
     display: inline-block;
     position: relative;
     cursor: pointer;
 `;
 
-const StyledAttackImg = styled.img`
+const StyledUtilityImg = styled.img`
     width: 100%;
     pointer-events: none;
 `;
 
-const ConnectedAttacksList = ({ state, dispatch }) => {
+const ConnectedUtilitiesList = ({ state, dispatch }) => {
 
     const { player, enemy, turn, battle } = state;
-    const { playerApSubstract, enemyHpSubstract, showInfo, hideInfo, setBattleInfoData, setUiEnabled, playerAttackUsesPerBattleSubstract
+    const { playerApSubstract, playerHpAdd, showInfo, hideInfo, setBattleInfoData, setUiEnabled, playerUtilityUsesPerBattleSubstract
     } = dispatch;
 
     const [hoverIndex, setHoverIndex] = useState(null);
 
 
 
-    async function handleAttack({ damageMin, damageMax, apCost, effects, id }) {
+    async function handleUse({ value, utilityName, apCost, effects, id, turns }) {
         setUiEnabled(false);
         let effectData = [];
-        //calculating damage
-        const damageData = damageCalculation(
-            {
-                damageMax,
-                damageMin,
-                criticalChance: player.stats.criticalChance,
-                criticalMod: player.stats.criticalMod,
-                chanceToMiss: player.stats.chanceToMiss,
-            }
-        )
 
-        //adding effects to self/enemy
-        if (!damageData.miss) {
-            effectData = addEffects(effects, turn);
-        }
+        //adding effects
+        effectData = addEffects(effects, turn);
+
+        //add utility form many turns
+        addUtilityEffect({ id, value, turns })
 
         const messageData = {
+            type: UTILITY,
+            value,
+            utilityName,
             playerTurn: turn,
             playerName: player.name,
-            playerHp: player.hp,
-            playerMaxHp: player.maxHp,
-            playerAp: player.ap,
-            playerMaxAp: player.maxAp,
             enemyName: enemy.name,
-            enemyHp: enemy.hp,
-            enemyMaxHp: enemy.maxHp,
-            critical: damageData.critical,
-            missed: damageData.miss,
-            damage: damageData.damage,
             effects: effectData
         }
 
@@ -108,35 +95,28 @@ const ConnectedAttacksList = ({ state, dispatch }) => {
             battleInfoHandler(messageData)
         );
 
-        //animation started
+        // animation started
         await sleep(animationsDelay.beforeShowInfo);
         showInfo();
         await sleep(animationsDelay.beforeChangeData);
-        enemyHpSubstract(damageData.damage);
-        playerApSubstract(apCost);
-        playerAttackUsesPerBattleSubstract(id);
+        // playerHpAdd(value);
+        playerUtilityUsesPerBattleSubstract(id);
+        // playerApSubstract(apCost);
         await sleep(animationsDelay.beforeHideInfo);
         hideInfo();
-        //animation ended
+        // animation ended
 
         setUiEnabled(true)
 
-        checkWinner()
-
     }
+
+    // do zrobienia
+    //  SWITCH DLA POTIONÓW
+
 
     useEffect(() => {
 
-        // checking negative effects first (only one time on turn)
-        if (turn) {
-            setUiEnabled(true);
-
-            checkEffects(player, turn)
-
-            // checking winner after substract hp from negative effects
-            checkWinner()
-
-        }
+        checkUtilitiesEffects(player, turn)
 
         // disable long press context menu 
         window.oncontextmenu = function (event) {
@@ -154,54 +134,54 @@ const ConnectedAttacksList = ({ state, dispatch }) => {
         setHoverIndex(index)
     };
 
-    const onClick = (attack) => {
+    const onClick = (utility) => {
         if (!battle.uiEnabled ||
-            attack.apCost > player.ap ||
-            attack.usesPerBattle <= 0 ||
-            attack.id === "EMPTY") {
+            utility.apCost > player.ap ||
+            utility.usesPerBattle <= 0 ||
+            utility.id === "EMPTY") {
         } else {
-            handleAttack(
+            handleUse(
                 {
-                    damageMin: attack.damageMin,
-                    damageMax: attack.damageMax,
-                    apCost: attack.apCost,
-                    effects: attack.effects,
-                    id: attack.id
+                    value: utility.value,
+                    utilityName: utility.name,
+                    apCost: utility.apCost,
+                    effects: utility.effects,
+                    id: utility.id,
+                    turns: utility.turns
                 }
             )
         }
         setHoverIndex(null)
-
     }
 
     return (
-        <StyledAttacksList>
-            {player.attacks.map((attack, index) => (
-                <StyledAttack
-                    key={attack.id + index}
+        <StyledUtilitiesList>
+            {player.utilities.map((utility, index) => (
+                <StyledUtility
+                    key={utility.id + index}
                     onMouseEnter={() => setHoverIndex(index)}
                     onMouseLeave={() => setHoverIndex(null)}
                 >
                     <FrameLight>
-                        <StyledButtonAttack
+                        <StyledButtonUse
                             disabled={
                                 !battle.uiEnabled ||
-                                attack.apCost > player.ap ||
-                                attack.usesPerBattle <= 0
+                                utility.apCost > player.ap ||
+                                utility.usesPerBattle <= 0
                             }
-                            {...longPressEvent(() => onLongPress(index), () => onClick(attack))}
+                            {...longPressEvent(() => onLongPress(index), () => onClick(utility))}
                         >
-                            <StyledAttackImg src={require(`../../assets/attacks/${attack.id}.png`)} />
-                        </StyledButtonAttack>
+                            <StyledUtilityImg src={require(`../../assets/utilities/${utility.id}.png`)} />
+                        </StyledButtonUse>
                     </FrameLight>
                     <AbilityInfo
                         visible={hoverIndex === index}
-                        abilityInfo={attack}
+                        abilityInfo={utility}
                         setHoverIndex={setHoverIndex}
                     />
-                </StyledAttack>
+                </StyledUtility>
             ))}
-        </StyledAttacksList>
+        </StyledUtilitiesList>
     );
 }
 
@@ -209,13 +189,12 @@ function mapDispatchToProps(dispatch) {
     return {
         dispatch: {
             playerApSubstract: state => dispatch(playerApSubstract(state)),
-            playerAttackUsesPerBattleSubstract: state => dispatch(playerAttackUsesPerBattleSubstract(state)),
-            enemyHpSubstract: state => dispatch(enemyHpSubstract(state)),
+            playerHpAdd: state => dispatch(playerHpAdd(state)),
+            playerUtilityUsesPerBattleSubstract: state => dispatch(playerUtilityUsesPerBattleSubstract(state)),
             showInfo: state => dispatch(showInfo(state)),
             hideInfo: state => dispatch(hideInfo(state)),
             setUiEnabled: state => dispatch(setUiEnabled(state)),
             setBattleInfoData: state => dispatch(setBattleInfoData(state)),
-            enemyEffectAdd: state => dispatch(enemyEffectAdd(state)),
         }
     };
 }
@@ -231,9 +210,9 @@ function mapStateToProps(state) {
     };
 };
 
-const AttacksList = connect(
+const UtilitiesList = connect(
     mapStateToProps,
     mapDispatchToProps,
-)(ConnectedAttacksList);
+)(ConnectedUtilitiesList);
 
-export default AttacksList;
+export default UtilitiesList;

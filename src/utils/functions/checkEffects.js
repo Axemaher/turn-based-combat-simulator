@@ -41,7 +41,7 @@ const actions = {
 }
 
 
-export const checkEffects = (personData, playerTurn) => {
+export const checkEffects = (ap, maxAp, effects, name, playerTurn) => {
 
     const {
         setTurn,
@@ -58,19 +58,22 @@ export const checkEffects = (personData, playerTurn) => {
         enemyEffectTurnSubstract
     } = actions
 
-    if (personData.ap === personData.maxAp) {
-        if (personData.effects.length !== 0) {
-            personData.effects.forEach(effect => {
-                if (effect.turns === 1) {
+    if (ap === maxAp) {
+        if (effects && effects.length) {
+            effects.forEach(effect => {
+
+                const { id, useValue, turnsDuration } = effect;
+
+                if (turnsDuration <= 1) {
                     if (playerTurn) {
-                        playerEffectSubstract(effect.id);
+                        playerEffectSubstract(id);
                     } else if (!playerTurn) {
-                        enemyEffectSubstract(effect.id);
+                        enemyEffectSubstract(id);
                     }
                 }
-                switch (effect.id) {
+                switch (id) {
                     case LOOSE_NEXT_TURN:
-                        addLog(`${personData.name} loses this turn.`);
+                        addLog(`${name} loses this turn.`);
                         if (playerTurn) {
                             playerEffectSubstract(LOOSE_NEXT_TURN);
                             setTurn();
@@ -82,33 +85,33 @@ export const checkEffects = (personData, playerTurn) => {
                         enemyApReset();
                         break;
                     case POISON:
-                        addLog(`${personData.name} loses ${effect.value} health points by poison.`);
+                        addLog(`${name} loses ${useValue} health points by poison.`);
                         if (playerTurn) {
                             playerEffectTurnSubstract(POISON);
-                            playerHpSubstract(effect.value);
+                            playerHpSubstract(useValue);
                         } else if (!playerTurn) {
                             enemyEffectTurnSubstract(POISON);
-                            enemyHpSubstract(effect.value);
+                            enemyHpSubstract(useValue);
                         }
                         break;
                     case BLEEDING:
-                        addLog(`${personData.name} loses ${effect.value} health points by bleeding.`);
+                        addLog(`${name} loses ${useValue} health points by bleeding.`);
                         if (playerTurn) {
                             playerEffectTurnSubstract(BLEEDING);
-                            playerHpSubstract(effect.value);
+                            playerHpSubstract(useValue);
                         } else if (!playerTurn) {
                             enemyEffectTurnSubstract(BLEEDING);
-                            enemyHpSubstract(effect.value);
+                            enemyHpSubstract(useValue);
                         }
                         break;
                     case HEALING:
-                        addLog(`${personData.name} recovers ${effect.value} helth points by healing.`);
+                        addLog(`${name} recovers ${useValue} helth points by healing.`);
                         if (playerTurn) {
                             playerEffectTurnSubstract(HEALING);
-                            playerHpAdd(effect.value);
+                            playerHpAdd(useValue);
                         } else if (!playerTurn) {
                             enemyEffectTurnSubstract(HEALING);
-                            enemyHpAdd(effect.value);
+                            enemyHpAdd(useValue);
                         }
                         break;
                     default:

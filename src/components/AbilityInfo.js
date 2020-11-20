@@ -132,7 +132,7 @@ const AbilityInfo = ({ abilityInfo, visible, setHoverIndex }) => {
                                             </StyledImgWrapper>
                                             {effect.id === "LOOSE_NEXT_TURN" ?
                                                 <StyledP>{`${effect.chance}% chance for ${effect.label}`}</StyledP> :
-                                                <StyledP>{`${effect.chance}% chance for ${effect.label} - ${effect.turns} ${effect.turns === 1 ? "turn" : "turns"}`}</StyledP>
+                                                <StyledP>{`${effect.chance}% chance for ${effect.label} - ${effect.turnsDuration} ${effect.turnsDuration === 1 ? "turn" : "turns"}`}</StyledP>
                                             }
                                         </StyledRow>
                                     ))}

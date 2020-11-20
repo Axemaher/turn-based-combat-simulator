@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import FrameLight from './FrameLight';
-import avatarPng from '../assets/avatar3x4.png'
 
 const StyledAvatarContainer = styled.div`
     width: 160px;
@@ -34,11 +33,11 @@ const StyledP = styled.p`
     }
 `;
 
-const Avatar = ({ name, imageUrl = { avatarPng } }) => {
+const Avatar = ({ name, src }) => {
     return (
-        <StyledAvatarContainer>
+        <StyledAvatarContainer src={src}>
             <FrameLight>
-                <StyledAvatarImage src={avatarPng} />
+                <StyledAvatarImage src={src} />
                 <StyledP>{name}</StyledP>
             </FrameLight>
         </StyledAvatarContainer>

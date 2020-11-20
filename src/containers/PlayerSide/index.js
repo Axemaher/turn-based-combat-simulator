@@ -28,7 +28,7 @@ const ConnectedPlayerSide = ({ name, effects, hp, maxHp }) => {
     return (
         <StyledSide>
             <StyledRowOneLine>
-                <Avatar name={name} />
+                <Avatar name={name} src={require(`../../assets/avatars/PLAYER.png`)} />
                 <EffectsBar effects={effects} reverse={false} />
             </StyledRowOneLine>
             <StyledRow>

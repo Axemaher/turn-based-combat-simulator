@@ -32,9 +32,9 @@ export const checkEffects = effects => {
                 case LOOSE_NEXT_TURN:
                     effectMessage = effectMessage + `${i > 0 ? "," : ""} loses next turn`; break
                 case POISON:
-                    effectMessage = effectMessage + `${i > 0 ? "," : ""} was poisoned for ${effect.turns} ${effect.turns === 1 ? "turn" : "turns"}`; break;
+                    effectMessage = effectMessage + `${i > 0 ? "," : ""} was poisoned for ${effect.turnsDuration} ${effect.turnsDuration === 1 ? "turn" : "turns"}`; break;
                 case BLEEDING:
-                    effectMessage = effectMessage + `${i > 0 ? "," : ""} bleeding for ${effect.turns} ${effect.turns === 1 ? "turn" : "turns"}`; break;
+                    effectMessage = effectMessage + `${i > 0 ? "," : ""} bleeding for ${effect.turnsDuration} ${effect.turnsDuration === 1 ? "turn" : "turns"}`; break;
                 case HEALING:
                     effectMessage = effectMessage + `${i > 0 ? "," : ""} notices that his enemy uses healing`; break;
                 default: return
@@ -52,7 +52,7 @@ export const checkEffects = effects => {
 export const battleInfoHandler = (
     {
         type,
-        value,
+        useValue,
         utilityName,
         playerTurn,
         playerName,

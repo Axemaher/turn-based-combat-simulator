@@ -1,48 +1,56 @@
-import store from '../../store/store'
+import store from '../../store/store';
 
 import {
     enemyEffectAdd,
     playerEffectAdd
 } from "../../store/actions";
 
-const props = {
+import {
+    SELF,
+} from '../constans';
+
+const actions = {
     enemyEffectAdd: state => store.dispatch(enemyEffectAdd(state)),
     playerEffectAdd: state => store.dispatch(playerEffectAdd(state)),
 }
 
 
-export const addEffects = (effectsArr, playerTurn) => {
+export const addEffects = (effects, playerTurn) => {
+
+    const {
+        enemyEffectAdd,
+        playerEffectAdd,
+    } = actions;
+
     let effectData = [];
-    if (effectsArr) {
-        effectsArr.forEach(effect => {
+    if (effects) {
+        effects.forEach(effect => {
+
+            const { id, turnsDuration, useValue, use } = effect;
+
             if (Math.random() * 100 < effect.chance) {
 
-                const data = {
-                    id: effect.id,
-                    turns: effect.turns,
-                    value: effect.value,
-                    use: effect.use,
+                const newEffectData = {
+                    id,
+                    turnsDuration,
+                    useValue,
+                    use,
                 }
 
                 if (playerTurn) {
-                    if (effect.use === "self") {
-                        props.playerEffectAdd(data);
+                    if (use === SELF) {
+                        playerEffectAdd(newEffectData);
                     } else {
-                        props.enemyEffectAdd(data);
+                        enemyEffectAdd(newEffectData);
                     }
                 } else if (!playerTurn) {
-                    if (effect.use === "self") {
-                        props.enemyEffectAdd(data);
+                    if (use === SELF) {
+                        enemyEffectAdd(newEffectData);
                     } else {
-                        props.playerEffectAdd(data);
+                        playerEffectAdd(newEffectData);
                     }
                 }
-                effectData = [...effectData, {
-                    id: effect.id,
-                    turns: effect.turns,
-                    value: effect.value,
-                    use: effect.use,
-                }]
+                effectData = [...effectData, newEffectData]
             }
         });
     }

@@ -22,13 +22,7 @@ const playerStats = {
 
     },
     effects: [],
-    utilityEffects: [
-        // {
-        //     id: "CRITICAL_MOD_ADD",
-        //     bonusValue: 1.7,
-        //     turns: 2,
-        // }
-    ],
+    utilityEffects: [],
     attacks: [
         {
             id: 'DOUBLE_STRIKE',
@@ -48,7 +42,7 @@ const playerStats = {
             apCost: 5,
             usesPerBattle: Infinity,
             effects: [
-                { id: "BLEEDING", label: "bleeding", turns: 2, chance: 50, value: 13, use: "enemy" },
+                { id: "BLEEDING", label: "bleeding", turnsDuration: 2, chance: 50, useValue: 13, use: "ENEMY" },
             ],
         },
         {
@@ -60,8 +54,8 @@ const playerStats = {
             apCost: 7,
             usesPerBattle: 1,
             effects: [
-                { id: "POISON", label: "poison", turns: 1, chance: 100, value: 7, use: "enemy" },
-                { id: "LOOSE_NEXT_TURN", label: "lose next turn", turns: 1, chance: 40, use: "enemy" },
+                { id: "POISON", label: "poison", turnsDuration: 2, chance: 100, useValue: 7, use: "ENEMY" },
+                { id: "LOOSE_NEXT_TURN", label: "lose next turn", turnsDuration: 1, chance: 40, use: "ENEMY" },
             ],
         },
         {
@@ -73,7 +67,7 @@ const playerStats = {
             apCost: 5,
             usesPerBattle: 1,
             effects: [
-                { id: "HEALING", label: "healing", turns: 2, chance: 100, value: 20, use: "self" }
+                { id: "HEALING", label: "healing", turnsDuration: 2, chance: 100, useValue: 20, use: "SELF" }
             ],
         },
         {
@@ -87,28 +81,27 @@ const playerStats = {
     ],
     utilities: [
         {
-            id: 'HEAL_POTION',
-            name: 'Healing potion',
-            description: "Lorem ipsumlore magna aliqua. Ut enim ad minim veniam",
-            value: 40,
+            id: 'UTILITY_POTION_HEAL',
+            name: 'Potion of Healing',
+            description: "You regain health points when you drink this potion.",
+            useValue: 40,
             apCost: 2,
             usesPerBattle: 3,
-            turns: 1,
+            turnsDuration: 1,
             effects: [
-                { id: "HEALING", label: "healing", turns: 1, chance: 100, value: 20, use: "self" }
+                { id: "HEALING", label: "healing", turnsDuration: 2, chance: 100, useValue: 20, use: "SELF" }
             ],
         },
         {
-            id: 'CRITICAL_MOD_ADD',
-            name: 'Critical increased potion',
-            description: "Lorem ipsumlore magna aliqua. Ut enim ad minim veniam",
-            value: 1.1,
+            id: 'UTILITY_POTION_CRITICAL_INCREASE',
+            name: 'Potion of critical increase',
+            description: "You increase critical chance when you drink this potion.",
+            useValue: 0.8,
             apCost: 2,
-            usesPerBattle: 2,
-            turns: 2,
-        },
+            usesPerBattle: 1,
+            turnsDuration: 2,
+        }
     ]
 }
 
 export default playerStats
-

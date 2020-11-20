@@ -17,7 +17,10 @@ const StyledGlobalWrapper = styled.div`
   font-size:62.5%;
   position: relative;
   width: 100vw;
-  background-image: ${({ theme }) => theme.colors.globalBackground};
+  min-height: 100vh;
+  background-image: url(${require(`../assets/backgrounds/CITY_BACKGROUND.jpg`)});
+  background-size: cover;
+  background-position: center;
 `;
 
 const Layout = ({ children }) => (

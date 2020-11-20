@@ -60,7 +60,9 @@ const StyledRowRight = styled(StyledRow)`
 const ConnectedEnemySide = ({ state, dispatch }) => {
 
     const { player, enemy, turn, battleStarted } = state;
+
     const { setTurn, playerApReset, enemyApReset, playerHpSubstract, enemyApSubstract, showInfo, hideInfo, setUiEnabled, setBattleInfoData, enemyAttackUsesPerBattleSubstract } = dispatch;
+
     const [attackStarted, setAttackStarted] = useState(false)
 
     const handleCheckTurn = () => {
@@ -78,9 +80,9 @@ const ConnectedEnemySide = ({ state, dispatch }) => {
         } else {
             if (battleStarted) {
                 setUiEnabled(false);
-
+                const { ap, maxAp, effects, name } = enemy;
                 // checking negative effects first (only one time on turn)
-                checkEffects(enemy, turn)
+                checkEffects(ap, maxAp, effects, name, turn);
 
                 // if negative effects kill enemy
                 if (checkWinner().battleEnded) {
@@ -92,7 +94,7 @@ const ConnectedEnemySide = ({ state, dispatch }) => {
 
                     // enemy not attacking if have effect LOOSE_NEXT_TURN
                     let looseThisTurn = null;
-                    enemy.effects.forEach(effect => {
+                    effects.forEach(effect => {
                         if (effect.id === LOOSE_NEXT_TURN) {
                             looseThisTurn = true;
                             setUiEnabled(true);
@@ -113,21 +115,26 @@ const ConnectedEnemySide = ({ state, dispatch }) => {
     async function handleAttack() {
         setAttackStarted(true);
 
-        const availableAttacks = () => enemy.attacks.filter(e => (e.apCost <= enemy.ap && e.usesPerBattle > 0));
+        const availableAttacksFilter = () => enemy.attacks.filter(e => (e.apCost <= enemy.ap && e.usesPerBattle > 0));
 
-        const availableAttacksLength = availableAttacks().length;
+        const availableAttacksLength = availableAttacksFilter().length;
+
         if (!availableAttacksLength) {
             setAttackStarted(false);
             handleCheckTurn();
         } else {
             const enemyAttackIndex = Math.floor(Math.random() * availableAttacksLength);
+
+            const availableAttacks = availableAttacksFilter()
+
+            const attack = availableAttacks[enemyAttackIndex];
             const enemyAttackData = {
-                name: enemy.attacks[enemyAttackIndex].name,
-                damageMax: enemy.attacks[enemyAttackIndex].damageMax,
-                damageMin: enemy.attacks[enemyAttackIndex].damageMin,
-                apCost: enemy.attacks[enemyAttackIndex].apCost,
-                effects: enemy.attacks[enemyAttackIndex].effects,
-                id: enemy.attacks[enemyAttackIndex].id
+                name: attack.name,
+                damageMax: attack.damageMax,
+                damageMin: attack.damageMin,
+                apCost: attack.apCost,
+                effects: attack.effects,
+                id: attack.id
             }
 
             let effectData = [];
@@ -205,7 +212,7 @@ const ConnectedEnemySide = ({ state, dispatch }) => {
         <StyledSide>
             <StyledRowRight>
                 <EffectsBar effects={enemy.effects} reverse={true} />
-                <Avatar name={enemy.name} />
+                <Avatar name={enemy.name} src={require(`../../assets/avatars/ENEMY.png`)} />
             </StyledRowRight>
             <StyledRow>
                 <HpBar

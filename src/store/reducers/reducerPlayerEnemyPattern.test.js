@@ -1,6 +1,6 @@
 import reducer from './playerReducer';
 import * as types from '../constants/action-types';
-import *  as effects from '../../utils/constans'
+import *  as effects from '../../utils/constans/effects'
 
 describe('player reducer', () => {
     it('hp substract', () => {
@@ -29,10 +29,10 @@ describe('player reducer', () => {
         const initialState = { effects: [] }
         const action = {
             type: types.PLAYER_EFFECT_ADD,
-            payload: { id: effects.LOOSE_NEXT_TURN, turns: 1 }
+            payload: { id: effects.LOOSE_NEXT_TURN, turnsDuration: 1 }
         };
-        const expectedState1 = { effects: [{ id: effects.LOOSE_NEXT_TURN, turns: 1 }] }
-        const expectedState2 = { effects: [{ id: effects.LOOSE_NEXT_TURN, turns: 1 }] }
+        const expectedState1 = { effects: [{ id: effects.LOOSE_NEXT_TURN, turnsDuration: 1 }] }
+        const expectedState2 = { effects: [{ id: effects.LOOSE_NEXT_TURN, turnsDuration: 1 }] }
 
         const state1 = reducer(initialState, action);
         expect(state1).toEqual(expectedState1);
@@ -43,8 +43,8 @@ describe('player reducer', () => {
     it('player effect turn substract', () => {
         const initial = {
             effects: [
-                { id: effects.LOOSE_NEXT_TURN, turns: 1 },
-                { id: effects.POISON, turns: 4 }
+                { id: effects.LOOSE_NEXT_TURN, turnsDuration: 1 },
+                { id: effects.POISON, turnsDuration: 4 }
             ]
         }
         const action = {
@@ -53,8 +53,8 @@ describe('player reducer', () => {
         };
         const expected = {
             effects: [
-                { id: effects.LOOSE_NEXT_TURN, turns: 1 },
-                { id: effects.POISON, turns: 3 }
+                { id: effects.LOOSE_NEXT_TURN, turnsDuration: 1 },
+                { id: effects.POISON, turnsDuration: 3 }
             ]
         }
 
@@ -64,8 +64,8 @@ describe('player reducer', () => {
     it('player effect substract', () => {
         const initial = {
             effects: [
-                { id: effects.LOOSE_NEXT_TURN, turns: 1 },
-                { id: effects.POISON, turns: 4 }
+                { id: effects.LOOSE_NEXT_TURN, turnsDuration: 1 },
+                { id: effects.POISON, turnsDuration: 4 }
             ]
         }
         const action = {
@@ -74,7 +74,7 @@ describe('player reducer', () => {
         };
         const expected = {
             effects: [
-                { id: effects.POISON, turns: 4 }
+                { id: effects.POISON, turnsDuration: 4 }
             ]
         }
 
@@ -87,19 +87,19 @@ describe('player reducer', () => {
                     id: 84956,
                     usesPerBattle: Infinity,
                     effects: [
-                        { id: effects.BLEEDING, turns: 4, chance: 0 },
+                        { id: effects.BLEEDING, turnsDuration: 4, chance: 0 },
                     ],
                 },
                 {
                     id: 234324,
                     usesPerBattle: Infinity,
-                    effects: [{ id: effects.POISON, turns: 2, chance: 50 },],
+                    effects: [{ id: effects.POISON, turnsDuration: 2, chance: 50 },],
 
                 },
                 {
                     id: 234322,
                     usesPerBattle: 1,
-                    effects: [{ id: effects.POISON, turns: 2, chance: 100 },],
+                    effects: [{ id: effects.POISON, turnsDuration: 2, chance: 100 },],
 
                 }
             ]
@@ -114,19 +114,19 @@ describe('player reducer', () => {
                     id: 84956,
                     usesPerBattle: Infinity,
                     effects: [
-                        { id: effects.BLEEDING, turns: 4, chance: 0 },
+                        { id: effects.BLEEDING, turnsDuration: 4, chance: 0 },
                     ],
                 },
                 {
                     id: 234324,
                     usesPerBattle: Infinity,
-                    effects: [{ id: effects.POISON, turns: 2, chance: 50 },],
+                    effects: [{ id: effects.POISON, turnsDuration: 2, chance: 50 },],
 
                 },
                 {
                     id: 234322,
                     usesPerBattle: 0,
-                    effects: [{ id: effects.POISON, turns: 2, chance: 100 },],
+                    effects: [{ id: effects.POISON, turnsDuration: 2, chance: 100 },],
 
                 }
             ]
@@ -141,19 +141,19 @@ describe('player reducer', () => {
                     id: 84956,
                     usesPerBattle: Infinity,
                     effects: [
-                        { id: effects.BLEEDING, turns: 4, chance: 0 },
+                        { id: effects.BLEEDING, turnsDuration: 4, chance: 0 },
                     ],
                 },
                 {
                     id: 234324,
                     usesPerBattle: Infinity,
-                    effects: [{ id: effects.POISON, turns: 2, chance: 50 },],
+                    effects: [{ id: effects.POISON, turnsDuration: 2, chance: 50 },],
 
                 },
                 {
                     id: 234322,
                     usesPerBattle: 1,
-                    effects: [{ id: effects.POISON, turns: 2, chance: 100 },],
+                    effects: [{ id: effects.POISON, turnsDuration: 2, chance: 100 },],
 
                 }
             ]
@@ -168,19 +168,19 @@ describe('player reducer', () => {
                     id: 84956,
                     usesPerBattle: Infinity,
                     effects: [
-                        { id: effects.BLEEDING, turns: 4, chance: 0 },
+                        { id: effects.BLEEDING, turnsDuration: 4, chance: 0 },
                     ],
                 },
                 {
                     id: 234324,
                     usesPerBattle: Infinity,
-                    effects: [{ id: effects.POISON, turns: 2, chance: 50 },],
+                    effects: [{ id: effects.POISON, turnsDuration: 2, chance: 50 },],
 
                 },
                 {
                     id: 234322,
                     usesPerBattle: 1,
-                    effects: [{ id: effects.POISON, turns: 2, chance: 100 },],
+                    effects: [{ id: effects.POISON, turnsDuration: 2, chance: 100 },],
 
                 }
             ]

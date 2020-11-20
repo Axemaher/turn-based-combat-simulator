@@ -23,8 +23,11 @@ import { damageCalculation } from '../../utils/functions/damageCalculation';
 import { addEffects } from '../../utils/functions/addEffects';
 import { checkEffects } from '../../utils/functions/checkEffects';
 import { checkWinner } from '../../utils/functions/checkWinner';
-
 import longPressEvent from '../../utils/useLongPress';
+
+import {
+    EMPTY
+} from '../../utils/constans'
 
 const StyledButtonAttack = styled.button`
     background-color: transparent;
@@ -131,7 +134,8 @@ const ConnectedAttacksList = ({ state, dispatch }) => {
         if (turn) {
             setUiEnabled(true);
 
-            checkEffects(player, turn)
+            const { ap, maxAp, effects, name } = player;
+            checkEffects(ap, maxAp, effects, name, turn)
 
             // checking winner after substract hp from negative effects
             checkWinner()
@@ -158,7 +162,7 @@ const ConnectedAttacksList = ({ state, dispatch }) => {
         if (!battle.uiEnabled ||
             attack.apCost > player.ap ||
             attack.usesPerBattle <= 0 ||
-            attack.id === "EMPTY") {
+            attack.id === EMPTY) {
         } else {
             handleAttack(
                 {

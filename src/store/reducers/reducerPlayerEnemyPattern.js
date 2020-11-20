@@ -1,9 +1,5 @@
-const findBy = (arr, by, search) => {
-    switch (by) {
-        case "id":
-            return arr.findIndex(e => e.id === search);
-        default: return
-    }
+const find = (arr, search) => {
+    return arr.findIndex(e => e.id === search);
 }
 
 const reducerPlayerEnemyPattern = (name, stateInitial) => {
@@ -25,8 +21,7 @@ const reducerPlayerEnemyPattern = (name, stateInitial) => {
             case `${name}_AP_RESET`:
                 return { ...state, ap: state.maxAp }
             case `${name}_EFFECT_ADD`:
-                const checkIndex = findBy(state.effects, "id", action.payload.id)
-                if (checkIndex === -1) {
+                if (find(state.effects, action.payload.id) === -1) {
                     return {
                         ...state,
                         effects: [...state.effects, action.payload]
@@ -35,10 +30,10 @@ const reducerPlayerEnemyPattern = (name, stateInitial) => {
                     return {
                         ...state,
                         effects: state.effects.map((effect, index) => {
-                            if (index === checkIndex) {
+                            if (index === find(state.effects, action.payload.id)) {
                                 return {
                                     ...effect,
-                                    turns: action.payload.turns
+                                    turnsDuration: action.payload.turnsDuration
                                 }
                             }
                             return effect
@@ -46,14 +41,13 @@ const reducerPlayerEnemyPattern = (name, stateInitial) => {
                     }
                 }
             case `${name}_EFFECT_TURN_SUBSTRACT`:
-                const effectIndex = findBy(state.effects, "id", action.payload)
                 return {
                     ...state,
                     effects: state.effects.map((effect, index) => {
-                        if (index === effectIndex) {
+                        if (index === find(state.effects, action.payload)) {
                             return {
                                 ...effect,
-                                turns: effect.turns - 1
+                                turnsDuration: effect.turnsDuration - 1
                             }
                         }
                         return effect
@@ -62,11 +56,10 @@ const reducerPlayerEnemyPattern = (name, stateInitial) => {
             case `${name}_EFFECT_SUBSTRACT`:
                 return { ...state, effects: state.effects.filter(effect => effect.id !== action.payload) }
             case `${name}_ATTACK_USES_PER_BATTLE_SUBSTRACT`:
-                const attackIndex = findBy(state.attacks, "id", action.payload)
                 return {
                     ...state,
                     attacks: state.attacks.map((attack, index) => {
-                        if (index === attackIndex) {
+                        if (index === find(state.attacks, action.payload)) {
                             return {
                                 ...attack,
                                 usesPerBattle: attack.usesPerBattle - 1
@@ -77,11 +70,10 @@ const reducerPlayerEnemyPattern = (name, stateInitial) => {
                 }
             // UTILITIES
             case `${name}_UTILITY_USES_PER_BATTLE_SUBSTRACT`:
-                const utilityIndex = findBy(state.utilities, "id", action.payload)
                 return {
                     ...state,
                     utilities: state.utilities.map((utility, index) => {
-                        if (index === utilityIndex) {
+                        if (index === find(state.utilities, action.payload)) {
                             if (state.utilities[index].usesPerBattle - 1 <= 0) {
                                 return {
                                     id: "EMPTY",
@@ -98,8 +90,7 @@ const reducerPlayerEnemyPattern = (name, stateInitial) => {
                     })
                 }
             case `${name}_UTILITY_EFFECT_ADD`:
-                const checkIn = findBy(state.utilityEffects, "id", action.payload.id)
-                if (checkIn === -1) {
+                if (find(state.utilityEffects, action.payload.id) === -1) {
                     return {
                         ...state,
                         utilityEffects: [...state.utilityEffects, action.payload]
@@ -108,10 +99,10 @@ const reducerPlayerEnemyPattern = (name, stateInitial) => {
                     return {
                         ...state,
                         utilityEffects: state.utilityEffects.map((effect, index) => {
-                            if (index === checkIn) {
+                            if (index === find(state.utilityEffects, action.payload.id)) {
                                 return {
                                     ...effect,
-                                    turns: action.payload.turns
+                                    turnsDuration: action.payload.turnsDuration
                                 }
                             }
                             return effect
@@ -119,15 +110,13 @@ const reducerPlayerEnemyPattern = (name, stateInitial) => {
                     }
                 }
             case `${name}_UTILITY_EFFECT_TURN_SUBSTRACT`:
-                const effectI = findBy(state.utilityEffects, "id", action.payload)
-                console.log("action.payload")
                 return {
                     ...state,
                     utilityEffects: state.utilityEffects.map((utilityEffect, index) => {
-                        if (index === effectI) {
+                        if (index === find(state.utilityEffects, action.payload)) {
                             return {
                                 ...utilityEffect,
-                                turns: utilityEffect.turns - 1
+                                turnsDuration: utilityEffect.turnsDuration - 1
                             }
                         }
                         return utilityEffect

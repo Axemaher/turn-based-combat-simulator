@@ -1,16 +1,14 @@
 import { addEffects } from './addEffects';
-import * as effects from '../constans';
+import * as effects from '../constans/effects';
 
 describe('add effects', () => {
     it('adding effect', () => {
         const effectsArr = [
-            { id: effects.POISON, turns: 4, chance: 100 },
-            { id: effects.LOOSE_NEXT_TURN, turns: 1, chance: 100 },
-            { id: effects.BLEEDING, turns: 1, chance: 0 }];
+            { id: effects.BLEEDING, label: "bleeding", turnsDuration: 2, chance: 50, useValue: 13, use: "ENEMY" },
+        ];
         const playerTurn = true;
         const expectedState = [
-            { id: effects.POISON, turns: 4 },
-            { id: effects.LOOSE_NEXT_TURN, turns: 1 }
+            { id: effects.BLEEDING, turnsDuration: 2, use: "ENEMY", useValue: 13 },
         ];
         expect(addEffects(effectsArr, playerTurn)).toEqual(expectedState)
     })

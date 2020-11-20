@@ -9,8 +9,8 @@ import {
 
 //utilities effects
 import {
-    CRITICAL_MOD_ADD
-} from "../../utils/constans/utilitiesEffects";
+    UTILITY_POTION_CRITICAL_INCREASE
+} from "../constans/utilities";
 
 const actions = {
     playerUtilityEffectSubstract: state => store.dispatch(playerUtilityEffectSubstract(state)),
@@ -20,7 +20,7 @@ const actions = {
 
 const state = store.getState()
 
-export const checkUtilitiesEffects = (personData, playerTurn) => {
+export const checkUtilitiesEffects = (ap, maxAp, utilityEffects, playerTurn) => {
 
     const {
         playerUtilityEffectSubstract,
@@ -28,20 +28,23 @@ export const checkUtilitiesEffects = (personData, playerTurn) => {
         playerChangeStats,
     } = actions
 
-    if (personData.ap === personData.maxAp && playerTurn) {
-        if (personData.utilityEffects.length !== 0) {
-            personData.utilityEffects.forEach(utilityEffect => {
-                if (utilityEffect.turns === 1) {
-                    switch (utilityEffect.id) {
-                        case CRITICAL_MOD_ADD:
+    if (ap === maxAp && playerTurn) {
+        if (utilityEffects && utilityEffects.length) {
+            utilityEffects.forEach(utilityEffect => {
+
+                const { turnsDuration, id } = utilityEffect;
+
+                if (turnsDuration <= 1) {
+                    switch (id) {
+                        case UTILITY_POTION_CRITICAL_INCREASE:
                             playerChangeStats({
                                 ...state.player.stats,
                                 criticalMod: state.player.baseStats.criticalMod
                             })
                     }
-                    playerUtilityEffectSubstract(utilityEffect.id);
+                    playerUtilityEffectSubstract(id);
                 }
-                playerUtilityEffectTurnSubstract(utilityEffect.id)
+                playerUtilityEffectTurnSubstract(id)
             });
         }
     }

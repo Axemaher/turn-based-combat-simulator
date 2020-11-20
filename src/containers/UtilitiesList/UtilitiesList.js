@@ -23,7 +23,7 @@ import { sleep } from '../../utils/sleep';
 import { animationsDelay } from '../../utils/data/animationsDelay';
 import { battleInfoHandler } from '../../utils/functions/battleInfoHandler';
 import { checkUtilitiesEffects } from '../../utils/functions/checkUtilitiesEffects';
-import { addUtilityEffect } from '../../utils/functions/addUtilityEffect';
+import { handleUseUtility } from '../../utils/functions/handleUseUtility';
 import { addEffects } from '../../utils/functions/addEffects';
 
 import longPressEvent from '../../utils/useLongPress';
@@ -62,31 +62,27 @@ const StyledUtilityImg = styled.img`
 
 const ConnectedUtilitiesList = ({ state, dispatch }) => {
 
-    const { player, enemy, turn, battle } = state;
-    const { playerApSubstract, playerHpAdd, showInfo, hideInfo, setBattleInfoData, setUiEnabled, playerUtilityUsesPerBattleSubstract
+    const { player, turn, battle } = state;
+    const { playerApSubstract, showInfo, hideInfo, setBattleInfoData, setUiEnabled, playerUtilityUsesPerBattleSubstract
     } = dispatch;
 
     const [hoverIndex, setHoverIndex] = useState(null);
 
 
 
-    async function handleUse({ value, utilityName, apCost, effects, id, turns }) {
+    async function handleUse({ useValue, utilityName, apCost, effects, id, turnsDuration }) {
         setUiEnabled(false);
         let effectData = [];
 
         //adding effects
         effectData = addEffects(effects, turn);
 
-        //add utility form many turns
-        addUtilityEffect({ id, value, turns })
-
         const messageData = {
             type: UTILITY,
-            value,
+            useValue,
             utilityName,
             playerTurn: turn,
             playerName: player.name,
-            enemyName: enemy.name,
             effects: effectData
         }
 
@@ -99,9 +95,9 @@ const ConnectedUtilitiesList = ({ state, dispatch }) => {
         await sleep(animationsDelay.beforeShowInfo);
         showInfo();
         await sleep(animationsDelay.beforeChangeData);
-        // playerHpAdd(value);
+        handleUseUtility(id, useValue, turnsDuration)
         playerUtilityUsesPerBattleSubstract(id);
-        // playerApSubstract(apCost);
+        playerApSubstract(apCost);
         await sleep(animationsDelay.beforeHideInfo);
         hideInfo();
         // animation ended
@@ -110,13 +106,9 @@ const ConnectedUtilitiesList = ({ state, dispatch }) => {
 
     }
 
-    // do zrobienia
-    //  SWITCH DLA POTIONÓW
-
-
     useEffect(() => {
 
-        checkUtilitiesEffects(player, turn)
+        checkUtilitiesEffects(player.ap, player.maxAp, player.utilityEffects, turn)
 
         // disable long press context menu 
         window.oncontextmenu = function (event) {
@@ -142,12 +134,12 @@ const ConnectedUtilitiesList = ({ state, dispatch }) => {
         } else {
             handleUse(
                 {
-                    value: utility.value,
+                    useValue: utility.useValue,
                     utilityName: utility.name,
                     apCost: utility.apCost,
                     effects: utility.effects,
                     id: utility.id,
-                    turns: utility.turns
+                    turnsDuration: utility.turnsDuration
                 }
             )
         }
@@ -205,7 +197,6 @@ function mapStateToProps(state) {
             turn: state.turn,
             battle: state.battle,
             player: state.player,
-            enemy: state.enemy,
         }
     };
 };

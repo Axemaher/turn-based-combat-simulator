@@ -10,8 +10,8 @@ const playerStats = {
     },
     baseStats: {
         criticalMod: 2.5,
-        criticalChance: 30,
-        chanceToMiss: 30,
+        criticalChance: 60,
+        chanceToMiss: 10,
     },
     stats: {
         criticalMod: 2.5,
@@ -23,9 +23,10 @@ const playerStats = {
     },
     effects: [],
     utilityEffects: [],
-    attacks: [
+    abilities: [
         {
-            id: 'DOUBLE_STRIKE',
+            id: 'ATTACK_DOUBLE_STRIKE',
+            type: 'ATTACK',
             name: 'Double strike',
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
             damageMin: 10,
@@ -34,7 +35,8 @@ const playerStats = {
             usesPerBattle: Infinity,
         },
         {
-            id: 'CYCLONE',
+            id: 'ATTACK_CYCLONE',
+            type: 'ATTACK',
             name: 'Cyclone',
             description: "Lorem ipsum dolor sid tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
             damageMin: 20,
@@ -46,7 +48,8 @@ const playerStats = {
             ],
         },
         {
-            id: 'SPEC_POISON_FOG',
+            id: 'SPEC_ATTACK_POISON_FOG',
+            type: 'SPEC_ATTACK',
             name: 'Poison fog',
             description: "Lorem ipsumlore magna aliqua. Ut enim ad minim veniam",
             damageMin: 15,
@@ -59,7 +62,8 @@ const playerStats = {
             ],
         },
         {
-            id: 'SPEC_DIVINE_LIGHT',
+            id: 'SPEC_ATTACK_DIVINE_LIGHT',
+            type: 'SPEC_ATTACK',
             name: 'Divine Light',
             description: "Lorem ipsumlore magna aliqua. Ut enim ad minim veniam",
             damageMin: 10,
@@ -71,17 +75,8 @@ const playerStats = {
             ],
         },
         {
-            id: "EMPTY",
-            name: "Empty slot",
-        },
-        {
-            id: "EMPTY",
-            name: "Empty slot",
-        }
-    ],
-    utilities: [
-        {
             id: 'UTILITY_POTION_HEAL',
+            type: 'UTILITY',
             name: 'Potion of Healing',
             description: "You regain health points when you drink this potion.",
             useValue: 40,
@@ -94,6 +89,7 @@ const playerStats = {
         },
         {
             id: 'UTILITY_POTION_CRITICAL_INCREASE',
+            type: 'UTILITY',
             name: 'Potion of critical increase',
             description: "You increase critical chance when you drink this potion.",
             useValue: 0.8,
@@ -101,7 +97,7 @@ const playerStats = {
             usesPerBattle: 1,
             turnsDuration: 2,
         }
-    ]
+    ],
 }
 
 export default playerStats

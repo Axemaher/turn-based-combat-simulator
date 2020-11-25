@@ -14,7 +14,7 @@ import {
     playerEffectAdd,
     enemyApSubstract,
     enemyApReset,
-    enemyAttackUsesPerBattleSubstract,
+    enemyAbilityUsesPerBattleSubstract,
 } from "../../store/actions";
 
 //effects
@@ -61,7 +61,7 @@ const ConnectedEnemySide = ({ state, dispatch }) => {
 
     const { player, enemy, turn, battleStarted } = state;
 
-    const { setTurn, playerApReset, enemyApReset, playerHpSubstract, enemyApSubstract, showInfo, hideInfo, setUiEnabled, setBattleInfoData, enemyAttackUsesPerBattleSubstract } = dispatch;
+    const { setTurn, playerApReset, enemyApReset, playerHpSubstract, enemyApSubstract, showInfo, hideInfo, setUiEnabled, setBattleInfoData, enemyAbilityUsesPerBattleSubstract } = dispatch;
 
     const [attackStarted, setAttackStarted] = useState(false)
 
@@ -115,7 +115,7 @@ const ConnectedEnemySide = ({ state, dispatch }) => {
     async function handleAttack() {
         setAttackStarted(true);
 
-        const availableAttacksFilter = () => enemy.attacks.filter(e => (e.apCost <= enemy.ap && e.usesPerBattle > 0));
+        const availableAttacksFilter = () => enemy.abilities.filter(e => (e.apCost <= enemy.ap && e.usesPerBattle > 0));
 
         const availableAttacksLength = availableAttacksFilter().length;
 
@@ -181,7 +181,7 @@ const ConnectedEnemySide = ({ state, dispatch }) => {
             await sleep(animationsDelay.beforeChangeData);
             playerHpSubstract(damageData.damage);
             enemyApSubstract(enemyAttackData.apCost);
-            enemyAttackUsesPerBattleSubstract(enemyAttackData.id)
+            enemyAbilityUsesPerBattleSubstract(enemyAttackData.id)
             await sleep(animationsDelay.beforeHideInfo);
             hideInfo();
             //animation ended
@@ -237,7 +237,7 @@ function mapDispatchToProps(dispatch) {
             playerApReset: state => dispatch(playerApReset(state)),
             enemyApSubstract: state => dispatch(enemyApSubstract(state)),
             enemyApReset: state => dispatch(enemyApReset(state)),
-            enemyAttackUsesPerBattleSubstract: state => dispatch(enemyAttackUsesPerBattleSubstract(state)),
+            enemyAbilityUsesPerBattleSubstract: state => dispatch(enemyAbilityUsesPerBattleSubstract(state)),
         }
     };
 }

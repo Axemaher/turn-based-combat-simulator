@@ -55,38 +55,38 @@ const reducerPlayerEnemyPattern = (name, stateInitial) => {
                 }
             case `${name}_EFFECT_SUBSTRACT`:
                 return { ...state, effects: state.effects.filter(effect => effect.id !== action.payload) }
-            case `${name}_ATTACK_USES_PER_BATTLE_SUBSTRACT`:
+            case `${name}_ABILITY_USES_PER_BATTLE_SUBSTRACT`:
                 return {
                     ...state,
-                    attacks: state.attacks.map((attack, index) => {
-                        if (index === find(state.attacks, action.payload)) {
+                    abilities: state.abilities.map((ability, index) => {
+                        if (index === find(state.abilities, action.payload)) {
                             return {
-                                ...attack,
-                                usesPerBattle: attack.usesPerBattle - 1
+                                ...ability,
+                                usesPerBattle: ability.usesPerBattle - 1
                             }
                         }
-                        return attack
+                        return ability
                     })
                 }
             // UTILITIES
             case `${name}_UTILITY_USES_PER_BATTLE_SUBSTRACT`:
                 return {
                     ...state,
-                    utilities: state.utilities.map((utility, index) => {
-                        if (index === find(state.utilities, action.payload)) {
-                            if (state.utilities[index].usesPerBattle - 1 <= 0) {
+                    abilities: state.abilities.map((ability, index) => {
+                        if (index === find(state.abilities, action.payload)) {
+                            if (state.abilities[index].usesPerBattle - 1 <= 0) {
                                 return {
                                     id: "EMPTY",
                                     name: "Empty slot"
                                 }
                             } else {
                                 return {
-                                    ...utility,
-                                    usesPerBattle: utility.usesPerBattle - 1
+                                    ...ability,
+                                    usesPerBattle: ability.usesPerBattle - 1
                                 }
                             }
                         }
-                        return utility
+                        return ability
                     })
                 }
             case `${name}_UTILITY_EFFECT_ADD`:

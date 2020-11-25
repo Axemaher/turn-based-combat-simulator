@@ -17,7 +17,7 @@ const enemyStats = {
 
     },
     effects: [],
-    attacks: [
+    abilities: [
         {
             id: 'DOUBLE_STRIKE',
             name: 'Double strike',

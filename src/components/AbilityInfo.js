@@ -1,6 +1,12 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import FrameLight from './FrameLight';
+
+import {
+    EMPTY,
+    UTILITY
+} from '../utils/constans'
+
 const StyledAbilityWrapper = styled.div`
     width: 300px;
     top: 100%;
@@ -97,7 +103,7 @@ const AbilityInfo = ({ abilityInfo, visible, setHoverIndex }) => {
                 <StyledAbility>
                     <StyledHeader>
                         <StyledName>{abilityInfo.name}</StyledName>
-                        {abilityInfo.id !== "EMPTY" && (
+                        {abilityInfo.id !== EMPTY && (
                             <StyledColumn>
                                 <StyledRow justify={"space-around"}>
                                     <StyledP>AP cost:</StyledP>
@@ -112,14 +118,15 @@ const AbilityInfo = ({ abilityInfo, visible, setHoverIndex }) => {
                             </StyledColumn>
                         )}
                     </StyledHeader>
-                    {abilityInfo.id !== "EMPTY" && (
+                    {abilityInfo.id !== EMPTY && (
                         <>
                             <StyledContainer>
                                 <StyledP>{abilityInfo.description}</StyledP>
-                                <StyledP>
-                                    {" "}
-                  damage: {abilityInfo.damageMin} - {abilityInfo.damageMax}
-                                </StyledP>
+                                {abilityInfo.type !== UTILITY &&
+                                    <StyledP>
+                                        {" "}
+              damage: {abilityInfo.damageMin} - {abilityInfo.damageMax}
+                                    </StyledP>}
                             </StyledContainer>
 
                             <StyledContainer>

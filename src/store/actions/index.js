@@ -18,7 +18,7 @@ import {
     PLAYER_EFFECT_ADD,
     PLAYER_EFFECT_TURN_SUBSTRACT,
     PLAYER_EFFECT_SUBSTRACT,
-    PLAYER_ATTACK_USES_PER_BATTLE_SUBSTRACT,
+    PLAYER_ABILITY_USES_PER_BATTLE_SUBSTRACT,
     PLAYER_UTILITY_USES_PER_BATTLE_SUBSTRACT,
     PLAYER_UTILITY_EFFECT_ADD,
     PLAYER_UTILITY_EFFECT_TURN_SUBSTRACT,
@@ -32,7 +32,7 @@ import {
     ENEMY_EFFECT_ADD,
     ENEMY_EFFECT_TURN_SUBSTRACT,
     ENEMY_EFFECT_SUBSTRACT,
-    ENEMY_ATTACK_USES_PER_BATTLE_SUBSTRACT,
+    ENEMY_ABILITY_USES_PER_BATTLE_SUBSTRACT,
 }
     from "../constants/action-types";
 
@@ -92,8 +92,8 @@ export const playerEffectTurnSubstract = (payload) => {
 export const playerEffectSubstract = (payload) => {
     return { type: PLAYER_EFFECT_SUBSTRACT, payload }
 };
-export const playerAttackUsesPerBattleSubstract = (payload) => {
-    return { type: PLAYER_ATTACK_USES_PER_BATTLE_SUBSTRACT, payload }
+export const playerAbilityUsesPerBattleSubstract = (payload) => {
+    return { type: PLAYER_ABILITY_USES_PER_BATTLE_SUBSTRACT, payload }
 };
 export const playerUtilityUsesPerBattleSubstract = (payload) => {
     return { type: PLAYER_UTILITY_USES_PER_BATTLE_SUBSTRACT, payload }
@@ -133,6 +133,6 @@ export const enemyEffectTurnSubstract = (payload) => {
 export const enemyEffectSubstract = (payload) => {
     return { type: ENEMY_EFFECT_SUBSTRACT, payload }
 };
-export const enemyAttackUsesPerBattleSubstract = (payload) => {
-    return { type: ENEMY_ATTACK_USES_PER_BATTLE_SUBSTRACT, payload }
+export const enemyAbilityUsesPerBattleSubstract = (payload) => {
+    return { type: ENEMY_ABILITY_USES_PER_BATTLE_SUBSTRACT, payload }
 };

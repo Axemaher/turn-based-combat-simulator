@@ -5,10 +5,9 @@ import EnemySide from '../EnemySide';
 import PlayerSide from '../PlayerSide';
 import BattleInfo from '../BattleInfo';
 import ApBar from "../ApBar";
-import AttacksList from "../AttacksList";
 import TurnButton from "../TurnButton/TurnButton";
 import GameLog from "../GameLog/GameLog";
-import UtilitiesList from "../UtilitiesList/UtilitiesList";
+import AbilitiesList from "../AbilitiesList/AbilitiesList";
 
 const StyledBattleAreaWrapper = styled.div`
     max-width: 900px;
@@ -43,8 +42,7 @@ const BattleArena = () => {
                     <EnemySide />
                 </StyledContainerHeader>
                 <ApBar />
-                <AttacksList />
-                <UtilitiesList />
+                <AbilitiesList />
                 <TurnButton />
                 <GameLog />
             </StyledBattleAreaWrapper>

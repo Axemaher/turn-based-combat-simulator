@@ -2,32 +2,27 @@ import React from 'react';
 import styled from 'styled-components';
 import FrameLight from './FrameLight';
 
-const StyledAvatarContainer = styled.div`
+const StyledAvatarWrapper = styled.div`
     width: 160px;
+    height: 200px;
+    background-image: url(${({ src }) => src});
+    background-size: cover;
+    background-position: center;
+    display: flex;
     @media ${({ theme }) => theme.device.tablet} {
         width: 120px;
+        height: 150px;
     }
     @media ${({ theme }) => theme.device.mobileL} {
         width: 90px;
-    }
-`;
-
-const StyledAvatarImage = styled.img`
-    width: 100%;
-    height: 160px;
-    border: none;
-    @media ${({ theme }) => theme.device.tablet} {
-        width: 100%;
-        height: auto;
-    }
-    @media ${({ theme }) => theme.device.mobileL} {
-        width: 100%;
-        height: auto;
+        height: 110px;
     }
 `;
 
 const StyledP = styled.p`
     text-align: center;
+    width: 100%;
+    place-self: flex-end;
     @media ${({ theme }) => theme.device.mobileL} {
         font-size: .6em;
     }
@@ -35,12 +30,11 @@ const StyledP = styled.p`
 
 const Avatar = ({ name, src }) => {
     return (
-        <StyledAvatarContainer src={src}>
-            <FrameLight>
-                <StyledAvatarImage src={src} />
+        <FrameLight>
+            <StyledAvatarWrapper src={src}>
                 <StyledP>{name}</StyledP>
-            </FrameLight>
-        </StyledAvatarContainer>
+            </StyledAvatarWrapper>
+        </FrameLight>
     );
 }
 

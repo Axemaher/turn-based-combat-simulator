@@ -2,14 +2,14 @@ import React from 'react'
 import styled, { createGlobalStyle, ThemeProvider } from 'styled-components'
 import { theme } from './theme'
 
+
 const GlobalStyle = createGlobalStyle`
-  body {
-    font-family: 'montserrat';
-  }
   *, *::before, *::after{
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: 'Texturina', serif;
+    color: ${({ theme }) => theme.colors.font};
   }
 `;
 
@@ -18,7 +18,7 @@ const StyledGlobalWrapper = styled.div`
   position: relative;
   width: 100vw;
   min-height: 100vh;
-  background-image: url(${require(`../assets/backgrounds/CITY_BACKGROUND.jpg`)});
+  background-image: url(${require(`../assets/backgrounds/WINTER_BACKGROUND.jpg`)});
   background-size: cover;
   background-position: center;
 `;

@@ -2,21 +2,26 @@ import React, { useEffect } from 'react';
 import { connect } from "react-redux";
 import styled from 'styled-components';
 import ScrollToBottom from 'react-scroll-to-bottom';
-import FrameLight from '../../components/FrameLight';
-import point from '../../assets/apBar/point.png';
-
+import point from '../../assets/POINTlight.png';
+import bg from '../../assets/LOGdark.png'
 
 const StyledGameLogWrapper = styled.div`
     max-width: 500px;
+    height: 130px;
     margin: 0 auto;
     text-align: left;
+    background-image: url(${bg});
+    background-size: 100% 100%;
+    font-size: 1.1em;
+    overflow: hidden;
 `;
 
 const StyledUl = styled(ScrollToBottom)`
     .scrollView {
-        height: 120px;
+        margin-top: 12px;
+        height: 110px;
         overflow-y: scroll;
-        padding-left: 12px;
+        padding: 12px 20px 12px 20px;
         list-style: none;
         &::-webkit-scrollbar {
         width: 8px;
@@ -37,10 +42,11 @@ const StyledUl = styled(ScrollToBottom)`
         background-color: ${({ theme }) => theme.colors.scrollbarThumb};
         width: auto;
         padding: 0 7px;
+        font-size: .6rem;
         color: ${({ theme }) => theme.colors.font};
-        font-size: .9em;
         &:before{
-            content: "go bottom"
+            content: "go bottom";
+            vertical-align: super;
         }
     }
 `;
@@ -69,17 +75,15 @@ const ConnectedGameLog = ({ log }) => {
 
     return (
         <StyledGameLogWrapper>
-            <FrameLight>
-                <StyledUl
-                    scrollViewClassName="scrollView"
-                    followButtonClassName="followButton">
-                    {log.map((e, i) =>
-                        <StyledLi key={i}>
-                            {e}
-                        </StyledLi>
-                    )}
-                </StyledUl>
-            </FrameLight>
+            <StyledUl
+                scrollViewClassName="scrollView"
+                followButtonClassName="followButton">
+                {log.map((e, i) =>
+                    <StyledLi key={i}>
+                        {e}
+                    </StyledLi>
+                )}
+            </StyledUl>
         </StyledGameLogWrapper>
     );
 }

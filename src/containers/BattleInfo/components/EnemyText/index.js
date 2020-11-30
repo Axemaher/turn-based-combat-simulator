@@ -24,15 +24,22 @@ const StyledEnemyTextAnimation = keyframes`
 const StyledEnemyTextWrapper = styled(StyledMessageBox)` 
     //animation must be running {animationsDelay.beforeHideInfo}
     animation: ${StyledEnemyTextAnimation} 5.0s; 
-    top: 100px;
+    top: 90px;
     right: 0;
     width: auto;
     min-width: 100px;
     max-width: 300px;
+    max-height: 30px;
+    @media ${({ theme }) => theme.device.tablet} {
+      left: calc(100% - 320px);
+      top: 40px;
+    }
     @media ${({ theme }) => theme.device.mobileL} {
-      max-width: 100vw;
+      max-width: 90vw;
       left: 0;
-      top: 50px;
+      right: 0;
+      margin: 0 auto;
+      top: -30px;
     }
 `;
 

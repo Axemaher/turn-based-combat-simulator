@@ -25,11 +25,11 @@ const AttackTextWrapper = styled(StyledMessageBox)`
     //nimation must be running {animationsDelay.beforeHideInfo}
     animation: ${AttackTextAnimation} 6.0s; 
     left: 50%;
-    width: 100vw;
+    width: 90vw;
     padding: 0;
     height: fit-content;
     @media ${({ theme }) => theme.device.mobileL} {
-      top: 230px;
+      top: 160px;
     }
 `;
 

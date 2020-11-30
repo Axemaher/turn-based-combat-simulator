@@ -8,11 +8,17 @@ import ApBar from "../ApBar";
 import TurnButton from "../TurnButton/TurnButton";
 import GameLog from "../GameLog/GameLog";
 import AbilitiesList from "../AbilitiesList/AbilitiesList";
+import bg from '../../assets/lightBg.png'
+
 
 const StyledBattleAreaWrapper = styled.div`
     max-width: 900px;
+    min-height: 100vh;
     display: block;
     margin: 0 auto;
+    background-image: url(${bg});
+    background-size: cover;
+    padding: 0;
 `;
 
 const StyledContainerHeader = styled.div`

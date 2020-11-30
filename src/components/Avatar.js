@@ -1,14 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
-import FrameLight from './FrameLight';
+import bg from '../assets/AVATARdark.png';
 
 const StyledAvatarWrapper = styled.div`
     width: 160px;
     height: 200px;
-    background-image: url(${({ src }) => src});
-    background-size: cover;
+    background-image: url(${bg});
+    background-size: contain;
     background-position: center;
-    display: flex;
+    background-repeat: no-repeat;
+    display: block;
     @media ${({ theme }) => theme.device.tablet} {
         width: 120px;
         height: 150px;
@@ -17,6 +18,17 @@ const StyledAvatarWrapper = styled.div`
         width: 90px;
         height: 110px;
     }
+`;
+
+const StyledImage = styled.div`
+    margin: 0 auto;
+    margin-top: 17%;
+    width: 60%;
+    height: 65%;
+    background-image: url(${({ src }) => src});
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
 `;
 
 const StyledP = styled.p`
@@ -30,11 +42,10 @@ const StyledP = styled.p`
 
 const Avatar = ({ name, src }) => {
     return (
-        <FrameLight>
-            <StyledAvatarWrapper src={src}>
-                <StyledP>{name}</StyledP>
-            </StyledAvatarWrapper>
-        </FrameLight>
+        <StyledAvatarWrapper>
+            <StyledImage src={src} />
+            <StyledP>{name}</StyledP>
+        </StyledAvatarWrapper>
     );
 }
 

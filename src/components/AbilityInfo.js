@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import FrameLight from './FrameLight';
+import bg from '../assets/ATTACKINFOdark.png';
 
 import {
     EMPTY,
@@ -13,26 +13,27 @@ const StyledAbilityWrapper = styled.div`
     left: 0;
     display:${({ visible }) => visible ? "block" : "none"};
     position: absolute;
-    font-size: .6rem;
+    font-size: .7rem;
     z-index: 5;
+    background-image: url(${bg});
+    background-size: 100% 100%;
+    padding: 20px;
     @media ${({ theme }) => theme.device.tablet} {
         position: fixed;
-        top: 40px;
+        top: 250px;
     }
     @media ${({ theme }) => theme.device.mobileL} {
         position: fixed;
-        top: 130px;
+        top: 50px;
         left: 0; 
     }
 `;
 
 const StyledAbility = styled.div`
     height: 200px;
-    padding: 10px;
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 0.5fr 2fr 0.5fr;
-    gap: 10px 0px;
     grid-template-areas:
         "."
         "."
@@ -40,7 +41,7 @@ const StyledAbility = styled.div`
 `;
 
 const StyledP = styled.p`
-    margin-bottom: 5px;
+    margin-bottom: 3px;
 `;
 
 const StyledName = styled(StyledP)`
@@ -99,55 +100,53 @@ const AbilityInfo = ({ abilityInfo, visible, setHoverIndex }) => {
 
     return (
         <StyledAbilityWrapper visible={visible}>
-            <FrameLight>
-                <StyledAbility>
-                    <StyledHeader>
-                        <StyledName>{abilityInfo.name}</StyledName>
-                        {abilityInfo.id !== EMPTY && (
-                            <StyledColumn>
-                                <StyledRow justify={"space-around"}>
-                                    <StyledP>AP cost:</StyledP>
-                                    <StyledP>{abilityInfo.apCost}</StyledP>
-                                </StyledRow>
-                                {abilityInfo.usesPerBattle !== Infinity && (
-                                    <StyledRow justify={"space-around"}>
-                                        <StyledP>uses left:</StyledP>
-                                        <StyledP>{abilityInfo.usesPerBattle}</StyledP>
-                                    </StyledRow>
-                                )}
-                            </StyledColumn>
-                        )}
-                    </StyledHeader>
+            <StyledAbility>
+                <StyledHeader>
+                    <StyledName>{abilityInfo.name}</StyledName>
                     {abilityInfo.id !== EMPTY && (
-                        <>
-                            <StyledContainer>
-                                <StyledP>{abilityInfo.description}</StyledP>
-                                {abilityInfo.type !== UTILITY &&
-                                    <StyledP>
-                                        {" "}
-              damage: {abilityInfo.damageMin} - {abilityInfo.damageMax}
-                                    </StyledP>}
-                            </StyledContainer>
-
-                            <StyledContainer>
-                                <StyledP>{abilityInfo.effects && "additional effects:"}</StyledP>
-                                {abilityInfo.effects &&
-                                    abilityInfo.effects.map((effect) => (
-                                        <StyledRow key={effect.id}>
-                                            <StyledImgWrapper>
-                                                <StyledEffectIco src={require(`../assets/effectsBar/${effect.id}.png`)} />
-                                            </StyledImgWrapper>
-                                            {effect.id === "LOOSE_NEXT_TURN" ?
-                                                <StyledP>{`${effect.chance}% chance for ${effect.label}`}</StyledP> :
-                                                <StyledP>{`${effect.chance}% chance for ${effect.label} - ${effect.turnsDuration} ${effect.turnsDuration === 1 ? "turn" : "turns"}`}</StyledP>
-                                            }
-                                        </StyledRow>
-                                    ))}
-                            </StyledContainer>
-                        </>
+                        <StyledColumn>
+                            <StyledRow justify={"space-around"}>
+                                <StyledP>AP cost:</StyledP>
+                                <StyledP>{abilityInfo.apCost}</StyledP>
+                            </StyledRow>
+                            {abilityInfo.usesPerBattle !== Infinity && (
+                                <StyledRow justify={"space-around"}>
+                                    <StyledP>uses left:</StyledP>
+                                    <StyledP>{abilityInfo.usesPerBattle}</StyledP>
+                                </StyledRow>
+                            )}
+                        </StyledColumn>
                     )}
-                </StyledAbility>
-            </FrameLight>
+                </StyledHeader>
+                {abilityInfo.id !== EMPTY && (
+                    <>
+                        <StyledContainer>
+                            <StyledP>{abilityInfo.description}</StyledP>
+                            {abilityInfo.type !== UTILITY &&
+                                <StyledP>
+                                    {" "}
+              damage: {abilityInfo.damageMin} - {abilityInfo.damageMax}
+                                </StyledP>}
+                        </StyledContainer>
+
+                        <StyledContainer>
+                            <StyledP>{abilityInfo.effects && "additional effects:"}</StyledP>
+                            {abilityInfo.effects &&
+                                abilityInfo.effects.map((effect) => (
+                                    <StyledRow key={effect.id}>
+                                        <StyledImgWrapper>
+                                            <StyledEffectIco src={require(`../assets/effectsBar/${effect.id}.png`)} />
+                                        </StyledImgWrapper>
+                                        {effect.id === "LOOSE_NEXT_TURN" ?
+                                            <StyledP>{`${effect.chance}% chance for ${effect.label}`}</StyledP> :
+                                            <StyledP>{`${effect.chance}% chance for ${effect.label} - ${effect.turnsDuration} ${effect.turnsDuration === 1 ? "turn" : "turns"}`}</StyledP>
+                                        }
+                                    </StyledRow>
+                                ))}
+                        </StyledContainer>
+                    </>
+                )}
+            </StyledAbility>
         </StyledAbilityWrapper>
     );
 };

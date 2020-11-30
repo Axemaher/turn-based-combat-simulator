@@ -1,12 +1,59 @@
 import React from 'react';
 import styled from 'styled-components';
-import FrameLight from './FrameLight';
+import corner from '../assets/corner.png';
+import cornerR from '../assets/cornerR.png';
+import barElement from '../assets/barElement.png';
+
+const Wrapper = styled.div`
+    width: 100%;
+    height: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin: 5px 0;
+`;
+
+const StyledBefore = styled.div`
+    background: url(${corner});
+    width: 10px;
+    height: 20px;
+    background-size: cover;
+    top: -4px;
+    left: 0;
+    z-index: 2;
+`;
+
+const StyledAfter = styled.div`
+    background: url(${cornerR});
+    width: 10px;
+    height: 20px;
+    background-size: cover;
+    top: -4px;
+    left: 0;
+    z-index: 2;
+`;
 
 const StyledHpBarWrapper = styled.div`
     width: 100%;
     height: 10px;
     display: flex;
     justify-content: ${({ float }) => float === 'left' ? 'flex-start' : 'flex-end'};
+    &:before, &:after{
+        content: "";
+        height: 3px;
+        width: 96%;
+        background-image: url(${barElement});
+        background-size: contain;
+        position: absolute;
+        z-index: 3;
+    }
+    &:before{
+        top: -2px;
+    }
+    &:after{
+        bottom: -3px;
+    }
 `;
 
 const StyledHpBar = styled.div`
@@ -14,29 +61,19 @@ const StyledHpBar = styled.div`
     height: 10px;
     background-color: ${({ theme }) => theme.colors.hpBar};
     transition: all .2s;
-    position: absolute;
     top: 1px;
-`;
-
-const StyledHpBarTextInfo = styled.p`
-    position: absolute;
-    font-size: .6em;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    transition: all .2s;
+    z-index: 2;
 `;
 
 const HpBar = ({ hp, maxHp, float }) => {
     return (
-        <FrameLight>
+        <Wrapper>
+            <StyledBefore />
             <StyledHpBarWrapper float={float}>
                 <StyledHpBar width={`${(hp / maxHp) * 100}%`} />
-                <StyledHpBarTextInfo>
-                    {hp} / {maxHp}
-                </StyledHpBarTextInfo>
             </StyledHpBarWrapper>
-        </FrameLight>
+            <StyledAfter />
+        </Wrapper>
     );
 }
 

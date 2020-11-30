@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import styled from 'styled-components';
-import FrameLight from '../../components/FrameLight';
 import AbilityInfo from '../../components/AbilityInfo';
+import atkIco from '../../assets/ATKdark.png';
+
 //actions
 import {
     playerApSubstract,
@@ -36,37 +37,44 @@ import { damageCalculation } from '../../utils/functions/damageCalculation';
 
 import longPressEvent from '../../utils/useLongPress';
 
-const StyledButtonUse = styled.button`
-    background-color: transparent;
-    border: none;
-    max-width: 40px;
-    max-height: 40px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    transition: all .2s;
-    opacity: ${({ disabled }) => disabled ? '.3' : '1'};
-    color: ${({ theme }) => theme.colors.font};
-    cursor: pointer;
-`;
-
 const StyledAbilitiesList = styled.ul`
     padding: 0;
     display: flex;
     flex-basis: auto;
 `;
 
-const StyledAbility = styled.li`
-    margin: 0 2px; 
-    display: inline-block;
+const AbilityWrapper = styled.li``;
+
+const StyledButtonUse = styled.button`
+    background-color: transparent;
+    border: none;
+    text-align: left;
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    transition: all .2s;
+    color: ${({ theme }) => theme.colors.font};
+    background-image: url(${atkIco});
+    background-size: cover;
+    background-position: center;
+    width: 56px;
+    height: 56px;
+    margin: 0 2px;
     position: relative;
     cursor: pointer;
+    @media ${({ theme }) => theme.device.mobileL} {
+        width: 46px;
+        height: 46px;
+    }
 `;
 
-const StyledAbilityImg = styled.img`
-    width: 100%;
-    pointer-events: none;
+const AbilityImg = styled.div`
+    background-image: url(${({ img }) => img});
+    opacity: ${({ disabled }) => disabled ? '.3' : '1'};
+    background-position: center;
+    background-size: cover;
+    width: 70%;
+    height: 70%;
 `;
 
 const ConnectedAbilitiesList = ({ state, dispatch }) => {
@@ -230,30 +238,37 @@ const ConnectedAbilitiesList = ({ state, dispatch }) => {
     return (
         <StyledAbilitiesList>
             {player.abilities.map((ability, index) => (
-                <StyledAbility
+                <AbilityWrapper
                     key={ability.id + index}
                     onMouseEnter={() => setHoverIndex(index)}
                     onMouseLeave={() => setHoverIndex(null)}
                 >
-                    <FrameLight>
-                        <StyledButtonUse
+                    <StyledButtonUse
+                        disabled={
+                            !battle.uiEnabled ||
+                            ability.apCost > player.ap ||
+                            ability.usesPerBattle <= 0
+                        }
+                        {...longPressEvent(() => handleOnLongPress(index), () => handleOnClick(ability))}
+                        onKeyDown={(e) => handleOnKeyDown(index, ability, e)}
+
+                    >
+                        <AbilityImg
                             disabled={
                                 !battle.uiEnabled ||
                                 ability.apCost > player.ap ||
                                 ability.usesPerBattle <= 0
                             }
-                            {...longPressEvent(() => handleOnLongPress(index), () => handleOnClick(ability))}
-                            onKeyDown={(e) => handleOnKeyDown(index, ability, e)}
-                        >
-                            <StyledAbilityImg src={require(`../../assets/abilities/${ability.id}.png`)} />
-                        </StyledButtonUse>
-                    </FrameLight>
-                    <AbilityInfo
-                        visible={hoverIndex === index}
-                        abilityInfo={ability}
-                        setHoverIndex={setHoverIndex}
-                    />
-                </StyledAbility>
+                            img={require(`../../assets/abilities/${ability.id}.png`)}
+                        />
+                        <AbilityInfo
+                            visible={hoverIndex === index}
+                            abilityInfo={ability}
+                            setHoverIndex={setHoverIndex}
+                        />
+                    </StyledButtonUse>
+                </AbilityWrapper>
+
             ))}
         </StyledAbilitiesList>
     );

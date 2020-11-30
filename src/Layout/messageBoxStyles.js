@@ -1,6 +1,5 @@
 import styled from 'styled-components';
-import messageFrame from '../assets/messageFrame.png';
-import ropeBorder from '../assets/ropeBorder.png';
+import bg from '../assets/MESSAGEdark.png';
 
 export const StyledMessageBox = styled.div` 
     position: relative;
@@ -10,9 +9,6 @@ export const StyledMessageBox = styled.div`
     left: 50%;
     min-height: 50px;
     max-width: 500px;
-    background-image: url(${messageFrame});
-    background-size: cover;
-    background-position: center;
     padding: 6px;
     display: flex;
     justify-content: center;
@@ -21,21 +17,9 @@ export const StyledMessageBox = styled.div`
       max-width: 100vw;
       bottom: 200px;
     }
-    &::before, &::after{
-      position: absolute;
-      content: "";
-      background-image: url(${ropeBorder});
-      background-position: center;
-      background-size: contain;
-      width:97%;
-      height:9px;
-    }
-    &::before{
-      top: -7px;
-    }
-    &::after{
-      bottom: -7px;
-    }
+    background-image: url(${bg});
+    background-size: 100% 100%;
+    padding: 20px;
 `;
 
 export const StyledBoxText = styled.p`

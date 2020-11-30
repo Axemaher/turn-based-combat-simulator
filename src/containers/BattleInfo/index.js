@@ -21,9 +21,13 @@ const StyledBattleInfoWrapper = styled.div`
     height: 200px;
     z-index: 2;
     transition: all .2s;
+    @media ${({ theme }) => theme.device.tablet} {
+      width: 100vw;
+      height: 150px;
+    }
     @media ${({ theme }) => theme.device.mobileL} {
       width: 100vw;
-      height: 320px;
+      height: 240px;
     }
 `;
 

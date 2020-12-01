@@ -90,6 +90,7 @@ const ConnectedAbilitiesList = ({ state, dispatch }) => {
 
         const {
             type,
+            damageType,
             useValue,
             name,
             apCost,
@@ -114,6 +115,8 @@ const ConnectedAbilitiesList = ({ state, dispatch }) => {
                     criticalChance: player.stats.criticalChance,
                     criticalMod: player.stats.criticalMod,
                     chanceToMiss: player.stats.chanceToMiss,
+                    damageType: ability.damageType,
+                    defense: enemy.defense
                 }
             )
 
@@ -186,8 +189,8 @@ const ConnectedAbilitiesList = ({ state, dispatch }) => {
         if (turn) {
             setUiEnabled(true);
 
-            const { ap, maxAp, effects, name } = player;
-            checkEffects(ap, maxAp, effects, name, turn)
+            const { ap, maxAp, effects, name, defense } = player;
+            checkEffects(ap, maxAp, effects, name, turn, defense)
 
             // checking winner after substract hp from negative effects
             checkWinner()

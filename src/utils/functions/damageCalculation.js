@@ -1,4 +1,5 @@
 import { randomFromInterval } from './randomFromInterval';
+import { percentSubstract } from './percentSubstract';
 
 
 export const damageCalculation = (
@@ -6,7 +7,9 @@ export const damageCalculation = (
         damageMin,
         criticalChance,
         criticalMod,
-        chanceToMiss }
+        chanceToMiss,
+        damageType,
+        defense }
 ) => {
 
     const percentCheck = percent => {
@@ -26,10 +29,24 @@ export const damageCalculation = (
         } else {
             calculatedDamage = basicDamage;
         }
-    } else
+        switch (damageType) {
+            case 'PHYSICAL':
+                calculatedDamage = percentSubstract(calculatedDamage, defense.physical)
+                break;
+
+            case 'MAGIC':
+                calculatedDamage = percentSubstract(calculatedDamage, defense.magic)
+                break;
+
+            default:
+                break;
+        }
+    } else {
         if (missCheck) {
             calculatedDamage = 0;
         }
+    }
+
 
     return {
         miss: missCheck,

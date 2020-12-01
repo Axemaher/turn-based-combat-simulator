@@ -10,8 +10,8 @@ const playerStats = {
     },
     baseStats: {
         criticalMod: 2.5,
-        criticalChance: 60,
-        chanceToMiss: 10,
+        criticalChance: 30,
+        chanceToMiss: 30,
     },
     stats: {
         criticalMod: 2.5,
@@ -19,7 +19,10 @@ const playerStats = {
         chanceToMiss: 30,
     },
     defense: {
-
+        physical: 20,
+        magic: 10,
+        poison: 0,
+        bleeding: 0,
     },
     effects: [],
     utilityEffects: [],
@@ -27,6 +30,7 @@ const playerStats = {
         {
             id: 'ATTACK_DOUBLE_STRIKE',
             type: 'ATTACK',
+            damageType: 'PHYSICAL',
             name: 'Double strike',
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
             damageMin: 10,
@@ -37,6 +41,7 @@ const playerStats = {
         {
             id: 'ATTACK_CYCLONE',
             type: 'ATTACK',
+            damageType: 'PHYSICAL',
             name: 'Cyclone',
             description: "Lorem ipsum dolor sid tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
             damageMin: 20,
@@ -50,6 +55,7 @@ const playerStats = {
         {
             id: 'SPEC_ATTACK_POISON_FOG',
             type: 'SPEC_ATTACK',
+            damageType: 'MAGIC',
             name: 'Poison fog',
             description: "Lorem ipsumlore magna aliqua. Ut enim ad minim veniam",
             damageMin: 15,
@@ -64,6 +70,7 @@ const playerStats = {
         {
             id: 'SPEC_ATTACK_DIVINE_LIGHT',
             type: 'SPEC_ATTACK',
+            damageType: 'MAGIC',
             name: 'Divine Light',
             description: "Lorem ipsumlore magna aliqua. Ut enim ad minim veniam",
             damageMin: 10,
@@ -91,7 +98,7 @@ const playerStats = {
             id: 'UTILITY_POTION_CRITICAL_INCREASE',
             type: 'UTILITY',
             name: 'Potion of critical increase',
-            description: "You increase critical chance when you drink this potion.",
+            description: "You increase critical modificator when you drink this potion.",
             useValue: 0.8,
             apCost: 2,
             usesPerBattle: 1,

@@ -80,9 +80,9 @@ const ConnectedEnemySide = ({ state, dispatch }) => {
         } else {
             if (battleStarted) {
                 setUiEnabled(false);
-                const { ap, maxAp, effects, name } = enemy;
+                const { ap, maxAp, effects, name, defense } = enemy;
                 // checking negative effects first (only one time on turn)
-                checkEffects(ap, maxAp, effects, name, turn);
+                checkEffects(ap, maxAp, effects, name, turn, defense);
 
                 // if negative effects kill enemy
                 if (checkWinner().battleEnded) {
@@ -130,6 +130,7 @@ const ConnectedEnemySide = ({ state, dispatch }) => {
             const attack = availableAttacks[enemyAttackIndex];
             const enemyAttackData = {
                 name: attack.name,
+                damageType: attack.damageType,
                 damageMax: attack.damageMax,
                 damageMin: attack.damageMin,
                 apCost: attack.apCost,
@@ -146,7 +147,9 @@ const ConnectedEnemySide = ({ state, dispatch }) => {
                     damageMin: enemyAttackData.damageMin,
                     criticalChance: enemy.stats.criticalChance,
                     criticalMod: enemy.stats.criticalMod,
-                    chanceToMiss: enemy.stats.chanceToMiss
+                    chanceToMiss: enemy.stats.chanceToMiss,
+                    damageType: enemyAttackData.damageType,
+                    defense: player.defense
                 }
             )
 

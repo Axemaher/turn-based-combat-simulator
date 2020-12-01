@@ -14,12 +14,16 @@ const enemyStats = {
         chanceToMiss: 10,
     },
     defense: {
-
+        physical: 20,
+        magic: 10,
+        poison: 0,
+        bleeding: 0,
     },
     effects: [],
     abilities: [
         {
             id: 'DOUBLE_STRIKE',
+            damageType: 'PHYSICAL',
             name: 'Double strike',
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
             damageMin: 10,
@@ -29,6 +33,7 @@ const enemyStats = {
         },
         {
             id: 'CYCLONE',
+            damageType: 'PHYSICAL',
             name: 'Cyclone',
             description: "Lorem ipsum dolor sid tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam",
             damageMin: 20,
@@ -41,6 +46,7 @@ const enemyStats = {
         },
         {
             id: 'SPEC_POISON_FOG',
+            damageType: 'MAGIC',
             name: 'Poison fog',
             description: "Lorem ipsumlore magna aliqua. Ut enim ad minim veniam",
             damageMin: 15,
@@ -54,6 +60,7 @@ const enemyStats = {
         },
         {
             id: 'SPEC_DIVINE_LIGHT',
+            damageType: 'MAGIC',
             name: 'Divine Light',
             description: "Lorem ipsumlore magna aliqua. Ut enim ad minim veniam",
             damageMin: 10,

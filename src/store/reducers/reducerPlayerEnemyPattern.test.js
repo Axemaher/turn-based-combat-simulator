@@ -1,6 +1,6 @@
 import reducer from './playerReducer';
 import * as types from '../constants/action-types';
-import *  as effects from '../../utils/constans/effects'
+import * as effects from '../../utils/constans/effects'
 
 describe('player reducer', () => {
     it('hp substract', () => {
@@ -29,10 +29,10 @@ describe('player reducer', () => {
         const initialState = { effects: [] }
         const action = {
             type: types.PLAYER_EFFECT_ADD,
-            payload: { id: effects.LOOSE_NEXT_TURN, turnsDuration: 1 }
+            payload: { id: effects.LOOSE_NEXT_TURN, turnsDuration: 1, use: "ENEMY" }
         };
-        const expectedState1 = { effects: [{ id: effects.LOOSE_NEXT_TURN, turnsDuration: 1 }] }
-        const expectedState2 = { effects: [{ id: effects.LOOSE_NEXT_TURN, turnsDuration: 1 }] }
+        const expectedState1 = { effects: [{ id: effects.LOOSE_NEXT_TURN, turnsDuration: 1, use: "ENEMY" }] }
+        const expectedState2 = { effects: [{ id: effects.LOOSE_NEXT_TURN, turnsDuration: 1, use: "ENEMY" }] }
 
         const state1 = reducer(initialState, action);
         expect(state1).toEqual(expectedState1);
@@ -80,109 +80,80 @@ describe('player reducer', () => {
 
         expect(reducer(initial, action)).toEqual(expected)
     })
+
+
     it('player attack uses per battle substract', () => {
         const initial = {
-            attacks: [
+            abilities: [
                 {
-                    id: 84956,
+                    id: 'DOUBLE_STRIKE',
                     usesPerBattle: Infinity,
+                },
+                {
+                    id: 'SPEC_POISON_FOG',
+                    usesPerBattle: 2,
                     effects: [
-                        { id: effects.BLEEDING, turnsDuration: 4, chance: 0 },
+                        { id: "POISON", label: "poison", turnsDuration: 2, chance: 100, useValue: 7, use: "ENEMY" },
                     ],
                 },
-                {
-                    id: 234324,
-                    usesPerBattle: Infinity,
-                    effects: [{ id: effects.POISON, turnsDuration: 2, chance: 50 },],
-
-                },
-                {
-                    id: 234322,
-                    usesPerBattle: 1,
-                    effects: [{ id: effects.POISON, turnsDuration: 2, chance: 100 },],
-
-                }
             ]
         }
         const action = {
-            type: types.PLAYER_ATTACK_USES_PER_BATTLE_SUBSTRACT,
-            payload: 234322
+            type: types.PLAYER_ABILITY_USES_PER_BATTLE_SUBSTRACT,
+            payload: "SPEC_POISON_FOG"
         };
         const expected = {
-            attacks: [
+            abilities: [
                 {
-                    id: 84956,
+                    id: 'DOUBLE_STRIKE',
                     usesPerBattle: Infinity,
+                },
+                {
+                    id: 'SPEC_POISON_FOG',
+                    usesPerBattle: 1,
                     effects: [
-                        { id: effects.BLEEDING, turnsDuration: 4, chance: 0 },
+                        { id: "POISON", label: "poison", turnsDuration: 2, chance: 100, useValue: 7, use: "ENEMY" },
                     ],
                 },
-                {
-                    id: 234324,
-                    usesPerBattle: Infinity,
-                    effects: [{ id: effects.POISON, turnsDuration: 2, chance: 50 },],
-
-                },
-                {
-                    id: 234322,
-                    usesPerBattle: 0,
-                    effects: [{ id: effects.POISON, turnsDuration: 2, chance: 100 },],
-
-                }
             ]
         }
 
         expect(reducer(initial, action)).toEqual(expected)
     })
+
     it('player attack uses per battle substract from Infinity', () => {
         const initial = {
-            attacks: [
+            abilities: [
                 {
-                    id: 84956,
+                    id: 'DOUBLE_STRIKE',
                     usesPerBattle: Infinity,
+                },
+                {
+                    id: 'SPEC_POISON_FOG',
+                    usesPerBattle: 1,
                     effects: [
-                        { id: effects.BLEEDING, turnsDuration: 4, chance: 0 },
+                        { id: "POISON", label: "poison", turnsDuration: 2, chance: 100, useValue: 7, use: "ENEMY" },
                     ],
                 },
-                {
-                    id: 234324,
-                    usesPerBattle: Infinity,
-                    effects: [{ id: effects.POISON, turnsDuration: 2, chance: 50 },],
-
-                },
-                {
-                    id: 234322,
-                    usesPerBattle: 1,
-                    effects: [{ id: effects.POISON, turnsDuration: 2, chance: 100 },],
-
-                }
             ]
         }
         const action = {
-            type: types.PLAYER_ATTACK_USES_PER_BATTLE_SUBSTRACT,
-            payload: 234324
+            type: types.PLAYER_ABILITY_USES_PER_BATTLE_SUBSTRACT,
+            payload: "DOUBLE_STRIKE"
         };
         const expected = {
-            attacks: [
+            abilities: [
                 {
-                    id: 84956,
+                    id: 'DOUBLE_STRIKE',
                     usesPerBattle: Infinity,
+                },
+                {
+                    id: 'SPEC_POISON_FOG',
+                    usesPerBattle: 1,
                     effects: [
-                        { id: effects.BLEEDING, turnsDuration: 4, chance: 0 },
+                        { id: "POISON", label: "poison", turnsDuration: 2, chance: 100, useValue: 7, use: "ENEMY" },
                     ],
                 },
-                {
-                    id: 234324,
-                    usesPerBattle: Infinity,
-                    effects: [{ id: effects.POISON, turnsDuration: 2, chance: 50 },],
-
-                },
-                {
-                    id: 234322,
-                    usesPerBattle: 1,
-                    effects: [{ id: effects.POISON, turnsDuration: 2, chance: 100 },],
-
-                }
             ]
         }
 
@@ -191,14 +162,14 @@ describe('player reducer', () => {
 
     it('player utility uses per battle substract with deleting', () => {
         const initial = {
-            utilities: [
+            abilities: [
                 {
-                    id: 'HEAL_POTION',
+                    id: 'UTILITY_POTION_HEAL',
                     usesPerBattle: 3,
                 },
                 {
                     id: 'CRITICAL_INCREASE_POTION',
-                    usesPerBattle: 1,
+                    usesPerBattle: 0,
                 },
             ]
         }
@@ -207,9 +178,9 @@ describe('player reducer', () => {
             payload: "CRITICAL_INCREASE_POTION"
         };
         const expected = {
-            utilities: [
+            abilities: [
                 {
-                    id: 'HEAL_POTION',
+                    id: 'UTILITY_POTION_HEAL',
                     usesPerBattle: 3,
                 },
                 {

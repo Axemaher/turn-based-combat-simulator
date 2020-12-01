@@ -1,4 +1,6 @@
 import store from '../../store/store'
+import { percentSubstract } from './percentSubstract';
+
 
 //actions
 import {
@@ -41,7 +43,7 @@ const actions = {
 }
 
 
-export const checkEffects = (ap, maxAp, effects, name, playerTurn) => {
+export const checkEffects = (ap, maxAp, effects, name, playerTurn, defense) => {
 
     const {
         setTurn,
@@ -63,6 +65,7 @@ export const checkEffects = (ap, maxAp, effects, name, playerTurn) => {
             effects.forEach(effect => {
 
                 const { id, useValue, turnsDuration } = effect;
+                let damage = null;
 
                 if (turnsDuration <= 1) {
                     if (playerTurn) {
@@ -85,23 +88,25 @@ export const checkEffects = (ap, maxAp, effects, name, playerTurn) => {
                         enemyApReset();
                         break;
                     case POISON:
-                        addLog(`${name} loses ${useValue} health points by poison.`);
+                        damage = percentSubstract(useValue, defense.poison)
+                        addLog(`${name} loses ${damage} health points by poison.`);
                         if (playerTurn) {
                             playerEffectTurnSubstract(POISON);
-                            playerHpSubstract(useValue);
+                            playerHpSubstract(damage);
                         } else if (!playerTurn) {
                             enemyEffectTurnSubstract(POISON);
-                            enemyHpSubstract(useValue);
+                            enemyHpSubstract(damage);
                         }
                         break;
                     case BLEEDING:
-                        addLog(`${name} loses ${useValue} health points by bleeding.`);
+                        damage = percentSubstract(useValue, defense.bleeding)
+                        addLog(`${name} loses ${damage} health points by bleeding.`);
                         if (playerTurn) {
                             playerEffectTurnSubstract(BLEEDING);
-                            playerHpSubstract(useValue);
+                            playerHpSubstract(damage);
                         } else if (!playerTurn) {
                             enemyEffectTurnSubstract(BLEEDING);
-                            enemyHpSubstract(useValue);
+                            enemyHpSubstract(damage);
                         }
                         break;
                     case HEALING:

@@ -4,11 +4,11 @@ import * as effects from '../constans/effects';
 describe('add effects', () => {
     it('adding effect', () => {
         const effectsArr = [
-            { id: effects.BLEEDING, label: "bleeding", turnsDuration: 2, chance: 50, useValue: 13, use: "ENEMY" },
+            { id: effects.POISON, label: "poison", turnsDuration: 2, chance: 100, useValue: 7, use: "ENEMY" },
         ];
         const playerTurn = true;
         const expectedState = [
-            { id: effects.BLEEDING, turnsDuration: 2, use: "ENEMY", useValue: 13 },
+            { id: effects.POISON, turnsDuration: 2, useValue: 7, use: "ENEMY" },
         ];
         expect(addEffects(effectsArr, playerTurn)).toEqual(expectedState)
     })

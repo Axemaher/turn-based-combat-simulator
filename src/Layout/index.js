@@ -18,8 +18,8 @@ const StyledGlobalWrapper = styled.div`
   position: relative;
   width: 100vw;
   min-height: 100vh;
-  background-image: url(${require(`../assets/backgrounds/WINTER_BACKGROUND.jpg`)});
-  background-size: 100% 100%;
+  background-image: url(${require(`../assets/backgrounds/CITY_BACKGROUND.jpg`)});
+  background-size: cover;
   background-position: center;
 `;
 

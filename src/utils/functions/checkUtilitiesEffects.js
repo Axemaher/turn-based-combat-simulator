@@ -39,7 +39,7 @@ export const checkUtilitiesEffects = (ap, maxAp, utilityEffects, playerTurn) => 
                         case UTILITY_POTION_CRITICAL_INCREASE:
                             playerChangeStats({
                                 ...state.player.stats,
-                                criticalMod: state.player.baseStats.criticalMod
+                                criticalMod: state.player.baseStatsCopy.stats.criticalMod
                             })
                     }
                     playerUtilityEffectSubstract(id);

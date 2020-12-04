@@ -26,12 +26,13 @@ export const addEffects = (effects, playerTurn) => {
     if (effects) {
         effects.forEach(effect => {
 
-            const { id, turnsDuration, useValue, use } = effect;
+            const { id, turnsDuration, useValue, use, label } = effect;
 
             if (Math.random() * 100 < effect.chance) {
 
                 const newEffectData = {
                     id,
+                    label,
                     turnsDuration,
                     useValue,
                     use,

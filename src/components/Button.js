@@ -2,6 +2,14 @@ import React from 'react';
 import styled from "styled-components";
 import bg from '../assets/BUTTONdark.png';
 
+const StyledButtonText = styled.span`
+    opacity: ${({ disabled }) => disabled ? '.3' : '1'};
+    padding: 0 10px;
+    vertical-align: super;
+    transition: all .2s;
+
+`;
+
 const StyledButton = styled.button`
     background-color: transparent;
     border: none;
@@ -13,12 +21,10 @@ const StyledButton = styled.button`
     height: 28px;
     padding: 0 13px;
     margin: 4px;
-`;
-
-const StyledButtonText = styled.span`
-    opacity: ${({ disabled }) => disabled ? '.3' : '1'};
-    padding: 0 10px;
-    vertical-align: super;
+    color: ${({ theme }) => theme.colors.font};
+    &:hover ${StyledButtonText}{
+        color: ${({ theme }) => theme.colors.fontHover};
+    }
 `;
 
 

@@ -21,7 +21,7 @@ const actions = {
 
 const state = store.getState()
 
-export const handleUseUtility = (id, useValue, turnsDuration) => {
+export const handleUseUtility = (id, name, label, useValue, turnsDuration) => {
 
     const {
         playerUtilityEffectAdd,
@@ -31,13 +31,15 @@ export const handleUseUtility = (id, useValue, turnsDuration) => {
 
     let utilityEffectData = {
         id,
+        name,
+        label,
         turnsDuration,
     }
     switch (id) {
         case UTILITY_POTION_CRITICAL_INCREASE:
             playerChangeStats({
                 ...state.player.stats,
-                criticalMod: state.player.baseStats.criticalMod + useValue
+                criticalMod: state.player.baseStatsCopy.stats.criticalMod + useValue
             })
             playerUtilityEffectAdd(utilityEffectData);
             break;

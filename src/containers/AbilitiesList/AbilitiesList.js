@@ -41,6 +41,7 @@ const StyledAbilitiesList = styled.ul`
     padding: 0;
     display: flex;
     flex-basis: auto;
+    list-style: none;
 `;
 
 const AbilityWrapper = styled.li``;
@@ -93,6 +94,7 @@ const ConnectedAbilitiesList = ({ state, dispatch }) => {
             damageType,
             useValue,
             name,
+            label,
             apCost,
             damageMin,
             damageMax,
@@ -170,7 +172,7 @@ const ConnectedAbilitiesList = ({ state, dispatch }) => {
             enemyHpSubstract(damageData.damage);
             playerAbilityUsesPerBattleSubstract(id);
         } else if (type === UTILITY) {
-            handleUseUtility(id, useValue, turnsDuration)
+            handleUseUtility(id, name, label, useValue, turnsDuration)
             playerUtilityUsesPerBattleSubstract(id);
         }
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from 'styled-components';
 import Layout from '../../Layout'
 import EnemySide from '../EnemySide';
@@ -8,8 +8,9 @@ import ApBar from "../ApBar";
 import TurnButton from "../TurnButton/TurnButton";
 import GameLog from "../GameLog/GameLog";
 import AbilitiesList from "../AbilitiesList/AbilitiesList";
-import bg from '../../assets/lightBg.png'
-
+import bg from '../../assets/lightBg.png';
+import Stats from '../Stats/Stats';
+import Button from '../../components/Button';
 
 const StyledBattleAreaWrapper = styled.div`
     max-width: 900px;
@@ -17,8 +18,9 @@ const StyledBattleAreaWrapper = styled.div`
     display: block;
     margin: 0 auto;
     background-image: url(${bg});
-    background-size: cover;
+    background-size: 100% 100%;
     padding: 0;
+    position: relative;
 `;
 
 const StyledContainerHeader = styled.div`
@@ -39,6 +41,9 @@ const StyledContainerHeader = styled.div`
 `;
 
 const BattleArena = () => {
+
+    const [statsModal, setStatsModal] = useState(false)
+
     return (
         <Layout>
             <StyledBattleAreaWrapper>
@@ -50,8 +55,10 @@ const BattleArena = () => {
                 <ApBar />
                 <AbilitiesList />
                 <TurnButton />
+                <Button onClick={() => setStatsModal(true)}>stats</Button>
                 <GameLog />
             </StyledBattleAreaWrapper>
+            {statsModal && <Stats setStatsModal={setStatsModal} />}
         </Layout>
     );
 }

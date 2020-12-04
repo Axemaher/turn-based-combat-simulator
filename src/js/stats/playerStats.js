@@ -6,12 +6,12 @@ const playerStats = {
     ap: 14,
     maxAp: 14,
     attributes: {
-
-    },
-    baseStats: {
-        criticalMod: 2.5,
-        criticalChance: 30,
-        chanceToMiss: 30,
+        str: 10,
+        dex: 5,
+        int: 4,
+        wis: 2,
+        ten: 7,
+        luc: 4,
     },
     stats: {
         criticalMod: 2.5,
@@ -85,6 +85,7 @@ const playerStats = {
             id: 'UTILITY_POTION_HEAL',
             type: 'UTILITY',
             name: 'Potion of Healing',
+            label: "healing",
             description: "You regain health points when you drink this potion.",
             useValue: 40,
             apCost: 2,
@@ -98,6 +99,7 @@ const playerStats = {
             id: 'UTILITY_POTION_CRITICAL_INCREASE',
             type: 'UTILITY',
             name: 'Potion of critical increase',
+            label: "critical increase",
             description: "You increase critical modificator when you drink this potion.",
             useValue: 0.8,
             apCost: 2,
@@ -105,6 +107,19 @@ const playerStats = {
             turnsDuration: 2,
         }
     ],
+    baseStatsCopy: {
+        stats: {
+            criticalMod: 2.5,
+            criticalChance: 30,
+            chanceToMiss: 30,
+        },
+        defense: {
+            physical: 20,
+            magic: 10,
+            poison: 0,
+            bleeding: 0,
+        },
+    }
 }
 
 export default playerStats

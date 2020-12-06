@@ -6,11 +6,16 @@ import {
     setTurn,
 } from "../../store/actions";
 
-const ConnectedTurnButton = ({ uiEnabled, setTurn }) => {
+const ConnectedTurnButton = ({ uiEnabled, setTurn, turn }) => {
+
+    const handleClick = () => {
+        return !uiEnabled ? null : setTurn()
+    };
+
     return (
         <Button
-            disabled={!uiEnabled}
-            onClick={() => setTurn()}
+            disabled={!uiEnabled || !turn}
+            onClick={() => handleClick()}
         >
             turn
         </Button>
@@ -25,7 +30,8 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
     return {
-        uiEnabled: state.battle.uiEnabled
+        uiEnabled: state.battle.uiEnabled,
+        turn: state.turn,
     };
 };
 

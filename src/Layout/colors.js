@@ -8,4 +8,5 @@ export const colors = {
     scrollbarTrack: 'rgba(255, 255, 255, 0.33)',
     scrollbarThumb: 'rgba(0, 0, 0, 0.4)',
     scrollBarHover: 'rgba(0, 0, 0, 0.6)',
+    modalBackground: 'rgba(0, 0, 0, 0.3)',
 }

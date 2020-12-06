@@ -40,6 +40,14 @@ const StyledContainerHeader = styled.div`
     }
 `;
 
+const StyledButtonsContainer = styled.div`
+    display: flex;
+    justify-content: flex-start;
+    @media ${({ theme }) => theme.device.mobileL} {
+        justify-content: space-around;
+    }
+`;
+
 const BattleArena = () => {
 
     const [statsModal, setStatsModal] = useState(false)
@@ -54,8 +62,10 @@ const BattleArena = () => {
                 </StyledContainerHeader>
                 <ApBar />
                 <AbilitiesList />
-                <TurnButton />
-                <Button onClick={() => setStatsModal(true)}>stats</Button>
+                <StyledButtonsContainer>
+                    <TurnButton />
+                    <Button onClick={() => setStatsModal(true)}>stats</Button>
+                </StyledButtonsContainer>
                 <GameLog />
             </StyledBattleAreaWrapper>
             {statsModal && <Stats setStatsModal={setStatsModal} />}

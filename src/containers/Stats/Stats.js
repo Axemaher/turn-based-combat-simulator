@@ -11,7 +11,7 @@ const StyledWrapper = styled.div`
     left: 0;
     width: 100%;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.33);
+    background-color: ${({ theme }) => theme.colors.modalBackground};
     z-index: 10;
     overflow: auto;
     font-size: 1rem;
@@ -75,6 +75,14 @@ const StyledSpanWithIco = styled(StyledSpan)`
     }
 `;
 
+const StyledCloseIco = styled.div`
+    width: 50%;
+    height: 50%;
+    background-image: url(${closeIco});
+    background-size: contain;
+    opacity: .8;
+`;
+
 const StyledClose = styled.button`
     background-color: transparent;
     border: none;
@@ -88,13 +96,11 @@ const StyledClose = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
-`;
-
-const StyledCloseIco = styled.div`
-    width: 50%;
-    height: 50%;
-    background-image: url(${closeIco});
-    background-size: contain;
+    transition: opacity .3s;
+    cursor: pointer;
+    &:hover ${StyledCloseIco}{
+        opacity: 1;
+    }
 `;
 
 const ConnectedStats = ({ player, setStatsModal }) => {

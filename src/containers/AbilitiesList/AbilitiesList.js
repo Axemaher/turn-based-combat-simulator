@@ -64,8 +64,8 @@ const StyledButtonUse = styled.button`
     position: relative;
     cursor: pointer;
     @media ${({ theme }) => theme.device.mobileL} {
-        width: 46px;
-        height: 46px;
+        width: calc(92vw / 6);
+        height: calc(92vw / 6);
     }
 `;
 

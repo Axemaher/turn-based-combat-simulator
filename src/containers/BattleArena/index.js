@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from 'styled-components';
-import Layout from '../../Layout'
 import EnemySide from '../EnemySide';
 import PlayerSide from '../PlayerSide';
 import BattleInfo from '../BattleInfo';
@@ -53,7 +52,7 @@ const BattleArena = () => {
     const [statsModal, setStatsModal] = useState(false)
 
     return (
-        <Layout>
+        <>
             <StyledBattleAreaWrapper>
                 <StyledContainerHeader>
                     <BattleInfo />
@@ -69,7 +68,7 @@ const BattleArena = () => {
                 <GameLog />
             </StyledBattleAreaWrapper>
             {statsModal && <Stats setStatsModal={setStatsModal} />}
-        </Layout>
+        </>
     );
 }
 

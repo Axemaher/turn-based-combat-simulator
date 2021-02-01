@@ -1,5 +1,5 @@
 export const colors = {
-    promaryColor: 'black',
+    primaryColor: 'black',
     globalBackground: '#e3e3e3',
     hpBar: '#63070d',
     font: '#e5e5e5',

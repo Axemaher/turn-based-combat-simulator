@@ -1,9 +1,9 @@
 import React from 'react';
-import BattleArea from './containers/BattleArena';
+import Home from './containers/Home';
 
 const App = () => {
   return (
-    <BattleArea />
+    <Home />
   );
 }
 

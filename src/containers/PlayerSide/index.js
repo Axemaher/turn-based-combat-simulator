@@ -23,12 +23,12 @@ const StyledRowOneLine = styled(StyledRow)`
     align-items: flex-end;
 `;
 
-const ConnectedPlayerSide = ({ name, effects, hp, maxHp }) => {
+const ConnectedPlayerSide = ({ name, avatar, effects, hp, maxHp }) => {
 
     return (
         <StyledSide>
             <StyledRowOneLine>
-                <Avatar name={name} src={require(`../../assets/avatars/PLAYER.png`)} />
+                <Avatar name={name} src={require(`../../assets/avatars/${avatar}.png`)} />
                 <EffectsBar effects={effects} reverse={false} />
             </StyledRowOneLine>
             <StyledRow>
@@ -44,6 +44,7 @@ const ConnectedPlayerSide = ({ name, effects, hp, maxHp }) => {
 function mapStateToProps(state) {
     return {
         name: state.player.name,
+        avatar: state.player.avatar,
         effects: state.player.effects,
         hp: state.player.hp,
         maxHp: state.player.maxHp,

@@ -18,9 +18,11 @@ const actions = {
     playerChangeStats: state => store.dispatch(playerChangeStats(state)),
 }
 
-const state = store.getState()
 
 export const checkUtilitiesEffects = (ap, maxAp, utilityEffects, playerTurn) => {
+
+    const state = store.getState()
+
 
     const {
         playerUtilityEffectSubstract,
@@ -41,6 +43,8 @@ export const checkUtilitiesEffects = (ap, maxAp, utilityEffects, playerTurn) => 
                                 ...state.player.stats,
                                 criticalMod: state.player.baseStatsCopy.stats.criticalMod
                             })
+                            break;
+                        default: return null
                     }
                     playerUtilityEffectSubstract(id);
                 }

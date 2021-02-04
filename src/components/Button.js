@@ -15,12 +15,14 @@ const StyledButton = styled.button`
     border: none;
     cursor: pointer;
     background-image: url(${bg});
-    background-size: cover;
+    background-size: contain;
     background-position: center;
-    width: 120px;
-    height: 28px;
+    background-repeat: no-repeat;
+    width: ${({ size }) => size === 'small' ? '100px' : '120px'};
+    height: ${({ size }) => size === 'small' ? '24px' : '28px'};
     padding: 0 13px;
     margin: 4px;
+    line-height: 10px;
     color: ${({ theme }) => theme.colors.font};
     &:hover ${StyledButtonText}{
         color: ${({ theme }) => theme.colors.fontHover};
@@ -28,10 +30,11 @@ const StyledButton = styled.button`
 `;
 
 
-const Button = ({ children, onClick, disabled }) => {
+const Button = ({ children, onClick, disabled, size }) => {
     return (
         <StyledButton
             onClick={onClick}
+            size={size}
         >
             <StyledButtonText disabled={disabled}>
                 {children}

@@ -10,6 +10,7 @@ import {
     SET_UI_ENABLED,
     ADD_LOG,
 
+    PLAYER_SET_DATA,
     PLAYER_RESET_STATS,
     PLAYER_HP_SUBSTRACT,
     PLAYER_HP_ADD,
@@ -25,6 +26,7 @@ import {
     PLAYER_UTILITY_EFFECT_SUBSTRACT,
     PLAYER_CHANGE_STATS,
 
+    ENEMY_SET_DATA,
     ENEMY_HP_SUBSTRACT,
     ENEMY_HP_ADD,
     ENEMY_AP_SUBSTRACT,
@@ -68,6 +70,9 @@ export const addLog = (payload) => {
 };
 
 ////////// PLAYER //////////
+export const playerSetData = (payload) => {
+    return { type: PLAYER_SET_DATA, payload }
+};
 export const playerResetStats = (payload) => {
     return { type: PLAYER_RESET_STATS, payload }
 };
@@ -112,6 +117,9 @@ export const playerChangeStats = (payload) => {
 };
 
 ////////// ENEMY //////////
+export const enemySetData = (payload) => {
+    return { type: ENEMY_SET_DATA, payload }
+};
 export const enemyHpSubstract = (payload) => {
     return { type: ENEMY_HP_SUBSTRACT, payload }
 }

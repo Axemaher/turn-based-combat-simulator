@@ -91,7 +91,7 @@ const ConnectedAbilitiesList = ({ state, dispatch }) => {
 
         const {
             type,
-            damageType,
+            // damageType,
             useValue,
             name,
             label,

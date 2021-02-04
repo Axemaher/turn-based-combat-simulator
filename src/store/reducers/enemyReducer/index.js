@@ -1,8 +1,7 @@
-import enemyStats from '../../../js/stats/enemyStats';
 import reducerPlayerEnemyPattern from '../reducerPlayerEnemyPattern';
 
 
-export const initialState = enemyStats;
+const initialState = null;
 
 const enemyReducer = reducerPlayerEnemyPattern('ENEMY', initialState)
 

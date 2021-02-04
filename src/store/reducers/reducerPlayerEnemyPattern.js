@@ -5,6 +5,8 @@ const find = (arr, search) => {
 const reducerPlayerEnemyPattern = (name, stateInitial) => {
     return (state = stateInitial, action) => {
         switch (action.type) {
+            case `${name}_SET_DATA`:
+                return action.payload;
             case `${name}_RESET_STATS`:
                 return state;
             case `${name}_HP_SUBSTRACT`:

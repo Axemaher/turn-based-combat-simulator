@@ -215,7 +215,7 @@ const ConnectedEnemySide = ({ state, dispatch }) => {
         <StyledSide>
             <StyledRowRight>
                 <EffectsBar effects={enemy.effects} reverse={true} />
-                <Avatar name={enemy.name} src={require(`../../assets/avatars/ENEMY.png`)} />
+                <Avatar name={enemy.name} src={require(`../../assets/avatars/${enemy.avatar}.png`)} />
             </StyledRowRight>
             <StyledRow>
                 <HpBar

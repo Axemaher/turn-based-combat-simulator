@@ -19,10 +19,11 @@ const actions = {
     playerHpAdd: state => store.dispatch(playerHpAdd(state)),
 }
 
-const state = store.getState()
 
 export const handleUseUtility = (id, name, label, useValue, turnsDuration) => {
+    const state = store.getState()
 
+    console.log(state)
     const {
         playerUtilityEffectAdd,
         playerChangeStats,

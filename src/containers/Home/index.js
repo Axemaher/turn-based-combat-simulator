@@ -7,7 +7,7 @@ import {
 import BattleArena from '../BattleArena';
 import Layout from '../../Layout'
 import Menu from './Menu'
-
+import CharacterSelect from '../CharacterSelect'
 
 const Home = () => {
     return (
@@ -15,8 +15,9 @@ const Home = () => {
             <Layout>
                 <Switch>
                     <Route exact path="/" component={Menu} />
-                    {/* <Route path="/characterSelect" component={CharacterSelect} /> */}
+                    <Route path="/characterSelect" component={CharacterSelect} />
                     <Route path="/fastBattle" component={BattleArena} />
+                    <Route path="/battle" component={BattleArena} />
                 </Switch>
             </Layout>
         </Router>

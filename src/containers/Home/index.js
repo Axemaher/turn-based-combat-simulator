@@ -5,7 +5,7 @@ import {
     Route
 } from "react-router-dom";
 import BattleArena from '../BattleArena';
-import Layout from '../../Layout'
+import Layout from '../../layout'
 import Menu from './Menu'
 import CharacterSelect from '../CharacterSelect'
 

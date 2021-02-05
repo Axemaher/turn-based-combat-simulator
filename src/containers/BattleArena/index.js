@@ -67,14 +67,22 @@ const ConnectedBattleArea = ({ state, dispatch }) => {
 
     const [statsModal, setStatsModal] = useState(false)
 
-
     useEffect(() => {
         if (location.pathname === '/fastBattle') {
             dispatch.playerSetData(randomFromArray(predefinedCharacters))
             dispatch.enemySetData(randomFromArray(predefinedEnemies))
         }
+        window.addEventListener("beforeunload", alertUser);
+        return () => {
+            window.removeEventListener("beforeunload", alertUser);
+        };
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, []);
+
+    const alertUser = (e) => {
+        e.preventDefault();
+        e.returnValue = "";
+    };
 
     return (
         <>

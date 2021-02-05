@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
-import { StyledMessageBox, StyledBoxText } from '../../../../layout/messageBoxStyles';
+import { StyledMessageBox, StyledBoxText } from '../../../../Layout/messageBoxStyles';
 
 const AttackTextAnimation = keyframes`
   0% {

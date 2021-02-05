@@ -7,7 +7,7 @@ import {
 import BattleArena from '../BattleArena';
 import Menu from './Menu'
 import CharacterSelect from '../CharacterSelect'
-import Layout from '../../layout'
+import Layout from '../../Layout'
 
 const Home = () => {
     return (

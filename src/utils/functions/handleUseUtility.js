@@ -23,7 +23,6 @@ const actions = {
 export const handleUseUtility = (id, name, label, useValue, turnsDuration) => {
     const state = store.getState()
 
-    console.log(state)
     const {
         playerUtilityEffectAdd,
         playerChangeStats,

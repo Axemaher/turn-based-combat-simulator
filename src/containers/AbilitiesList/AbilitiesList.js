@@ -204,14 +204,6 @@ const ConnectedAbilitiesList = ({ state, dispatch }) => {
             player.utilityEffects,
             turn)
 
-        // disable long press context menu 
-        window.oncontextmenu = function (event) {
-            event.preventDefault();
-            event.stopPropagation();
-            return false
-        }
-
-        return () => { }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [turn])
 

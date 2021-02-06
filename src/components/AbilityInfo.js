@@ -8,8 +8,8 @@ import {
 } from '../utils/constans'
 
 const StyledAbilityWrapper = styled.div`
-    width: 300px;
-    top: 100%;
+    top: ${({ alignment }) => alignment === 'characterSelect' ? '-240px' : '100%'};
+    width: ${({ alignment }) => alignment === 'characterSelect' ? 'unset' : '300px'};
     left: 0;
     display:${({ visible }) => visible ? "block" : "none"};
     position: absolute;
@@ -19,13 +19,11 @@ const StyledAbilityWrapper = styled.div`
     background-size: 100% 100%;
     padding: 20px;
     @media ${({ theme }) => theme.device.tablet} {
-        position: fixed;
-        top: 250px;
+        position: ${({ alignment }) => alignment === 'characterSelect' ? 'absolute' : 'fixed'};
+        top: ${({ alignment }) => alignment === 'characterSelect' ? '-240px' : '250px'};
     }
     @media ${({ theme }) => theme.device.mobileL} {
-        position: fixed;
-        top: 50px;
-        left: 0; 
+        top: ${({ alignment }) => alignment === 'characterSelect' ? '-240px' : '50px'};
     }
 `;
 
@@ -85,7 +83,7 @@ const StyledEffectIco = styled.img`
 
 
 
-const AbilityInfo = ({ abilityInfo, visible, setHoverIndex }) => {
+const AbilityInfo = ({ alignment, abilityInfo, visible, setHoverIndex }) => {
 
     useEffect(() => {
         const handleClick = () => setHoverIndex(null)
@@ -99,7 +97,7 @@ const AbilityInfo = ({ abilityInfo, visible, setHoverIndex }) => {
 
 
     return (
-        <StyledAbilityWrapper visible={visible}>
+        <StyledAbilityWrapper alignment={alignment} visible={visible}>
             <StyledAbility>
                 <StyledHeader>
                     <StyledName>{abilityInfo.name}</StyledName>

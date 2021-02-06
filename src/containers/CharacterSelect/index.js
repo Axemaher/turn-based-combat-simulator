@@ -14,6 +14,7 @@ import {
 
 import predefinedEnemies from '../CharacterSelect/predefinedEnemies';
 import { randomFromArray } from '../../utils/functions/randomFromArray';
+import AttacksList from './AttacksList.js';
 
 
 const StyledWrapper = styled.div`
@@ -111,6 +112,7 @@ const ConnectedCharacterSelect = ({ playerSetData, enemySetData }) => {
         maxHp,
         maxAp,
         attributes,
+        abilities,
         stats,
         defense, } = charactersArr[characterIndex];
 
@@ -260,6 +262,14 @@ const ConnectedCharacterSelect = ({ playerSetData, enemySetData }) => {
                         <StyledStatsRow>
                             <StyledSpanWithIco ico={require('../../assets/stats/MISS.png')}>chance to miss:</StyledSpanWithIco>
                             <StyledSpan>{stats.chanceToMiss}</StyledSpan>
+                        </StyledStatsRow>
+                    </StyledStatsContainer>
+                    <StyledStatsContainer>
+                        <StyledStatsRow>
+                            <StyledStatsTitle>Attacks</StyledStatsTitle>
+                        </StyledStatsRow>
+                        <StyledStatsRow>
+                            <AttacksList attacks={abilities.slice(0, 4)} />
                         </StyledStatsRow>
                     </StyledStatsContainer>
                 </StyledStatsTab>
